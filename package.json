@@ -17,6 +17,7 @@
     "pages/**/*.**": "prettier --check --ignore-unknown --write"
   },
   "dependencies": {
+    "@nextui-org/react": "^1.0.0-beta.12",
     "autoprefixer": "^10.4.13",
     "next": "13.2.3",
     "postcss": "^8.4.21",
