@@ -1,8 +1,10 @@
 import Head from "next/head";
 import React from "react";
 
-import BlogPostCard21 from "./../components/blog-post-card21";
+import BlogPostCard21 from "@/components/blog-post-card21";
+
 import Firstpart from "./../components/firstpart";
+
 export default function Home() {
   return (
     <>
