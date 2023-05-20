@@ -141,7 +141,6 @@ export default function Navbar(props: any) {
             padding-right: 8px;
             padding-bottom: 0px;
             background-size: cover;
-            background-image: url("/playground_assets/%E8%9E%A21231%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202023-04-03%20180934-200h.png");
             border-top-left-radius: var(--dl-radius-radius-radius4);
             border-top-right-radius: var(--dl-radius-radius-radius4);
             border-bottom-left-radius: var(--dl-radius-radius-radius4);
@@ -159,7 +158,6 @@ export default function Navbar(props: any) {
             border-color: rgba(0, 0, 0, 0);
             background-size: auto;
             background-color: transparent;
-            background-image: url("/playground_assets/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202023-04-03%20180934-700w.png");
             background-position: center;
           }
           .navbar-desktop-menu {

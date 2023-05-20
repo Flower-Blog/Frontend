@@ -15,16 +15,16 @@ const Page3 = () => {
               <h1 className="page3-text13">標題</h1>
             </div>
             <div className="page3-container07">
-              <p className="page3-text14">
-                <span>副標</span>
+              <div className="page3-text14">
+                <div>副標</div>
                 <br></br>
-              </p>
+              </div>
             </div>
             <div className="page3-container08">
-              <p className="page3-text17">
-                <span className="page3-text18">內文</span>
+              <div className="page3-text17">
+                <div className="page3-text18">內文</div>
                 <br></br>
-              </p>
+              </div>
             </div>
           </div>
         </div>

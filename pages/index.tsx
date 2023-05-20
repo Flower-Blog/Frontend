@@ -1,6 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
+import RightSidebar from "@/components/home/RightSidebar";
 import SigngleArticle from "@/components/SigngleArticle";
 
 import TakeTurns from "./../components/home/TakeTurns";
@@ -36,6 +37,7 @@ export default function Home() {
                 ></SigngleArticle>
               </div>
             </div>
+            <RightSidebar />
           </div>
         </section>
       </div>

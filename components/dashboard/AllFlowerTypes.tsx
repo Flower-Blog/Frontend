@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 import Flower from "../flower";
@@ -90,14 +89,6 @@ const AllFlowerTypes = (props: any) => {
       </style>
     </>
   );
-};
-
-AllFlowerTypes.defaultProps = {
-  rootClassName: "",
-};
-
-AllFlowerTypes.propTypes = {
-  rootClassName: PropTypes.string,
 };
 
 export default AllFlowerTypes;

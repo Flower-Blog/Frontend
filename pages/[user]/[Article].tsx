@@ -29,58 +29,58 @@ const Page1 = () => {
               </div>
               <div className="page1-container09">
                 <h1 className="page1-text14">BT21_RJ012525</h1>
-                <span>2023/04/03 17:52</span>
+                <div>2023/04/03 17:52</div>
               </div>
             </div>
             <div className="page1-container10">
-              <p className="page1-text16">
-                <span>相信各位養寵物的都知道 養寵物前與養寵物後一定有差別</span>
+              <div className="page1-text16">
+                <div>相信各位養寵物的都知道 養寵物前與養寵物後一定有差別</div>
                 <br></br>
-                <span>今天我就分享5個我的 養狗狗前 VS 養狗狗後 心得、區別</span>
+                <div>今天我就分享5個我的 養狗狗前 VS 養狗狗後 心得、區別</div>
                 <br></br>
-              </p>
-              <p className="page1-text21">
-                <span>廢話不多說進入正題</span>
-                <br></br>
-                <br></br>
-                <span>1. 我媽媽的態度</span>
+              </div>
+              <div className="page1-text21">
+                <div>廢話不多說進入正題</div>
                 <br></br>
                 <br></br>
-                <br></br>
-                <br></br>
-                <span>2. 狗狗體態變化</span>
+                <div>1. 我媽媽的態度</div>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
-                <br></br>
-                <span>3. 我的總花費</span>
+                <div>2. 狗狗體態變化</div>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
-                <span>4. 我的生活</span>
+                <div>3. 我的總花費</div>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
-                <br></br>
-                <span>5. 家裡環境</span>
+                <div>4. 我的生活</div>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
-                <span>總結 還是很愛很愛我家的狗狗啦</span>
+                <div>5. 家裡環境</div>
                 <br></br>
-                <span>為我家多添加了一味</span>
                 <br></br>
-                <span>每天生活中也多了一點樂趣</span>
                 <br></br>
-              </p>
+                <br></br>
+                <br></br>
+                <br></br>
+                <div>總結 還是很愛很愛我家的狗狗啦</div>
+                <br></br>
+                <div>為我家多添加了一味</div>
+                <br></br>
+                <div>每天生活中也多了一點樂趣</div>
+                <br></br>
+              </div>
             </div>
             <div className="page1-comment">
               <div className="page1-container11">
@@ -93,7 +93,7 @@ const Page1 = () => {
                 />
                 <div className="page1-container12">
                   <img alt="image" src="/playground_assets/flower1-200h.png" className="page1-image3" />
-                  <span>12</span>
+                  <div>12</div>
                 </div>
               </div>
               <CreateComment rootClassName="comment-root-class-name"></CreateComment>
