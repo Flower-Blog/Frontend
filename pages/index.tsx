@@ -13,7 +13,6 @@ export default function Home() {
           <title>Flower</title>
           <meta property="og:title" content="Flower" />
         </Head>
-
         <div className="home-content">
           <Firstpart rootClassName="firstpart-root-class-name"></Firstpart>
         </div>
@@ -36,18 +35,6 @@ export default function Home() {
                   rootClassName="rootClassName3"
                 ></BlogPostCard21>
               </div>
-              <div className="home-container07">
-                <BlogPostCard21
-                  image_src="https://images.unsplash.com/photo-1595565312451-23051ab0666c?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDI0fHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1000"
-                  profile_src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDExfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                  rootClassName="rootClassName"
-                ></BlogPostCard21>
-              </div>
-              <BlogPostCard21
-                image_src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIxfHxwb3J0cmFpdCUyMHdvbWFuJTIwY29sb3J8ZW58MHx8fHwxNjI2NDUwNTU4&amp;ixlib=rb-1.2.1&amp;h=1000"
-                profile_src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE0fHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                rootClassName="rootClassName2"
-              ></BlogPostCard21>
             </div>
             <div className="home-container08">
               <div className="home-container09">

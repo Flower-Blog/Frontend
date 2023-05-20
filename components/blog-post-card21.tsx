@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const BlogPostCard21 = props => {
+export default function BlogPostCard21(props: any) {
   return (
     <>
       <div className={`blog-post-card21-blog-post-card ${props.rootClassName} `}>
@@ -11,12 +11,7 @@ const BlogPostCard21 = props => {
               <h1 className="blog-post-card21-text">{props.title}</h1>
               <span className="blog-post-card21-text1">{props.description}</span>
             </div>
-            <img
-              alt={props.image_alt}
-              src={props.image_src}
-              image_src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&amp;ixlib=rb-1.2.1&amp;h=1000"
-              className="blog-post-card21-image"
-            />
+            <img alt={props.image_alt} src={props.image_src} className="blog-post-card21-image" />
           </div>
           <div className="blog-post-card21-container3">
             <div className="blog-post-card21-profile">
@@ -160,7 +155,7 @@ const BlogPostCard21 = props => {
       </style>
     </>
   );
-};
+}
 
 BlogPostCard21.defaultProps = {
   profile_alt: "profile",
@@ -191,5 +186,3 @@ BlogPostCard21.propTypes = {
   title: PropTypes.string,
   profile_src: PropTypes.string,
 };
-
-export default BlogPostCard21;
