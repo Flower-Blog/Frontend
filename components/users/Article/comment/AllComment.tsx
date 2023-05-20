@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Comments1 = props => {
+const AllComment = (props: any) => {
   return (
     <>
       <div className={`comments1-container ${props.rootClassName} `}>
@@ -112,7 +112,7 @@ const Comments1 = props => {
   );
 };
 
-Comments1.defaultProps = {
+AllComment.defaultProps = {
   pastedImage_src: "/playground_assets/pastedimage-uw-200h.png",
   button: "讚",
   rootClassName: "",
@@ -124,7 +124,7 @@ Comments1.defaultProps = {
   image_alt: "image",
 };
 
-Comments1.propTypes = {
+AllComment.propTypes = {
   pastedImage_src: PropTypes.string,
   button: PropTypes.string,
   rootClassName: PropTypes.string,
@@ -136,4 +136,4 @@ Comments1.propTypes = {
   image_alt: PropTypes.string,
 };
 
-export default Comments1;
+export default AllComment;

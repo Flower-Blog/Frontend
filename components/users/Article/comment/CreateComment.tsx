@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Comment = props => {
+const Comment = (props: any) => {
   return (
     <>
       <div className={`comment-container ${props.rootClassName} `}>

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Component3 = props => {
+const Component3 = (props: any) => {
   return (
     <>
       <div className="component3-container">

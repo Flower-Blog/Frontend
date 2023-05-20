@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Component1 = props => {
+const FlowerRecord = (props: any) => {
   return (
     <>
       <div className={`component1-container ${props.rootClassName} `}>
@@ -104,7 +104,7 @@ const Component1 = props => {
   );
 };
 
-Component1.defaultProps = {
+FlowerRecord.defaultProps = {
   heading: "BT21_RJ015263 對 我家狗狗 喜歡並贈送一朵",
   rootClassName: "",
   heading2: "BT21_RJ015263 對 花語 喜歡並贈送一朵",
@@ -117,7 +117,7 @@ Component1.defaultProps = {
   image_alt1: "image",
 };
 
-Component1.propTypes = {
+FlowerRecord.propTypes = {
   heading: PropTypes.string,
   rootClassName: PropTypes.string,
   heading2: PropTypes.string,
@@ -130,4 +130,4 @@ Component1.propTypes = {
   image_alt1: PropTypes.string,
 };
 
-export default Component1;
+export default FlowerRecord;

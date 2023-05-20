@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import Flower from "./flower";
+import Flower from "../flower";
 
-const Component5 = props => {
+const AllFlowerTypes = (props: any) => {
   return (
     <>
       <div className={`component5-container ${props.rootClassName} `}>
@@ -92,12 +92,12 @@ const Component5 = props => {
   );
 };
 
-Component5.defaultProps = {
+AllFlowerTypes.defaultProps = {
   rootClassName: "",
 };
 
-Component5.propTypes = {
+AllFlowerTypes.propTypes = {
   rootClassName: PropTypes.string,
 };
 
-export default Component5;
+export default AllFlowerTypes;

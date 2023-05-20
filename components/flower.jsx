@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Flower = props => {
+const Flower = (props: any) => {
   return (
     <>
       <div className={`flower-container ${props.rootClassName} `}>

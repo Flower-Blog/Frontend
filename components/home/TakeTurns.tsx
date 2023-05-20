@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Firstpart = props => {
+const TakeTurns = (props: any) => {
   return (
     <>
       <div className={`firstpart-container ${props.rootClassName} `}>
@@ -189,7 +189,7 @@ const Firstpart = props => {
   );
 };
 
-Firstpart.defaultProps = {
+TakeTurns.defaultProps = {
   Header: "Create your Frist",
   text: "登入",
   pastedImage_alt: "pastedImage",
@@ -202,7 +202,7 @@ Firstpart.defaultProps = {
   Header1: "Create your Articles now",
 };
 
-Firstpart.propTypes = {
+TakeTurns.propTypes = {
   Header: PropTypes.string,
   text: PropTypes.string,
   pastedImage_alt: PropTypes.string,
@@ -214,4 +214,4 @@ Firstpart.propTypes = {
   Header1: PropTypes.string,
 };
 
-export default Firstpart;
+export default TakeTurns;

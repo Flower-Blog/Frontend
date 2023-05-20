@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Component4 = props => {
+const UserRecord = (props: any) => {
   return (
     <>
       <div className={`component4-container ${props.rootClassName} `}>
@@ -152,7 +152,7 @@ const Component4 = props => {
   );
 };
 
-Component4.defaultProps = {
+UserRecord.defaultProps = {
   image_alt1: "image",
   text1: "linr1456@gmail.com",
   button: "總使用者人數：110",
@@ -170,7 +170,7 @@ Component4.defaultProps = {
   image_alt: "image",
 };
 
-Component4.propTypes = {
+UserRecord.propTypes = {
   image_alt1: PropTypes.string,
   text1: PropTypes.string,
   button: PropTypes.string,
@@ -188,4 +188,4 @@ Component4.propTypes = {
   image_alt: PropTypes.string,
 };
 
-export default Component4;
+export default UserRecord;

@@ -1,8 +1,8 @@
 import Head from "next/head";
 import React from "react";
 
-import Component4 from "../components/component4";
-import Component5 from "../components/component5";
+import AllFlowerTypes from "../components/dashboard/AllFlowerTypes";
+import UserRecord from "../components/dashboard/UserRecord";
 
 const Page = () => {
   return (
@@ -18,8 +18,8 @@ const Page = () => {
             <button className="page-button2 button">花總類</button>
           </div>
           <div className="page-container6">
-            <Component4 rootClassName="component4-root-class-name"></Component4>
-            <Component5 rootClassName="component5-root-class-name"></Component5>
+            <AllFlowerTypes rootClassName="component4-root-class-name"></AllFlowerTypes>
+            <UserRecord rootClassName="component5-root-class-name"></UserRecord>
           </div>
         </div>
       </div>

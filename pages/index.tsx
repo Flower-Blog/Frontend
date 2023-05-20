@@ -1,9 +1,9 @@
 import Head from "next/head";
 import React from "react";
 
-import BlogPostCard21 from "@/components/blog-post-card21";
+import SigngleArticle from "@/components/SigngleArticle";
 
-import Firstpart from "./../components/firstpart";
+import TakeTurns from "./../components/home/TakeTurns";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
           <meta property="og:title" content="Flower" />
         </Head>
         <div className="home-content">
-          <Firstpart rootClassName="firstpart-root-class-name"></Firstpart>
+          <TakeTurns rootClassName="firstpart-root-class-name"></TakeTurns>
         </div>
         <section className="home-description"></section>
         <section className="home-collection">
@@ -30,10 +30,10 @@ export default function Home() {
           <div className="home-container05">
             <div className="home-blog">
               <div className="home-container06">
-                <BlogPostCard21
+                <SigngleArticle
                   profile_src="https://images.unsplash.com/photo-1611232658409-0d98127f237f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIzfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
                   rootClassName="rootClassName3"
-                ></BlogPostCard21>
+                ></SigngleArticle>
               </div>
             </div>
             <div className="home-container08">
@@ -92,85 +92,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="home-collection1"></section>
-        <footer className="home-footer">
-          <div className="home-main">
-            <div className="home-branding">
-              <div className="home-heading">
-                <h2 className="home-logo1">Character</h2>
-                <p className="home-caption">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                  dolore.
-                </p>
-              </div>
-              <div className="home-socials">
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="home-twitter social button"
-                >
-                  <img alt="image" src="/playground_assets/twitter.svg" className="home-image10" />
-                </a>
-                <a
-                  href="https://discord.com"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="home-discord social button"
-                >
-                  <img alt="image" src="/playground_assets/discord.svg" className="home-image11" />
-                </a>
-              </div>
-            </div>
-            <div className="home-links">
-              <div className="home-list">
-                <h3 className="home-heading1">Site</h3>
-                <div className="home-items">
-                  <button className="home-link button-clean button">About</button>
-                  <button className="home-link1 button-clean button">Collection</button>
-                  <button className="home-link2 button-clean button">Roadmap</button>
-                  <button className="home-link3 button-clean button">Features</button>
-                </div>
-              </div>
-              <div className="home-list1">
-                <h3 className="home-heading2">Company</h3>
-                <div className="home-items1">
-                  <button className="home-link4 button-clean button">Team</button>
-                  <button className="home-link5 button-clean button">Press</button>
-                  <button className="home-link6 button-clean button">Terms</button>
-                  <button className="home-link7 button-clean button">Limitations</button>
-                  <button className="home-link8 button-clean button">Licenses</button>
-                </div>
-              </div>
-            </div>
-            <div className="home-socials1">
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="home-twitter1 social button"
-              >
-                <img alt="image" src="/playground_assets/twitter.svg" className="home-image12" />
-              </a>
-              <a
-                href="https://discord.com"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="home-discord1 social button"
-              >
-                <img alt="image" src="/playground_assets/discord.svg" className="home-image13" />
-              </a>
-            </div>
-          </div>
-          <span className="home-copyright">© 2022 Character. All Rights Reserved.</span>
-        </footer>
-        <div className="home-container14"></div>
       </div>
-      <style jsx>{``}</style>
     </>
-    //   )
-    // }
-
-    // export default Home
   );
 }

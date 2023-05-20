@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const Component2 = props => {
+const ChooseFlower = (props: any) => {
   return (
     <>
       <div className="component2-container">
@@ -128,7 +128,7 @@ const Component2 = props => {
   );
 };
 
-Component2.defaultProps = {
+ChooseFlower.defaultProps = {
   button: "發送驗證碼\n",
   heading2: "贈送文章：我的狗狗",
   textinput_placeholder1: "填入驗證碼",
@@ -147,7 +147,7 @@ Component2.defaultProps = {
   text1: "送出",
 };
 
-Component2.propTypes = {
+ChooseFlower.propTypes = {
   button: PropTypes.string,
   heading2: PropTypes.string,
   textinput_placeholder1: PropTypes.string,
@@ -166,4 +166,4 @@ Component2.propTypes = {
   text1: PropTypes.string,
 };
 
-export default Component2;
+export default ChooseFlower;

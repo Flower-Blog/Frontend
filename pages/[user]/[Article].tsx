@@ -2,8 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
-import Comment from "../components/comment";
-import Comments1 from "../components/comments1";
+import AllComment from "@/components/users/Article/comment/AllComment";
+import CreateComment from "@/components/users/Article/comment/CreateComment";
 
 const Page1 = () => {
   return (
@@ -96,18 +96,18 @@ const Page1 = () => {
                   <span>12</span>
                 </div>
               </div>
-              <Comment rootClassName="comment-root-class-name"></Comment>
-              <Comments1 rootClassName="comments1-root-class-name"></Comments1>
-              <Comments1
+              <CreateComment rootClassName="comment-root-class-name"></CreateComment>
+              <AllComment rootClassName="comments1-root-class-name"></AllComment>
+              <AllComment
                 text="真的我家也是"
                 image_src="https://ih1.redbubble.net/image.3114059041.7813/st,small,845x845-pad,1000x1000,f8f8f8.jpg"
                 rootClassName="comments1-root-class-name2"
-              ></Comments1>
-              <Comments1
+              ></AllComment>
+              <AllComment
                 text="同意"
                 image_src="https://img-shoplineapp-com.s3.amazonaws.com/media/image_clips/5bd68b58627c770015f73b73/large.jpg?1540787029"
                 rootClassName="comments1-root-class-name1"
-              ></Comments1>
+              ></AllComment>
             </div>
           </div>
         </div>
