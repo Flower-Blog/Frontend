@@ -3,16 +3,16 @@ import axios from "axios";
 // TODO: 內部API
 
 // Auth相關的 api
-// const _authRequest = axios.create({
-//   baseURL: "/api/auth",
-// });
+const _authRequest = axios.create({
+  baseURL: "/api/auth",
+});
 const _userRequest = axios.create({
   baseURL: "/api/user",
 });
 
 // Auth相關的 api
-// export const _apiAuthLogin = (jwt: any) => _authRequest.post("/login", jwt); // 將jwt塞進cookie
-// export const _apiAuthLogout = () => _authRequest.post("/logout"); // 將jwt從cookie移除
+export const _apiAuthLogin = (jwt: any) => _authRequest.post("/login", jwt); // 將jwt塞進cookie
+export const _apiAuthLogout = () => _authRequest.post("/logout"); // 將jwt從cookie移除
 
 // User相關的 api
 export const _apiCheckJwt = () => _userRequest.get("/jwt"); // 從cookie中撈看看是否有jwt

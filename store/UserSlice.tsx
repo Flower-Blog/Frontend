@@ -30,6 +30,7 @@ const UserSlice = createSlice({
       const updatedProfile = JSON.parse(action.payload);
       updatedProfile.login = true;
       state.profile = updatedProfile;
+      alert(updatedProfile.login);
     },
     setLogout(state) {
       state.profile = initialState.profile;

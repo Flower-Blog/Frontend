@@ -18,19 +18,21 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 // import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Web3 from "web3";
 
-// import Web3 from "web3";
 // import { CheckChainIdFunction } from "@/helpers/users/CheckChainIdFunction";
 import { LoginFunction } from "@/helper/users/loginFuction";
 import { setLogin, setLogout } from "@/store/UserSlice";
 
 import {
+  // apiUserGetEmail,
+  // apiUserGetName,
+  _apiAuthLogin,
+  _apiAuthLogout,
   apiAuthTakeNonce,
   // apiAutGethEmail,
   // apiAuthGetUser,
-  // apiAuthTakeToken,
-  // apiUserGetEmail,
-  // apiUserGetName,
+  apiAuthTakeToken,
   apiUserRegister,
 } from "./api";
 
@@ -65,7 +67,7 @@ export default function Login() {
       }
     };
     connect();
-  });
+  }, [dispatch]);
 
   async function connectMetaMask() {
     if (typeof window.ethereum !== "undefined") {
@@ -75,9 +77,9 @@ export default function Login() {
         setAddress(addresses[0]);
         // 是否為會員
         apiAuthTakeNonce(addresses[0])
-          .then(() => {
+          .then((res: any) => {
             // 是會員進行認證
-            // GetSignature(res.data.nonce, addresses[0]);
+            GetSignature(res.data.nonce, addresses[0]);
           })
           .catch(
             // 不是會員跳轉註冊
@@ -92,28 +94,29 @@ export default function Login() {
     }
   }
 
-  //   async function GetSignature(nonce: string, address: string) {
-  //     // 拿Nonce簽名
-  //     const web3 = new Web3(window.ethereum);
-  //     const signer = web3.eth.personal;
-  //     const signature = await signer.sign(nonce, address, "");
-  //     // 索取jwt
-  //     const data = { address, signature };
+  async function GetSignature(nonce: string, address: string) {
+    // 拿Nonce簽名
+    const web3 = new Web3(window.ethereum);
+    const signer = web3.eth.personal;
+    const signature = await signer.sign(nonce, address, "");
+    alert(signature);
+    // 索取jwt
+    const data = { address, signature };
 
-  //     apiAuthTakeToken(data).then((res: any) => {
-  //       const jwt = res.data.access_token;
-  //       // 將JWT塞入 Cookie中
-  //       _apiAuthLogin({ jwt });
+    apiAuthTakeToken(data).then((res: any) => {
+      const jwt = res.data.access_token;
+      // 將JWT塞入 Cookie中
+      _apiAuthLogin({ jwt });
 
-  //       // 將傳回來的會員資料轉成json的字串模式
-  //       const UserData = JSON.stringify(res.data.userData);
+      // 將傳回來的會員資料轉成json的字串模式
+      const UserData = JSON.stringify(res.data.userData);
 
-  //       // 透過redux儲存會員資料
-  //       dispatch(setLogin(UserData));
-  //       // 將會員資料存在localStroage
-  //       localStorage.setItem("UserData", UserData);
-  //     });
-  //   }
+      // 透過redux儲存會員資料
+      dispatch(setLogin(UserData));
+      // 將會員資料存在localStroage
+      localStorage.setItem("UserData", UserData);
+    });
+  }
 
   function sendVerificationCode() {
     //先檢查信箱
@@ -198,15 +201,14 @@ export default function Login() {
             connectMetaMask();
           }}
         >
-          {/* <img src="/MetaMask.png" alt="Null" width={35} height={35}></img> */}
           連線
         </Button>
       ) : (
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton className="navbar-view2 button" onClick={e => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
-              <Avatar src={`${User.profile.picture}`} alt="haha" />
-              <span className="navbar-text01">userame</span>
+              <Avatar src={`${User.profile.picture}`} alt="png" />
+              <span className="navbar-text01">{User.profile.username}</span>
             </IconButton>
           </Tooltip>
           <Menu
@@ -243,7 +245,7 @@ export default function Login() {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                // _apiAuthLogout();
+                _apiAuthLogout();
                 localStorage.removeItem("UserData");
                 dispatch(setLogout());
                 if (localStorage.getItem("UserData")) {
