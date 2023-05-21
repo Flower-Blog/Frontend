@@ -54,7 +54,6 @@ const Page2 = () => {
           </form>
         </div>
       </div>
-      <style jsx>{``}</style>
     </>
   );
 };

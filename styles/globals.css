@@ -2618,8 +2618,6 @@
   object-fit: cover;
 }
 .page2-container02 {
-  width: 432px;
-  height: 319px;
   display: flex;
   box-shadow: 10px 10px 0px 0px #8c8585;
   align-items: flex-start;
@@ -2692,7 +2690,8 @@
   background-color: var(--dl-color-primary-300);
 }
 .page2-button1 {
-  width: 308px;
+  width: 350px;
+  margin-bottom: 10px;
   align-self: center;
   background-color: var(--dl-color-threefish-orange);
 }

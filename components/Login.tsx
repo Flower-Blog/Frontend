@@ -3,7 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -121,12 +120,12 @@ export default function Login() {
     //確認無誤後發送信箱
   }
 
-  async function Register() {
-    const data = { address, username, email };
+  function NextStep() {
+    const data = { address, email };
     apiUserRegister(data)
       .then(() => {
         registerSetOpen(false);
-        alertRegisterSetOpen(true);
+        registerSetOpen2(true);
       })
       .catch((error: any) => {
         if (error.response && error.response.data.error) {
@@ -134,7 +133,24 @@ export default function Login() {
           for (let i = 0; i < errorMess.length; i++) {
             if (errorMess[i].includes("email")) {
               seterrorMessageEmail(JSON.stringify(errorMess[i]));
-            } else if (errorMess[i].includes("username")) {
+            }
+          }
+        }
+      });
+  }
+
+  function Register() {
+    const data = { username };
+    apiUserRegister(data)
+      .then(() => {
+        registerSetOpen2(false);
+        alertRegisterSetOpen(true);
+      })
+      .catch((error: any) => {
+        if (error.response && error.response.data.error) {
+          const errorMess = error.response.data.error;
+          for (let i = 0; i < errorMess.length; i++) {
+            if (errorMess[i].includes("username")) {
               seterrorMessageUsername(JSON.stringify(errorMess[i]));
             }
           }
@@ -144,6 +160,7 @@ export default function Login() {
 
   // TODO: UI function
   const [registerOpen, registerSetOpen] = useState(false);
+  const [registerOpen2, registerSetOpen2] = useState(false);
   const [alertRejectOpen, alertRejectSetOpen] = useState(false);
   const [alertRegisterOpen, alertRegisterSetOpen] = useState(false);
   const [errorMessageUsername, seterrorMessageUsername] = useState("");
@@ -243,90 +260,109 @@ export default function Login() {
         fullScreen={fullScreen}
         open={registerOpen}
         onClose={registerHandleClose}
+        onSubmit={NextStep}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <div className="page2-container02">
+          <DialogTitle className="text-center font-bold" id="responsive-dialog-title">
+            註冊
+          </DialogTitle>
+          <DialogContent>
+            <div className="flex flex-col">
+              <div className="flex flex-row font-semibold">
+                <span>錢包地址：</span>
+                <DialogContentText className="font-semibold" onChange={handleAddressChange}>
+                  {address}
+                </DialogContentText>
+              </div>
+              {errorMessageEmail === "" ? (
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="信箱"
+                  type="email"
+                  placeholder="name@company.com"
+                  fullWidth
+                  variant="standard"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+              ) : (
+                <TextField
+                  error
+                  id="standard-error-helper-text"
+                  label="Error"
+                  defaultValue={email}
+                  helperText={errorMessageEmail}
+                  variant="standard"
+                  onChange={() => seterrorMessageEmail("")}
+                />
+              )}
+              <div className="flex flex-row">
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="驗證碼"
+                  placeholder="輸入六碼"
+                  multiline
+                  variant="standard"
+                />
+                <Button className="page2-button button" onClick={sendVerificationCode} color="primary">
+                  發送驗證碼
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+
+          <button className="page2-button1 button" onClick={NextStep}>
+            <span className="page2-text2"> 下一步</span>
+          </button>
+        </div>
+      </Dialog>
+
+      <Dialog
+        fullScreen={fullScreen}
+        open={registerOpen2}
+        onClose={registerHandleClose}
         onSubmit={Register}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle className="text-center font-bold" id="responsive-dialog-title">
-          {"註冊"}
-        </DialogTitle>
-        <DialogContent>
-          <div className="flex flex-col">
-            <div className="flex flex-row">
-              <span>ID：</span>
-              <DialogContentText onChange={handleAddressChange}> {address} </DialogContentText>
-            </div>
-            {errorMessageEmail === "" ? (
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="信箱"
-                type="email"
-                placeholder="name@company.com"
-                fullWidth
-                variant="standard"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            ) : (
-              <TextField
-                error
-                id="standard-error-helper-text"
-                label="Error"
-                defaultValue={email}
-                helperText={errorMessageEmail}
-                variant="standard"
-                onChange={() => seterrorMessageEmail("")}
-              />
-            )}
-            <div className="flex flex-row">
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="驗證碼"
-                placeholder="輸入六碼"
-                multiline
-                variant="standard"
-              />
-              <Button className="m-2" onClick={sendVerificationCode} color="primary">
-                發送驗證碼
-              </Button>
-            </div>
-            {errorMessageUsername === "" ? (
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="使用者名稱"
-                placeholder="輸入使用者名稱"
-                variant="standard"
-                required
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            ) : (
-              <TextField
-                error
-                id="standard-error-helper-text"
-                label="Error"
-                defaultValue={username}
-                helperText={errorMessageUsername}
-                variant="standard"
-                onChange={() => seterrorMessageUsername("")}
-              />
-            )}
+        <div className="page2-container07">
+          <div className="page2-container08">
+            <h1 className="page2-text3">註冊</h1>
           </div>
-        </DialogContent>
-        <DialogActions>
-          <Button color="primary" onClick={registerHandleClose}>
-            取消
-          </Button>
-          <Button onClick={Register} color="primary" autoFocus>
-            註冊
-          </Button>
-        </DialogActions>
+          <div className="page2-form1">
+            <div className="page2-container09">
+              {errorMessageUsername === "" ? (
+                <div className="page2-container10">
+                  <label className="page2-text4">名稱:</label>
+                  <input
+                    type="text"
+                    placeholder={username}
+                    className="page2-textinput2 input"
+                    onChange={e => setUsername(e.target.value)}
+                  />
+                </div>
+              ) : (
+                <TextField
+                  error
+                  id="standard-error-helper-text"
+                  label="Error"
+                  defaultValue={username}
+                  helperText={errorMessageUsername}
+                  variant="standard"
+                  onChange={() => seterrorMessageUsername("")}
+                />
+              )}
+              <button className="page2-button2 button" onClick={Register}>
+                <span className="page2-text5"> 註冊</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </Dialog>
       <Snackbar open={alertRejectOpen} autoHideDuration={6000} onClose={alertHandleClose}>
         <Alert onClose={alertHandleClose} severity="error" sx={{ width: "100%" }}>
@@ -338,23 +374,6 @@ export default function Login() {
           註冊成功!
         </Alert>
       </Snackbar>
-
-      <style>
-        {`
-          .navbar-view2 {
-                width: var(--dl-size-size-large);
-                height: 58px;
-                display: flex;
-                padding: 5px;
-                padding-top: 1px;
-                padding-left: 1px;
-                padding-right: 1px;
-                flex-direction: row;
-                padding-bottom: 1px;
-                background-color: #ffcf77;
-          }
-        `}
-      </style>
     </div>
   );
 }
