@@ -24,7 +24,7 @@ export default function Userindex(props: any) {
   //TODO: UI function
   const [activeComponent, setActiveComponent] = useState("myArticle");
 
-  const showComponent = component => {
+  const showComponent = (component: React.SetStateAction<string>) => {
     setActiveComponent(component);
   };
   return (
@@ -82,6 +82,18 @@ export default function Userindex(props: any) {
                 我的花
               </button>
             </div>
+            {activeComponent === "myArticle" && (
+              <div className="personalpublic-container14">
+                <div className="personalpublic-blog">
+                  <div className="personalpublic-container15">
+                    <BlogPostCard21
+                      profile_src="https://images.unsplash.com/photo-1611232658409-0d98127f237f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIzfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
+                      rootClassName="rootClassName7"
+                    ></BlogPostCard21>
+                  </div>
+                </div>
+              </div>
+            )}
             {activeComponent === "flowerRecord" && (
               <FlowerRecord rootClassName="component1-root-class-name"></FlowerRecord>
             )}
@@ -110,18 +122,6 @@ export default function Userindex(props: any) {
                         rootClassName="rootClassName7"
                       ></BlogPostCard21>
                     </div>
-                    <div className="personalpublic-container16">
-                      <BlogPostCard21
-                        image_src="https://images.unsplash.com/photo-1595565312451-23051ab0666c?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDI0fHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1000"
-                        profile_src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDExfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                        rootClassName="rootClassName8"
-                      ></BlogPostCard21>
-                    </div>
-                    <BlogPostCard21
-                      image_src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIxfHxwb3J0cmFpdCUyMHdvbWFuJTIwY29sb3J8ZW58MHx8fHwxNjI2NDUwNTU4&amp;ixlib=rb-1.2.1&amp;h=1000"
-                      profile_src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE0fHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                      rootClassName="rootClassName6"
-                    ></BlogPostCard21>
                   </div>
                 </div>
               )}

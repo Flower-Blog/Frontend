@@ -15,7 +15,7 @@ const Page = () => {
         <div className="page-container4">
           <div className="page-container5">
             <button className="page-button1 button">使用者記錄</button>
-            <button className="page-button2 button">花總類</button>
+            <button className="page-button2 button">花總類</button>1234
           </div>
           <div className="page-container6">
             <AllFlowerTypes rootClassName="component4-root-class-name"></AllFlowerTypes>
