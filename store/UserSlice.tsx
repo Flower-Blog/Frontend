@@ -6,7 +6,9 @@ interface UserState {
     name: string;
     address: string;
     email: string;
+    introduction: string;
     picture: string;
+    backgroundPhoto: string;
     login: boolean;
   };
 }
@@ -17,7 +19,9 @@ const initialState: UserState = {
     name: "",
     address: "",
     email: "",
+    introduction: "",
     picture: "",
+    backgroundPhoto: "",
     login: false,
   },
 };
@@ -28,9 +32,8 @@ const UserSlice = createSlice({
   reducers: {
     setLogin(state, action) {
       const updatedProfile = JSON.parse(action.payload);
-      updatedProfile.login = true;
-      state.profile = updatedProfile;
-      alert(updatedProfile.login);
+      updatedProfile[0].login = true;
+      state.profile = updatedProfile[0];
     },
     setLogout(state) {
       state.profile = initialState.profile;

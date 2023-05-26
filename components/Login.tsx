@@ -25,14 +25,14 @@ import { LoginFunction } from "@/helper/users/loginFuction";
 import { setLogin, setLogout } from "@/store/UserSlice";
 
 import {
-  // apiUserGetEmail,
-  // apiUserGetName,
   _apiAuthLogin,
   _apiAuthLogout,
+  apiAutGethEmail,
   apiAuthTakeNonce,
-  // apiAutGethEmail,
-  // apiAuthGetUser,
   apiAuthTakeToken,
+  apiUserGetEmail,
+  apiUserGetName,
+  apiUserGetUserData,
   apiUserRegister,
 } from "./api";
 
@@ -41,6 +41,7 @@ export default function Login() {
   const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
   const User = useSelector((state: any) => state.User);
   //   const router = useRouter();
   const dispatch = useDispatch();
@@ -48,27 +49,17 @@ export default function Login() {
     const connect = async () => {
       //TODO: 登入狀態
       LoginFunction().then(userData => {
+        console.log("userData", userData);
         if (userData != null) dispatch(setLogin(userData));
       });
       if (typeof window.ethereum === "undefined") {
         // TODO: 未安裝MetaMask導向官網
         window.alert("Please download MetaMask");
         window.open("https://metamask.io/download/", "_blank");
-      } else {
-        // const InChainId = await CheckChainIdFunction();
-        // if (InChainId == false) {
-        //   // FIXME: Lin 要求加入我們的區塊鏈
-        //   window.alert("要求加入我們的網路");
-        //   router.push("/NetworkInstructions", undefined, { shallow: true });
-        // } else if (InChainId == "Fix") {
-        //   // FIXME: Lin 區塊鏈維修中
-        //   window.alert("區塊鏈維修中");
-        // }
       }
     };
     connect();
   }, [dispatch]);
-
   async function connectMetaMask() {
     if (typeof window.ethereum !== "undefined") {
       try {
@@ -81,10 +72,11 @@ export default function Login() {
             // 是會員進行認證
             GetSignature(res.data.nonce, addresses[0]);
           })
-          .catch(
+          .catch((error: any) => {
             // 不是會員跳轉註冊
-            () => registerSetOpen(true),
-          );
+            console.log(error);
+            registerSetOpen(true);
+          });
       } catch (error) {
         alertRejectSetOpen(true);
       }
@@ -95,69 +87,90 @@ export default function Login() {
   }
 
   async function GetSignature(nonce: string, address: string) {
+    console.log("GetSignature");
     // 拿Nonce簽名
     const web3 = new Web3(window.ethereum);
     const signer = web3.eth.personal;
     const signature = await signer.sign(nonce, address, "");
-    alert(signature);
+    // alert(signature);
     // 索取jwt
     const data = { address, signature };
 
     apiAuthTakeToken(data).then((res: any) => {
-      const jwt = res.data.access_token;
+      const jwt = res.data.token;
+      console.log("res", res.data);
+      //console.log("jwt", jwt);
       // 將JWT塞入 Cookie中
       _apiAuthLogin({ jwt });
 
-      // 將傳回來的會員資料轉成json的字串模式
-      const UserData = JSON.stringify(res.data.userData);
-
-      // 透過redux儲存會員資料
-      dispatch(setLogin(UserData));
-      // 將會員資料存在localStroage
-      localStorage.setItem("UserData", UserData);
+      apiUserGetUserData(jwt).then((res: any) => {
+        // 將傳回來的會員資料轉成json的字串模式
+        const UserData = JSON.stringify(res.data.userdata[0]);
+        console.log("UserData", UserData);
+        // 透過redux儲存會員資料
+        dispatch(setLogin(UserData));
+        // 將會員資料存在localStroage
+        localStorage.setItem("UserData", UserData);
+      });
     });
   }
 
   function sendVerificationCode() {
     //先檢查信箱
-    //確認無誤後發送信箱
-  }
-
-  function NextStep() {
-    const data = { address, email };
-    apiUserRegister(data)
+    apiUserGetEmail(email)
       .then(() => {
-        registerSetOpen(false);
-        registerSetOpen2(true);
+        //確認無誤後發送信箱
+        //需要alert
+        console.log("信箱確認");
       })
       .catch((error: any) => {
         if (error.response && error.response.data.error) {
           const errorMess = error.response.data.error;
-          for (let i = 0; i < errorMess.length; i++) {
-            if (errorMess[i].includes("email")) {
-              seterrorMessageEmail(JSON.stringify(errorMess[i]));
-            }
-          }
+          console.log(errorMess);
         }
       });
   }
 
-  function Register() {
-    const data = { username };
-    apiUserRegister(data)
+  function checkVerificationCode() {
+    //確認電子郵件驗證碼是否正確
+    apiAutGethEmail(email, verificationCode)
       .then(() => {
-        registerSetOpen2(false);
-        alertRegisterSetOpen(true);
+        //需要alert
+        console.log("電子郵件驗證碼正確");
+        registerSetOpen(false);
+        registerSetOpen2(true);
       })
       .catch((error: any) => {
-        if (error.response && error.response.data.error) {
-          const errorMess = error.response.data.error;
-          for (let i = 0; i < errorMess.length; i++) {
-            if (errorMess[i].includes("username")) {
-              seterrorMessageUsername(JSON.stringify(errorMess[i]));
+        console.log(error);
+      });
+  }
+
+  function Register() {
+    apiUserGetName(username)
+      .then(() => {
+        //需要alert
+        console.log("名稱確認");
+        const data = { address, name: username, email };
+        apiUserRegister(data)
+          .then(() => {
+            registerSetOpen(false);
+            registerSetOpen2(false);
+            alertRegisterSetOpen(true);
+          })
+          .catch((error: any) => {
+            console.log(error);
+            if (error.response && error.response.data.error) {
+              const errorMess = error.response.data.error;
+              for (let i = 0; i < errorMess.length; i++) {
+                if (errorMess[i].includes("username")) {
+                  seterrorMessageUsername(JSON.stringify(errorMess[i]));
+                }
+              }
             }
-          }
-        }
+          });
+      })
+      .catch(() => {
+        console.log("名稱錯誤");
       });
   }
 
@@ -207,8 +220,8 @@ export default function Login() {
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton className="navbar-view2 button" onClick={e => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
-              <Avatar src={`${User.profile.picture}`} alt="png" />
-              <span className="navbar-text01">{User.profile.username}</span>
+              <Avatar className="mx-1" src={`${User.profile.picture}`} alt="png" />
+              <span className="navbar-text01">{User.profile.name}</span>
             </IconButton>
           </Tooltip>
           <Menu
@@ -229,19 +242,19 @@ export default function Login() {
           >
             <MenuItem onClick={() => setAnchorElUser(null)}>
               <Typography textAlign="center">
-                <a href={"/" + User.profile.username} className="no-underline">
-                  {User.profile.username}
+                <a href={"/" + User.profile.name} className="no-underline">
+                  {User.profile.name}
                 </a>
               </Typography>
             </MenuItem>
             <MenuItem onClick={() => setAnchorElUser(null)}>
-              <Typography textAlign="center">我的個人主頁</Typography>
-            </MenuItem>
-            <MenuItem onClick={() => setAnchorElUser(null)}>
+              {/* 先確認有無用到AC */}
               <Typography textAlign="center">我的錢包</Typography>
             </MenuItem>
             <MenuItem onClick={() => setAnchorElUser(null)}>
-              <Typography textAlign="center">管理後台</Typography>
+              <Typography textAlign="center">
+                <a herf="../pages/backstage">管理後台</a>
+              </Typography>
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -262,7 +275,7 @@ export default function Login() {
         fullScreen={fullScreen}
         open={registerOpen}
         onClose={registerHandleClose}
-        onSubmit={NextStep}
+        onSubmit={checkVerificationCode}
         aria-labelledby="responsive-dialog-title"
       >
         <div className="page2-container02">
@@ -311,6 +324,8 @@ export default function Login() {
                   placeholder="輸入六碼"
                   multiline
                   variant="standard"
+                  value={verificationCode}
+                  onChange={e => setVerificationCode(e.target.value)}
                 />
                 <Button className="page2-button button" onClick={sendVerificationCode} color="primary">
                   發送驗證碼
@@ -319,7 +334,7 @@ export default function Login() {
             </div>
           </DialogContent>
 
-          <button className="page2-button1 button" onClick={NextStep}>
+          <button className="page2-button1 button" onClick={checkVerificationCode}>
             <span className="page2-text2"> 下一步</span>
           </button>
         </div>

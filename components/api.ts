@@ -1,4 +1,5 @@
 import axios from "axios";
+import https from "https";
 
 // TODO: 內部API
 
@@ -18,7 +19,10 @@ export const _apiAuthLogout = () => _authRequest.post("/logout"); // 將jwt從co
 export const _apiCheckJwt = () => _userRequest.get("/jwt"); // 從cookie中撈看看是否有jwt
 
 // API Header設定
-const config = { headers: { "Content-Type": "application/json" } };
+const config = {
+  headers: { "Content-Type": "application/json" },
+  httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+};
 
 // TODO: 後端API
 
@@ -73,9 +77,6 @@ export const apiUserGetEmail = (email: any) => userRequest.get(`/register/email/
 // 確認使用者名稱是否使用過-註冊
 export const apiUserGetName = (name: any) => userRequest.get(`/register/name/${name}`, config);
 
-// 我的花
-export const apiUserGetUserFlower = () => userRequest.get(`/flower`, config);
-
 // 創作者收藏花
 export const apiUserGetCreaterFlower = (name: any) => userRequest.get(`/flower/${name}`, config);
 
@@ -105,7 +106,7 @@ export const apiArticleCreate = (jwt: string, data: any) =>
   });
 
 // 取得個人所有文章(最新)
-export const apiArticleGetUserAllArticle = () => articleRequest.get("/", config);
+export const apiArticleGetUserAllArticle = (address: any) => articleRequest.get(`/user/${address}`, config);
 
 // 取得單一文章
 export const apiArticleGetArticle = (id: string) => articleRequest.get(`/${id}`, config);

@@ -1,51 +1,107 @@
-import PropTypes from "prop-types";
-import React from "react";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Component6 = (props: any) => {
+import { _apiCheckJwt, apiUserEditProfile } from "@/components/api";
+
+export default function Editprofile() {
+  // TODO: Handle funtion
+  const [name, setName] = useState(""); // 使用者名稱
+  const [email, setemail] = useState(""); // 電子信箱
+  const [introduction, setIntroduction] = useState(""); // 個人簡介
+  {
+    /* FIXME: 記得刪除，因為未使用不能commit */
+  }
+  {
+    introduction;
+  }
+  const User = useSelector((state: any) => state.User);
+  async function EditProfile() {
+    let jwt = "";
+    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+    const data = { name, email, introduction };
+    apiUserEditProfile(jwt, data)
+      .then(() => {
+        console.log("成功更改");
+        // setalertEditSucess(true)
+      })
+      .catch(() => {
+        console.log("失敗更改");
+        // setalertEditFail(true)
+      });
+    setOpen(false);
+  }
+
+  // TODO: UI funtion
+  const [open, setOpen] = useState(false);
+  const [maxWidth] = useState<DialogProps["maxWidth"]>("lg");
   return (
     <>
-      <div className="component6-container">
+      <button className="personalprivate-button1 button" onClick={() => setOpen(true)}>
+        編輯個人資料
+      </button>
+      <Dialog
+        maxWidth={maxWidth}
+        className="w-full"
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="responsive-dialog-title"
+      >
         <div className="component6-container01">
           <div className="component6-container02">
-            <h1 className="component6-text">{props.heading5}</h1>
+            <h1 className="component6-text">編輯個人資料</h1>
           </div>
           <div className="component6-container03">
-            <h1>{props.heading31}</h1>
+            <h1>背景：</h1>
             <img
-              src="https://qph.cf2.quoracdn.net/main-qimg-bf3c8bcab5d50299e00facb2df498451-lq"
+              src={User.profile.backgroundPhoto}
               loading="eager"
               className="component6-image"
-              alt=""
+              alt="background not fund"
             />
           </div>
           <div className="component6-container04">
             <div className="component6-container05">
-              <h1>{props.heading3}</h1>
+              <h1>頭貼：</h1>
             </div>
-            <img
-              alt="image"
-              src="https://ih1.redbubble.net/image.3114059041.7813/st,small,845x845-pad,1000x1000,f8f8f8.jpg"
-              className="component6-image1"
-            />
+            <img alt="user_photo not fund" src={User.profile.picture} className="component6-image1" />
           </div>
           <div className="component6-container06">
-            <h1>{props.heading}</h1>
-            <input type="text" placeholder={props.textinput_placeholder} className="input" />
+            <h1>信箱：</h1>
+            <input
+              type="text"
+              placeholder={User.profile.email}
+              onChange={e => setemail(e.target.value)}
+              className="input"
+            />
           </div>
           <div className="component6-container07">
-            <h1>{props.heading6}</h1>
-            <input type="text" placeholder={props.textinput_placeholder1} className="input" />
+            <h1>名稱：</h1>
+            <input
+              type="text"
+              placeholder={User.profile.name}
+              onChange={e => setName(e.target.value)}
+              className="input"
+            />
           </div>
           <div className="component6-container08">
-            <h1>{props.heading1}</h1>
-            <textarea placeholder={props.textarea_placeholder} className="component6-textarea textarea"></textarea>
+            <h1>自介：</h1>
+            <textarea
+              placeholder={User.profile.introduction}
+              onChange={e => setIntroduction(e.target.value)}
+              className="component6-textarea textarea"
+            ></textarea>
           </div>
           <div className="component6-container09">
-            <button className="component6-button button">{props.button1}</button>
-            <button className="component6-button1 button">{props.button}</button>
+            <button className="component6-button button" onClick={() => setOpen(false)}>
+              取消
+            </button>
+            <button className="component6-button1 button" onClick={EditProfile}>
+              儲存
+            </button>
           </div>
         </div>
-      </div>
+      </Dialog>
       <style jsx>
         {`
           .component6-container {
@@ -170,66 +226,4 @@ const Component6 = (props: any) => {
       </style>
     </>
   );
-};
-
-Component6.defaultProps = {
-  image_src4: "",
-  text: "Text",
-  heading5: "編輯個人資料",
-  image_alt2: "image",
-  heading4: "Heading",
-  heading1: "自介：",
-  button1: "取消",
-  button: "儲存",
-  image_src1: "https://play.teleporthq.io/static/svg/default-img.svg",
-  textinput_placeholder1: "BT21_RJ012525",
-  textarea_placeholder1: "RJ喜歡做菜也喜歡享受美食。 用蓬鬆的毛髮和一顆溫暖的心撫慰每個人。",
-  heading3: "頭貼：",
-  textinput_placeholder: "BT21_RJ012@gmail.com",
-  image_src3: "https://play.teleporthq.io/static/svg/default-img.svg",
-  heading6: "名稱：",
-  heading11: "自介：",
-  heading2: "Heading",
-  image_src31: "https://play.teleporthq.io/static/svg/default-img.svg",
-  image_alt31: "image",
-  image_alt1: "image",
-  heading31: "背景：",
-  textarea_placeholder: "RJ喜歡做菜也喜歡享受美食。 用蓬鬆的毛髮和一顆溫暖的心撫慰每個人。",
-  image_src2: "https://play.teleporthq.io/static/svg/default-img.svg",
-  image_alt3: "image",
-  image_alt: "image",
-  heading: "信箱：",
-  image_src: "https://qph.cf2.quoracdn.net/main-qimg-bf3c8bcab5d50299e00facb2df498451-lq",
-};
-
-Component6.propTypes = {
-  image_src4: PropTypes.string,
-  text: PropTypes.string,
-  heading5: PropTypes.string,
-  image_alt2: PropTypes.string,
-  heading4: PropTypes.string,
-  heading1: PropTypes.string,
-  button1: PropTypes.string,
-  button: PropTypes.string,
-  image_src1: PropTypes.string,
-  textinput_placeholder1: PropTypes.string,
-  textarea_placeholder1: PropTypes.string,
-  heading3: PropTypes.string,
-  textinput_placeholder: PropTypes.string,
-  image_src3: PropTypes.string,
-  heading6: PropTypes.string,
-  heading11: PropTypes.string,
-  heading2: PropTypes.string,
-  image_src31: PropTypes.string,
-  image_alt31: PropTypes.string,
-  image_alt1: PropTypes.string,
-  heading31: PropTypes.string,
-  textarea_placeholder: PropTypes.string,
-  image_src2: PropTypes.string,
-  image_alt3: PropTypes.string,
-  image_alt: PropTypes.string,
-  heading: PropTypes.string,
-  image_src: PropTypes.string,
-};
-
-export default Component6;
+}
