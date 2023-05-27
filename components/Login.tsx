@@ -42,6 +42,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
+  const [IsManager, SetIsManager] = useState(false);
   const User = useSelector((state: any) => state.User);
   //   const router = useRouter();
   const dispatch = useDispatch();
@@ -50,7 +51,12 @@ export default function Login() {
       //TODO: 登入狀態
       LoginFunction().then(userData => {
         console.log("userData", userData);
-        if (userData != null) dispatch(setLogin(userData));
+        if (userData != null) {
+          dispatch(setLogin(userData));
+          const userDataF = JSON.parse(userData);
+          const adminValue = userDataF[0]?.admin;
+          if (adminValue) SetIsManager(true);
+        }
       });
       if (typeof window.ethereum === "undefined") {
         // TODO: 未安裝MetaMask導向官網
@@ -132,7 +138,7 @@ export default function Login() {
   }
 
   function checkVerificationCode() {
-    //確認電子郵件驗證碼是否正確
+    //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
         //需要alert
@@ -248,14 +254,16 @@ export default function Login() {
               </Typography>
             </MenuItem>
             <MenuItem onClick={() => setAnchorElUser(null)}>
-              {/* 先確認有無用到AC */}
+              {/*FIXME: 先確認有無用到AC */}
               <Typography textAlign="center">我的錢包</Typography>
             </MenuItem>
-            <MenuItem onClick={() => setAnchorElUser(null)}>
-              <Typography textAlign="center">
-                <a href="../pages/backstage">管理後台</a>
-              </Typography>
-            </MenuItem>
+            {IsManager ? (
+              <MenuItem onClick={() => setAnchorElUser(null)}>
+                <Typography textAlign="center">
+                  <a href="./backstage">管理後台</a>
+                </Typography>
+              </MenuItem>
+            ) : null}
             <MenuItem
               onClick={() => {
                 _apiAuthLogout();

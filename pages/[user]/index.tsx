@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { apiArticleGetUserAllArticle, apiUserGetCreaterData } from "@/components/api";
+import RightSidebar from "@/components/home/RightSidebar";
 import BlogPostCard21 from "@/components/SigngleArticle";
+import SigngleArticle from "@/components/SigngleArticle";
 import Editprofile from "@/components/users/EditProfile";
 import FlowerRecord from "@/components/users/page-nav/FlowerRecord";
 import MyFlowers from "@/components/users/page-nav/MyFlowers";
@@ -16,7 +18,7 @@ export default function Userindex(props: any) {
   const dispatch = useDispatch();
   const User = useSelector((state: any) => state.User);
   useEffect(() => {
-    // TODO: 創作者狀態
+    //TODO: 創作者狀態
     console.log("props.createrData.namecreaterDatacreaterData", props.createrData.name);
     if (props.createrData.name == User.profile.name) SetIsPrivate(true);
     dispatch(update(JSON.stringify(props.createrData)));
@@ -117,27 +119,15 @@ export default function Userindex(props: any) {
                 <div className="personalpublic-container14">
                   <div className="personalpublic-blog">
                     <div className="personalpublic-container15">
-                      <BlogPostCard21
+                      <SigngleArticle
                         profile_src="https://images.unsplash.com/photo-1611232658409-0d98127f237f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIzfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                        rootClassName="rootClassName7"
-                      ></BlogPostCard21>
+                        rootClassName="rootClassName3"
+                      ></SigngleArticle>
                     </div>
                   </div>
                 </div>
               )}
-              <div className="personalpublic-container17">
-                <div className="personalpublic-container22">
-                  <h1>今日一花</h1>
-                  <img alt="image" src="/playground_assets/flower11-200h.png" className="personalpublic-image11" />
-                  <h1>經典之花：紅玫瑰</h1>
-                  <span className="personalpublic-text24">
-                    <span>以花為貌、以鳥為聲</span>
-                    <br></br>
-                    <br></br>
-                    <span>喜歡玫瑰花的人浪漫、熱情、性格開朗，對生活積極主動。</span>
-                  </span>
-                </div>
-              </div>
+              <RightSidebar />
             </div>
           </section>
         )}
