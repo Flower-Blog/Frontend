@@ -10,11 +10,6 @@ export default function SigngleArticle(props: any) {
               <h1 className="blog-post-card21-text">{props.title}</h1>
               <span className="blog-post-card21-text1">{props.subStandard}</span>
             </div>
-            <img
-              alt={props.image_alt}
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&ixlib=rb-1.2.1&w=800"
-              className="blog-post-card21-image"
-            />
           </div>
           <div className="blog-post-card21-container3">
             <div className="blog-post-card21-profile">
@@ -23,11 +18,7 @@ export default function SigngleArticle(props: any) {
             </div>
             {/* FIXME: 要更改花朵圖片 */}
             <div className="blog-post-card21-container4">
-              <img
-                alt={props.image_alt1}
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&ixlib=rb-1.2.1&w=200"
-                className="blog-post-card21-image2"
-              />
+              <img alt="花朵的圖片" src="" className="blog-post-card21-image2" />
               <span className="blog-post-card21-text3">{12}</span>
             </div>
           </div>

@@ -31,22 +31,23 @@ export default function CreateArticle() {
           <title>Page3 - Flower</title>
           <meta property="og:title" content="Page3 - Flower" />
         </Head>
-        <div className="page3-container04 p-1">
+        <div className="border-gray-200 m-2 h-full rounded-lg border bg-beige p-1">
           <div className="h-full">
             <textarea
               id="editor"
-              className="text-gray-800 h-auto w-full border-0 bg-beige px-2 text-6xl focus:outline-none"
+              className="text-gray-800 w-full border-0 bg-beige px-2 text-6xl focus:outline-none"
               placeholder="標題"
               onChange={e => settitle(e.target.value)}
             ></textarea>
             <textarea
               id="editor"
-              className="text-gray-800 h-auto w-full border-0 bg-beige px-2 text-3xl focus:outline-none"
+              className="text-gray-800 w-full border-0 bg-beige px-2 text-3xl focus:outline-none"
               placeholder="副標題"
               onChange={e => setsubStandard(e.target.value)}
             ></textarea>
             <textarea
               id="editor"
+              rows={25}
               className="text-gray-800 m-0 h-full w-full bg-beige px-2 text-lg focus:outline-none"
               placeholder="內文"
               onChange={e => setcontents(e.target.value)}

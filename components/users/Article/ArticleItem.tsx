@@ -30,9 +30,9 @@ export default function ArticleItem({ username, id, title, subtitle, updateAt }:
             <p className="line-clamp-2 text-slate-500 dark:text-slate-400 mb-2 text-base">{subtitle}</p>
           </div>
           {/* FIXME:灰底要改為圖片 */}
-          <div className="bg-gray-400 col-span-4 rounded-lg">
-            <img className="h-full w-full rounded-lg" src="" alt="Null"></img>
-          </div>
+          {/* <div className="bg-gray-400 col-span-4 rounded-lg">
+              <img className="h-full w-full rounded-lg" src="" alt="Null"></img>
+            </div> */}
           {/* FIXME:Icon後的數字 */}
           <div className="col-span-12  flex items-center justify-between">
             <div className="flex items-center">
