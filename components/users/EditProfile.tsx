@@ -8,7 +8,7 @@ export default function Editprofile() {
   // TODO: Handle funtion
   const [name, setName] = useState(""); // 使用者名稱
   const [email, setemail] = useState(""); // 電子信箱
-  const [verificationCode, setverificationCode] = useState("");
+  const [verificationCode, setverificationCode] = useState(""); //驗證碼
   const [introduction, setIntroduction] = useState(""); // 個人簡介
   const [backgroundPhoto, setbackgroundPhoto] = useState(""); // 背景圖
   const [picture, setpicture] = useState(""); // 頭像
@@ -128,7 +128,7 @@ export default function Editprofile() {
           </div>
           <div className="component6-container03">
             <label htmlFor="backgroundInput" className="custom-file-input mx-2">
-              <span className="button-text cursor-pointer rounded bg-blue-500 py-2 px-4 text-white">更换背景</span>
+              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换背景</span>
               <input type="file" id="backgroundInput" onChange={backgroundChange} className="hidden" />
               {/* <input type="file" onChange={(result: any) => setbackgroundPhoto(result.info.url)} /> */}
             </label>
@@ -143,7 +143,7 @@ export default function Editprofile() {
           </div>
           <div className="component6-container04">
             <label htmlFor="pictureInput" className="custom-file-input mx-2">
-              <span className="button-text cursor-pointer rounded bg-blue-500 py-2 px-4 text-white">更换背景</span>
+              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换背景</span>
               <input type="file" id="pictureInput" onChange={pictureChange} className="hidden" />
               {/* <input type="file" onChange={(result: any) => setpicture(result.info.url)} /> */}
             </label>

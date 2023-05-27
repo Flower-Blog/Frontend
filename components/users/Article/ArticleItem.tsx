@@ -14,11 +14,11 @@ export default function ArticleItem({ username, id, title, subtitle, updateAt }:
   }, [setcreaterpicture, username]);
 
   return (
-    <li className="group/item my-4 rounded-lg border-4 border-blue-200 first:mt-0">
+    <li className="group/item border-blue-200 my-4 rounded-lg border-4 first:mt-0">
       <a className="text no-underline" href={`/${username}/${id}`}>
-        <div className="grid h-auto w-full grid-cols-12 gap-x-16 rounded-lg p-2 hover:bg-slate-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+        <div className="hover:bg-slate-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700 grid h-auto w-full grid-cols-12 gap-x-16 rounded-lg p-2">
           <div className="col-span-8">
-            <p className="line-clamp-1 mb-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            <p className="line-clamp-1 text-slate-900 dark:text-white mb-2 text-2xl font-bold tracking-tight">
               {title}
             </p>
             <div className="mb-2 flex flex-row items-center">
@@ -27,10 +27,10 @@ export default function ArticleItem({ username, id, title, subtitle, updateAt }:
                 <p className="text-base"> {username}</p>
               </div>
             </div>
-            <p className="line-clamp-2 mb-2 text-base text-slate-500 dark:text-slate-400">{subtitle}</p>
+            <p className="line-clamp-2 text-slate-500 dark:text-slate-400 mb-2 text-base">{subtitle}</p>
           </div>
           {/* FIXME:灰底要改為圖片 */}
-          <div className="col-span-4 rounded-lg bg-gray-400">
+          <div className="bg-gray-400 col-span-4 rounded-lg">
             <img className="h-full w-full rounded-lg" src="" alt="Null"></img>
           </div>
           {/* FIXME:Icon後的數字 */}
