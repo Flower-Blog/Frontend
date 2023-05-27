@@ -1,12 +1,13 @@
 import Head from "next/head";
 import React from "react";
 
+import { apiArticleGetAllArticle } from "@/components/api";
 import RightSidebar from "@/components/home/RightSidebar";
 import SigngleArticle from "@/components/SigngleArticle";
 
 import TakeTurns from "./../components/home/TakeTurns";
 
-export default function Home() {
+export default function Home(props: any) {
   return (
     <>
       <div className="home-container">
@@ -31,10 +32,14 @@ export default function Home() {
           <div className="home-container05">
             <div className="home-blog">
               <div className="home-container06">
-                <SigngleArticle
-                  profile_src="https://images.unsplash.com/photo-1611232658409-0d98127f237f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIzfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                  rootClassName="rootClassName3"
-                ></SigngleArticle>
+                {props.Articles != null &&
+                  props.Articles.map((item: any) => {
+                    const { id, title, subStandard } = item;
+                    const { name, picture } = item.userdata;
+                    return (
+                      <SigngleArticle key={id} name={name} title={title} subStandard={subStandard} picture={picture} />
+                    );
+                  })}
               </div>
             </div>
             <RightSidebar />
@@ -44,3 +49,11 @@ export default function Home() {
     </>
   );
 }
+export const getServerSideProps = async () => {
+  try {
+    const Articles = await apiArticleGetAllArticle();
+    return { props: { Articles: Articles.data.articles } };
+  } catch {
+    return { props: { Articles: null } };
+  }
+};

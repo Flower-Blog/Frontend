@@ -1,26 +1,34 @@
-import PropTypes from "prop-types";
 import React from "react";
 
-export default function BlogPostCard21(props: any) {
+export default function SigngleArticle(props: any) {
   return (
     <>
-      <div className={`blog-post-card21-blog-post-card ${props.rootClassName} `}>
+      <div className="blog-post-card21-blog-post-card rootClassName3">
         <div className="blog-post-card21-container">
           <div className="blog-post-card21-container1">
             <div className="blog-post-card21-container2">
               <h1 className="blog-post-card21-text">{props.title}</h1>
-              <span className="blog-post-card21-text1">{props.description}</span>
+              <span className="blog-post-card21-text1">{props.subStandard}</span>
             </div>
-            <img alt={props.image_alt} src={props.image_src} className="blog-post-card21-image" />
+            <img
+              alt={props.image_alt}
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&ixlib=rb-1.2.1&w=800"
+              className="blog-post-card21-image"
+            />
           </div>
           <div className="blog-post-card21-container3">
             <div className="blog-post-card21-profile">
-              <img alt={props.profile_alt} src={props.profile_src} className="blog-post-card21-image1" />
-              <span className="blog-post-card21-text2">{props.author}</span>
+              <img alt="profile" src={props.picture} className="blog-post-card21-image1" />
+              <span className="blog-post-card21-text2">{props.name}</span>
             </div>
+            {/* FIXME: 要更改花朵圖片 */}
             <div className="blog-post-card21-container4">
-              <img alt={props.image_alt1} src={props.image_src1} className="blog-post-card21-image2" />
-              <span className="blog-post-card21-text3">{props.text}</span>
+              <img
+                alt={props.image_alt1}
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&ixlib=rb-1.2.1&w=200"
+                className="blog-post-card21-image2"
+              />
+              <span className="blog-post-card21-text3">{12}</span>
             </div>
           </div>
         </div>
@@ -156,33 +164,3 @@ export default function BlogPostCard21(props: any) {
     </>
   );
 }
-
-BlogPostCard21.defaultProps = {
-  profile_alt: "profile",
-  rootClassName: "",
-  description: "最多49字",
-  author: "Jane Doe",
-  image_alt: "image",
-  image_alt1: "image",
-  image_src:
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&ixlib=rb-1.2.1&w=800",
-  text: "12",
-  image_src1: "/playground_assets/flower11-200h.png",
-  title: "最多15字",
-  profile_src:
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&ixlib=rb-1.2.1&w=200",
-};
-
-BlogPostCard21.propTypes = {
-  profile_alt: PropTypes.string,
-  rootClassName: PropTypes.string,
-  description: PropTypes.string,
-  author: PropTypes.string,
-  image_alt: PropTypes.string,
-  image_alt1: PropTypes.string,
-  image_src: PropTypes.string,
-  text: PropTypes.string,
-  image_src1: PropTypes.string,
-  title: PropTypes.string,
-  profile_src: PropTypes.string,
-};
