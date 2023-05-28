@@ -43,10 +43,6 @@
   --dl-space-space-threeunits: 48px;
   --dl-space-space-oneandhalfunits: 24px;
 }
-body::-webkit-scrollbar {
-  display: none;
-}
-
 .button {
   color: var(--dl-color-gray-black);
   width: 126px;
@@ -69,12 +65,6 @@ body::-webkit-scrollbar {
   padding-bottom: 1px;
   background-color: rgb(157, 218, 219);
 }
-//Comment
-.comments1-button {
-  margin-left: var(--dl-space-space-unit);
-  background-color: #ff9077;
-}
-
 .button:hover {
   opacity: 0.5;
 }
@@ -205,15 +195,10 @@ body::-webkit-scrollbar {
   }
 }
 
-.bg-threefish-or {
-  background-color: var(--dl-color-threefish-or);
-}
-
 /*TODO: personalprivate.js*/
 .personalprivate-container {
   width: 100%;
   display: flex;
-  overflow: auto;
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -618,6 +603,7 @@ body::-webkit-scrollbar {
   flex-direction: column;
   background-size: cover;
   justify-content: flex-end;
+  background-image: url("https://qph.cf2.quoracdn.net/main-qimg-bf3c8bcab5d50299e00facb2df498451-lq");
 }
 .personalprivate-container06 {
   width: 100%;
@@ -1031,7 +1017,7 @@ body::-webkit-scrollbar {
 .personalpublic-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -2011,7 +1997,7 @@ body::-webkit-scrollbar {
 .page1-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -2600,7 +2586,7 @@ body::-webkit-scrollbar {
 .page2-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -2623,6 +2609,8 @@ body::-webkit-scrollbar {
   object-fit: cover;
 }
 .page2-container02 {
+  width: 432px;
+  height: 319px;
   display: flex;
   box-shadow: 10px 10px 0px 0px #8c8585;
   align-items: flex-start;
@@ -2695,8 +2683,7 @@ body::-webkit-scrollbar {
   background-color: var(--dl-color-primary-300);
 }
 .page2-button1 {
-  width: 350px;
-  margin-bottom: 10px;
+  width: 308px;
   align-self: center;
   background-color: var(--dl-color-threefish-orange);
 }
@@ -2785,7 +2772,7 @@ body::-webkit-scrollbar {
 .page3-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -3305,7 +3292,7 @@ body::-webkit-scrollbar {
 .home-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -4416,7 +4403,7 @@ body::-webkit-scrollbar {
 .page-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
