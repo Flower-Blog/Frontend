@@ -32,7 +32,6 @@ const UserSlice = createSlice({
   reducers: {
     setLogin(state, action) {
       const updatedProfile = JSON.parse(action.payload);
-      console.log("updatedProfileupdatedProfile", updatedProfile);
       updatedProfile[0].login = true;
       state.profile = updatedProfile[0];
     },

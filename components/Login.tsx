@@ -34,18 +34,22 @@ import {
   apiUserGetUserData,
   apiUserRegister,
 } from "./api";
-import FirstChooseFlower from "./FirstChooseFlower";
 
-interface LoginProps {
-  flowerId: number;
+interface Flower {
+  id: number;
+  name: string;
+  language: string;
+  img: string;
 }
 
-export default function Login({ flowerId }: LoginProps) {
+export default function Login() {
   // TODO: Handle funcion
   const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
+  const [flowers, setFlowers] = useState<Flower[]>([]);
+  const [selectedFlowerId, setSelectedFlowerId] = useState<number>(0);
   const [IsManager, setIsManager] = useState(false);
   const User = useSelector((state: any) => state.User);
   //   const router = useRouter();
@@ -54,7 +58,6 @@ export default function Login({ flowerId }: LoginProps) {
     const connect = async () => {
       //TODO: 登入狀態
       LoginFunction().then(userData => {
-        // console.log("userData", userData);
         if (userData != null) {
           dispatch(setLogin(userData));
           const userDataF = JSON.parse(userData);
@@ -70,6 +73,22 @@ export default function Login({ flowerId }: LoginProps) {
     };
     connect();
   }, [dispatch]);
+
+  useEffect(() => {
+    fetch("/api/flower/flower")
+      .then(res => res.json())
+      .then(data => setFlowers(data));
+  }, []);
+
+  const handleFlowerClick = (flowerId: number) => {
+    setSelectedFlowerId(flowerId);
+  };
+
+  const handleConfirmClick = () => {
+    registerSetOpen3(false);
+    registerSetOpen2(true);
+  };
+
   async function connectMetaMask() {
     if (typeof window.ethereum !== "undefined") {
       try {
@@ -97,7 +116,6 @@ export default function Login({ flowerId }: LoginProps) {
   }
 
   async function GetSignature(nonce: string, address: string) {
-    console.log("GetSignature");
     // 拿Nonce簽名
     const web3 = new Web3(window.ethereum);
     const signer = web3.eth.personal;
@@ -108,15 +126,12 @@ export default function Login({ flowerId }: LoginProps) {
 
     apiAuthTakeToken(data).then((res: any) => {
       const jwt = res.data.token;
-      console.log("res", res.data);
-      //console.log("jwt", jwt);
       // 將JWT塞入 Cookie中
       _apiAuthLogin({ jwt });
 
       apiUserGetUserData(jwt).then((res: any) => {
         // 將傳回來的會員資料轉成json的字串模式
         const UserData = JSON.stringify(res.data.userdata);
-        console.log("UserData", UserData);
         // 透過redux儲存會員資料
         dispatch(setLogin(UserData));
         // 將會員資料存在localStroage
@@ -130,12 +145,13 @@ export default function Login({ flowerId }: LoginProps) {
     apiUserGetEmail(email)
       .then(() => {
         //確認無誤後發送信箱
-        //需要alert
+        //FIXME: 需要 Alert
         console.log("信箱確認");
       })
       .catch((error: any) => {
         if (error.response && error.response.data.error) {
           const errorMess = error.response.data.error;
+          //FIXME: 需要 Alert 或是寫到輸入框裡
           console.log(errorMess);
         }
       });
@@ -145,12 +161,13 @@ export default function Login({ flowerId }: LoginProps) {
     //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
-        //需要alert
+        //FIXME: 需要 Alert
         console.log("電子郵件驗證碼正確");
         registerSetOpen(false);
         registerSetOpen3(true);
       })
       .catch((error: any) => {
+        //FIXME: 需要 Alert 或是寫到輸入框裡
         console.log(error);
       });
   }
@@ -158,9 +175,9 @@ export default function Login({ flowerId }: LoginProps) {
   function Register() {
     apiUserGetName(username)
       .then(() => {
-        //需要alert
+        //FIXME: 需要 Alert
         console.log("名稱確認");
-        const data = { address, name: username, email, flowerId };
+        const data = { address, name: username, email, flowerId: selectedFlowerId };
         apiUserRegister(data)
           .then(() => {
             registerSetOpen(false);
@@ -180,6 +197,7 @@ export default function Login({ flowerId }: LoginProps) {
           });
       })
       .catch(() => {
+        //FIXME: 需要 Alert
         console.log("名稱錯誤");
       });
   }
@@ -352,7 +370,39 @@ export default function Login({ flowerId }: LoginProps) {
           </button>
         </div>
       </Dialog>
-      {registerOpen3 ? <FirstChooseFlower /> : null}
+
+      <Dialog open={registerOpen3} onClose={() => registerSetOpen3(false)}>
+        <div className="component3-container">
+          <div className="component3-container1">
+            <div className="component3-container2">
+              <h1 className="w-full text-center text-3xl font-bold">選擇第一朵自己的花</h1>
+              <h1 className="w-full text-center text-2xl font-bold">選擇一種</h1>
+            </div>
+            <div className="component3-form">
+              <div className="component3-container3">
+                <div className="component3-container5">
+                  {/*FIXME: 做點動畫已選擇哪一朵 */}
+                  {flowers.map(flower => (
+                    <button
+                      className="focus:ring-red-500 focus:outline-none focus:ring-4"
+                      key={flower.id}
+                      onClick={() => handleFlowerClick(flower.id)}
+                    >
+                      <img alt="" src={flower.img} className="component3-image" />
+                    </button>
+                  ))}
+                </div>
+                你選擇了 {selectedFlowerId}
+                <div className="component3-container8">
+                  <button className="component3-button button" onClick={handleConfirmClick}>
+                    <span>確認</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Dialog>
 
       <Dialog
         fullScreen={fullScreen}
@@ -405,6 +455,86 @@ export default function Login({ flowerId }: LoginProps) {
           註冊成功!
         </Alert>
       </Snackbar>
+      <style jsx>
+        {`
+          .component3-container {
+            width: 100%;
+            height: 594px;
+            display: flex;
+            position: relative;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+          }
+          .component3-container1 {
+            width: 479px;
+            height: auto;
+            display: flex;
+            box-shadow: 10px 10px 0px 0px #8c8585;
+            align-items: flex-start;
+            padding-top: var(--dl-space-space-unit);
+            border-color: var(--dl-color-gray-black);
+            border-width: 3px;
+            flex-direction: column;
+            padding-bottom: var(--dl-space-space-unit);
+            background-color: #ffcf77;
+          }
+          .component3-container2 {
+            flex: 0 0 auto;
+            width: 100%;
+            display: flex;
+            text-align: center;
+            align-items: flex-start;
+            flex-direction: column;
+          }
+          .component3-form {
+            width: 100%;
+            height: auto;
+            display: flex;
+            align-self: center;
+          }
+          .component3-container3 {
+            flex: 0 0 auto;
+            width: 100%;
+            height: auto;
+            display: flex;
+            align-self: stretch;
+            align-items: center;
+            padding-top: var(--dl-space-space-unit);
+            padding-left: var(--dl-space-space-oneandhalfunits);
+            padding-right: var(--dl-space-space-oneandhalfunits);
+            flex-direction: column;
+            padding-bottom: var(--dl-space-space-unit);
+            justify-content: center;
+          }
+          .component3-container5 {
+            flex: 0 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .component3-image {
+            width: 100px;
+            object-fit: cover;
+          }
+          .component3-container8 {
+            flex: 0 0 auto;
+            width: 100%;
+            height: auto;
+            display: flex;
+            margin-top: var(--dl-space-space-halfunit);
+            align-items: center;
+            margin-bottom: var(--dl-space-space-halfunit);
+            justify-content: center;
+          }
+          .component3-button {
+            width: 94px;
+            align-self: center;
+            background-color: var(--dl-color-threefish-orange);
+          }
+        `}
+      </style>
     </div>
   );
 }
