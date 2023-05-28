@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import Login from "./Login";
+import Login from "../Login";
 
 export default function Navbar(props: any) {
   return (

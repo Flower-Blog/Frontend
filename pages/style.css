@@ -199,7 +199,6 @@
 .personalprivate-container {
   width: 100%;
   display: flex;
-  overflow: auto;
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -1018,7 +1017,7 @@
 .personalpublic-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -1998,7 +1997,7 @@
 .page1-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -2587,7 +2586,7 @@
 .page2-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -2773,7 +2772,7 @@
 .page3-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -3293,7 +3292,7 @@
 .home-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -4404,7 +4403,7 @@
 .page-container {
   width: 100%;
   display: flex;
-  overflow: auto;
+
   min-height: 100vh;
   align-items: center;
   flex-direction: column;

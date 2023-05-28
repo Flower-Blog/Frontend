@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "store";
 
-import Navbar from "@/components/Navbar";
+import Layout from "@/components/layout/Layout";
 
 declare global {
   interface Window {
@@ -16,8 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <div className="bg-threefish-or">
-        <Navbar rootClassName="navbar-root-class-name"></Navbar>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </div>
     </Provider>
   );

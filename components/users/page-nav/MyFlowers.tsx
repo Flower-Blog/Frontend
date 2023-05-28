@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import Flower from "../../flower";
+import Flower from "../../Flower";
 
 const MyFlowers = (props: any) => {
   return (

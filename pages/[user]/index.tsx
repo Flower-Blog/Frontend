@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { apiArticleGetUserAllArticle, apiUserGetCreaterData } from "@/components/api";
 import RightSidebar from "@/components/home/RightSidebar";
-import BlogPostCard21 from "@/components/SigngleArticle";
 import SigngleArticle from "@/components/SigngleArticle";
 import Editprofile from "@/components/users/EditProfile";
 import FlowerRecord from "@/components/users/page-nav/FlowerRecord";
@@ -19,7 +18,6 @@ export default function Userindex(props: any) {
   const User = useSelector((state: any) => state.User);
   useEffect(() => {
     //TODO: 創作者狀態
-    console.log("props.createrData.namecreaterDatacreaterData", props.createrData.name);
     if (props.createrData.name == User.profile.name) SetIsPrivate(true);
     dispatch(update(JSON.stringify(props.createrData)));
   }, [User.profile.name, dispatch, props.IsCreater, props.createrData]);
@@ -66,71 +64,52 @@ export default function Userindex(props: any) {
             </div>
           </div>
         </section>
-        {IsPrivate ? (
-          // 私人
-          <section className="personalprivate-collection">
-            <div className="personalprivate-container12">
-              <button className="personalprivate-button2 button" onClick={() => showComponent("myArticle")}>
-                個人文章
-              </button>
+        <section className="personalprivate-collection">
+          <div className="personalprivate-container12">
+            <button className="personalprivate-button2 button" onClick={() => showComponent("myArticle")}>
+              個人文章
+            </button>
+            {IsPrivate ? (
               <button className="personalprivate-button3 button" onClick={() => showComponent("flowerRecord")}>
                 收花紀錄
               </button>
-              <button
-                type="button"
-                className="personalprivate-button4 button"
-                onClick={() => showComponent("myFlower")}
-              >
-                我的花
-              </button>
-            </div>
+            ) : null}
+            <button type="button" className="personalprivate-button4 button" onClick={() => showComponent("myFlower")}>
+              收藏花
+            </button>
+          </div>
+          {activeComponent === "flowerRecord" && <FlowerRecord></FlowerRecord>}
+          <div className="home-container05">
             {activeComponent === "myArticle" && (
               <div className="personalpublic-container14">
                 <div className="personalpublic-blog">
-                  <div className="personalpublic-container15">
-                    <BlogPostCard21
-                      profile_src="https://images.unsplash.com/photo-1611232658409-0d98127f237f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIzfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                      rootClassName="rootClassName7"
-                    ></BlogPostCard21>
+                  <div className="personalpublic-container15 w-full">
+                    {props.Articles != null &&
+                      props.Articles.map((item: any) => {
+                        const { id, title, subStandard, contents, flowerCount, updatedAt } = item;
+                        return (
+                          // eslint-disable-next-line react/jsx-key
+                          <SigngleArticle
+                            id={id}
+                            name={props.createrData.name}
+                            title={title}
+                            subStandard={subStandard}
+                            contents={contents}
+                            flowerCount={flowerCount}
+                            updatedAt={updatedAt}
+                            picture={props.createrData.picture}
+                            IsPrivate={IsPrivate}
+                          />
+                        );
+                      })}
                   </div>
                 </div>
               </div>
             )}
-            {activeComponent === "flowerRecord" && (
-              <FlowerRecord rootClassName="component1-root-class-name"></FlowerRecord>
-            )}
-            {activeComponent === "myFlower" && <MyFlowers rootClassName="component1-root-class-name"></MyFlowers>}
-          </section>
-        ) : (
-          // 公開
-          <section className="personalpublic-collection">
-            <div className="personalpublic-container12">
-              <button className="personalpublic-button1 button" onClick={() => showComponent("myArticle")}>
-                個人文章
-              </button>
-              <button type="button" className="personalpublic-button2 button" onClick={() => showComponent("myFlower")}>
-                收藏花
-              </button>
-            </div>
-
-            <div className="personalpublic-container13">
-              {activeComponent === "myFlower" && <MyFlowers rootClassName="component1-root-class-name"></MyFlowers>}
-              {activeComponent === "myArticle" && (
-                <div className="personalpublic-container14">
-                  <div className="personalpublic-blog">
-                    <div className="personalpublic-container15">
-                      <SigngleArticle
-                        profile_src="https://images.unsplash.com/photo-1611232658409-0d98127f237f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIzfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTYyNjQ1MDU4MQ&amp;ixlib=rb-1.2.1&amp;h=1200"
-                        rootClassName="rootClassName3"
-                      ></SigngleArticle>
-                    </div>
-                  </div>
-                </div>
-              )}
-              <RightSidebar />
-            </div>
-          </section>
-        )}
+            {activeComponent === "myFlower" && <MyFlowers></MyFlowers>}
+            {!IsPrivate ? <RightSidebar /> : null}
+          </div>
+        </section>
       </div>
     </>
   );
@@ -153,8 +132,8 @@ export const getServerSideProps = async (context: any) => {
     });
   try {
     const Articles = await apiArticleGetUserAllArticle(createrData.address);
-    return { props: { createrData, Articles: Articles.data } };
+    return { props: { createrData, Articles: Articles.data.articles } };
   } catch {
-    return { props: { createrData, Articles: [] } };
+    return { props: { createrData, Articles: null } };
   }
 };

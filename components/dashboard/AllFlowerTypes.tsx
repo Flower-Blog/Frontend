@@ -1,6 +1,6 @@
 import React from "react";
 
-import Flower from "../flower";
+import Flower from "../Flower";
 
 const AllFlowerTypes = (props: any) => {
   return (

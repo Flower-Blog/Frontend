@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   --dl-color-gray-500: #595959;
   --dl-color-gray-700: #999999;
@@ -47,6 +43,10 @@
   --dl-space-space-threeunits: 48px;
   --dl-space-space-oneandhalfunits: 24px;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .button {
   color: var(--dl-color-gray-black);
   width: 126px;
@@ -69,6 +69,12 @@
   padding-bottom: 1px;
   background-color: rgb(157, 218, 219);
 }
+//Comment
+.comments1-button {
+  margin-left: var(--dl-space-space-unit);
+  background-color: #ff9077;
+}
+
 .button:hover {
   opacity: 0.5;
 }
