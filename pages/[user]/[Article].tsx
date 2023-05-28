@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
@@ -9,10 +8,6 @@ const Page1 = () => {
   return (
     <>
       <div className="page1-container">
-        <Head>
-          <title>Page1 - Flower</title>
-          <meta property="og:title" content="Page1 - Flower" />
-        </Head>
         <div className="page1-container04">
           <div className="page1-container05">
             <div className="page1-container06">

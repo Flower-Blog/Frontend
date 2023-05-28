@@ -6,7 +6,13 @@ import SucessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiArticleDelete } from "@/components/api";
 
 export default function SigngleArticle(props: any) {
-  const data = { id: props.id, title: props.title, subStandard: props.subStandard, contents: props.contents };
+  const data = {
+    name: props.name,
+    id: props.id,
+    title: props.title,
+    subStandard: props.subStandard,
+    contents: props.contents,
+  };
   async function deleteArticle(id: any) {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
