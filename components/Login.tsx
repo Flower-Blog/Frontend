@@ -20,10 +20,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 
-// import { CheckChainIdFunction } from "@/helpers/users/CheckChainIdFunction";
 import { LoginFunction } from "@/helper/users/loginFuction";
 import { setLogin, setLogout } from "@/store/UserSlice";
 
+// import FirstChooseFlower from "./FirstChooseFlower";
 import {
   _apiAuthLogin,
   _apiAuthLogout,
