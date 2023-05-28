@@ -6,7 +6,7 @@ export default function Flower() {
       <div className="flower-container">
         <div className="flower-container1">
           <img alt="花" src="/playground_assets/flower1-300h.png" className="flower-image" />
-          <h1 className="flower-text">花有幾朵</h1>
+          <h1 className="flower-text">flowers.id</h1>
         </div>
       </div>
       <style jsx>

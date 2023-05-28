@@ -23,7 +23,6 @@ import Web3 from "web3";
 import { LoginFunction } from "@/helper/users/loginFuction";
 import { setLogin, setLogout } from "@/store/UserSlice";
 
-// import FirstChooseFlower from "./FirstChooseFlower";
 import {
   _apiAuthLogin,
   _apiAuthLogout,
@@ -35,14 +34,19 @@ import {
   apiUserGetUserData,
   apiUserRegister,
 } from "./api";
+import FirstChooseFlower from "./FirstChooseFlower";
 
-export default function Login() {
+interface LoginProps {
+  flowerId: number;
+}
+
+export default function Login({ flowerId }: LoginProps) {
   // TODO: Handle funcion
   const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
-  const [IsManager, SetIsManager] = useState(false);
+  const [IsManager, setIsManager] = useState(false);
   const User = useSelector((state: any) => state.User);
   //   const router = useRouter();
   const dispatch = useDispatch();
@@ -55,7 +59,7 @@ export default function Login() {
           dispatch(setLogin(userData));
           const userDataF = JSON.parse(userData);
           const adminValue = userDataF[0]?.admin;
-          if (adminValue) SetIsManager(true);
+          if (adminValue) setIsManager(true);
         }
       });
       if (typeof window.ethereum === "undefined") {
@@ -111,7 +115,7 @@ export default function Login() {
 
       apiUserGetUserData(jwt).then((res: any) => {
         // 將傳回來的會員資料轉成json的字串模式
-        const UserData = JSON.stringify(res.data.userdata[0]);
+        const UserData = JSON.stringify(res.data.userdata);
         console.log("UserData", UserData);
         // 透過redux儲存會員資料
         dispatch(setLogin(UserData));
@@ -144,7 +148,7 @@ export default function Login() {
         //需要alert
         console.log("電子郵件驗證碼正確");
         registerSetOpen(false);
-        registerSetOpen2(true);
+        registerSetOpen3(true);
       })
       .catch((error: any) => {
         console.log(error);
@@ -156,7 +160,7 @@ export default function Login() {
       .then(() => {
         //需要alert
         console.log("名稱確認");
-        const data = { address, name: username, email };
+        const data = { address, name: username, email, flowerId };
         apiUserRegister(data)
           .then(() => {
             registerSetOpen(false);
@@ -183,6 +187,7 @@ export default function Login() {
   // TODO: UI function
   const [registerOpen, registerSetOpen] = useState(false);
   const [registerOpen2, registerSetOpen2] = useState(false);
+  const [registerOpen3, registerSetOpen3] = useState(false);
   const [alertRejectOpen, alertRejectSetOpen] = useState(false);
   const [alertRegisterOpen, alertRegisterSetOpen] = useState(false);
   const [errorMessageUsername, seterrorMessageUsername] = useState("");
@@ -347,6 +352,7 @@ export default function Login() {
           </button>
         </div>
       </Dialog>
+      {registerOpen3 ? <FirstChooseFlower /> : null}
 
       <Dialog
         fullScreen={fullScreen}
