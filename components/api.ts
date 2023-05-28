@@ -165,7 +165,17 @@ export const apiCommentGetlike = (id: any) => commentRequest.get(`/${id}/like`, 
 //TODO: Admin 相關的 api
 
 //使用者記錄(最新)
-export const apiAdminGetUsers = () => adminRequest.get(`/user`, config);
+export const apiAdminGetUsers = (jwt: string) =>
+  adminRequest.get(`/user`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
 
 //花總類
-export const apiAdminGetFlowers = () => adminRequest.get(`/flowers`, config);
+export const apiAdminGetFlowers = (jwt: string) =>
+  adminRequest.get(`/flowers`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });

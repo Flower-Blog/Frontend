@@ -8,7 +8,7 @@ const AllFlowerTypes = (props: any) => {
       <div className={`component5-container ${props.rootClassName} `}>
         <div className="component5-blog">
           <div className="component5-container1">
-            <Flower rootClassName="flower-root-class-name24"></Flower>
+            <Flower></Flower>
             <Flower image_src="/playground_assets/flower2-200h.png" rootClassName="flower-root-class-name25"></Flower>
             <Flower image_src="/playground_assets/flower3-200h.png" rootClassName="flower-root-class-name27"></Flower>
           </div>

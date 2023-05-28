@@ -1,42 +1,115 @@
-import Head from "next/head";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
-import { apiArticleGetUserAllArticle, apiUserGetCreaterData } from "@/components/api";
-import { update } from "@/store/CreaterSlice";
+import { _apiCheckJwt, apiUserGetUserData } from "@/components/api";
+import { apiAdminGetFlowers, apiAdminGetUsers } from "@/components/api";
+import AllFlowerTypes from "@/components/dashboard/AllFlowerTypes";
+import UserRecord from "@/components/dashboard/UserRecord";
 
-import AllFlowerTypes from "../components/dashboard/AllFlowerTypes";
-import UserRecord from "../components/dashboard/UserRecord";
-
-export default function Page(props: any) {
+export default function Page() {
   const [IsManager, SetIsManager] = useState(false);
-  const dispatch = useDispatch();
-  const User = useSelector((state: any) => state.User);
-  useEffect(() => {
-    //TODO: 是否為管理者，不是就轉跳404
+  const [Users, setUsers] = useState([]);
+  const [Flowers, setFlowers] = useState([]);
+  const [NewUsers, setNewUsers] = useState(0);
 
-    console.log("props.createrData.namecreaterDatacreaterData12313", props.createrData);
-    console.log("props.createrData.namecreaterDatacreaterData", props.createrData.admin);
-    if (props.createrData.admin) SetIsManager(true);
-    dispatch(update(JSON.stringify(props.createrData)));
-  }, [User.profile.name, dispatch, props.IsCreater, props.createrData]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await _apiCheckJwt();
+        const jwt = res.data.jwt;
+
+        const userDataRes = await apiUserGetUserData(jwt);
+        const admin = userDataRes.data.userdata[0].admin;
+
+        // 使用者資料
+        const UsersResponse = await apiAdminGetUsers(jwt);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        setUsers(UsersResponse.data.users);
+        // 花種類
+        const FlowersResponse = await apiAdminGetFlowers(jwt);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        setFlowers(FlowersResponse.data.flowers);
+
+        if (admin) SetIsManager(true);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    // 將 Users 的 createdAt 字串轉換為日期物件
+    const usersWithDate = Users.map((user: any) => ({
+      ...user,
+      createdAt: new Date(user.createdAt),
+    }));
+
+    // 過濾出日期為今天的使用者
+    const newUsers = usersWithDate.filter((user: any) => isToday(user.createdAt));
+
+    // 設定 NewUsers 的狀態為符合條件的使用者數量
+    setNewUsers(newUsers.length);
+
+    fetchData();
+  }, [Users]);
+
+  // 判斷日期是否是今天
+  const isToday = (date: Date) => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+  //TODO: UI function
+  const [activeComponent, setActiveComponent] = useState("userRecord");
+
+  const showComponent = (component: React.SetStateAction<string>) => {
+    setActiveComponent(component);
+  };
 
   return (
     <>
       {IsManager ? (
         <div className="page-container">
-          <Head>
-            <title>Page - Flower</title>
-            <meta property="og:title" content="Page - Flower" />
-          </Head>
           <div className="page-container4">
             <div className="page-container5">
-              <button className="page-button1 button">使用者記錄</button>
-              <button className="page-button2 button">花總類</button>
+              <button className="page-button1 button" onClick={() => showComponent("userRecord")}>
+                使用者記錄
+              </button>
+              <button className="page-button2 button" onClick={() => showComponent("Allflower")}>
+                花總類
+              </button>
             </div>
             <div className="page-container6">
-              <AllFlowerTypes rootClassName="component4-root-class-name"></AllFlowerTypes>
-              <UserRecord rootClassName="component5-root-class-name"></UserRecord>
+              {activeComponent === "Allflower" && (
+                <>
+                  {Flowers != null &&
+                    Flowers.map((item: any) => {
+                      const { id, name, language } = item;
+                      return (
+                        // eslint-disable-next-line react/jsx-key
+                        <AllFlowerTypes id={id} name={name} language={language} />
+                      );
+                    })}
+                </>
+              )}
+              {activeComponent === "userRecord" && (
+                <>
+                  <div className="component4-container1">
+                    <div className="component4-container2">
+                      <button className="component4-button1 button">總使用者人數：{Users.length}</button>
+                      <button className="component4-button1 button">今日加入使用者：{NewUsers}</button>
+                    </div>
+                    {Users != null &&
+                      Users.map((item: any) => {
+                        const { name, email, picture, createdAt } = item;
+                        return (
+                          // eslint-disable-next-line react/jsx-key
+                          <UserRecord name={name} email={email} picture={picture} createdAt={createdAt} />
+                        );
+                      })}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -44,30 +117,60 @@ export default function Page(props: any) {
         //FIXME: 換成使用者跑錯地方
         <p className="text-9xl">請你 go away</p>
       )}
+
+      <style jsx>
+        {`
+          .component4-container1 {
+            flex: 0 0 auto;
+            width: 995px;
+            height: 100%;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: flex-start;
+          }
+          .component4-container2 {
+            width: 100%;
+            height: 107px;
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--dl-space-space-halfunit);
+            justify-content: flex-start;
+          }
+          .component4-button {
+            width: 208px;
+            margin-left: var(--dl-space-space-halfunit);
+            margin-right: var(--dl-space-space-halfunit);
+          }
+          .component4-button1 {
+            width: 235px;
+            margin-left: var(--dl-space-space-halfunit);
+            margin-right: var(--dl-space-space-halfunit);
+          }
+        `}
+      </style>
     </>
   );
 }
 
-export const getServerSideProps = async (context: any) => {
-  const url = context.req.url.substring(1);
-  let createrData = { id: 0, name: "", address: "", email: "", picture: "", backgroundPhoto: "", admin: false };
+export const getServerSideProps = async () => {
+  // const res = await _apiCheckJwt();
+  // const jwt = res.data.jwt;
 
-  // 獲取特定使用者資料
-  await apiUserGetCreaterData(url)
-    .then(res => {
-      createrData = res.data.userdata;
-      console.log("createrData", createrData);
-    })
-    .catch(() => {
-      // 找不到使用者
-      return {
-        notFound: true,
-      };
-    });
-  try {
-    const Articles = await apiArticleGetUserAllArticle(createrData.address);
-    return { props: { createrData, Articles: Articles.data } };
-  } catch {
-    return { props: { createrData, Articles: [] } };
-  }
+  // let Users = [];
+  // let Flowers = [];
+
+  // try {
+  //   // 使用者資料
+  //   // const UsersResponse = await apiAdminGetUsers(jwt);
+  //   // Users = UsersResponse.data.users;
+  //   // 花種類
+  //   // const FlowersResponse = await apiAdminGetFlowers(jwt);
+  //   // Flowers = FlowersResponse.data.flowers;
+
+  //   // return { props: { Users, Flowers } };
+  // } catch {
+  //   // return { props: { Users, Flowers } };
+  // }
+  return { props: {} };
 };

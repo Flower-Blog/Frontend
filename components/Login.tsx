@@ -50,7 +50,7 @@ export default function Login() {
     const connect = async () => {
       //TODO: 登入狀態
       LoginFunction().then(userData => {
-        console.log("userData", userData);
+        // console.log("userData", userData);
         if (userData != null) {
           dispatch(setLogin(userData));
           const userDataF = JSON.parse(userData);
