@@ -10,8 +10,8 @@ export default function Editprofile() {
   const [email, setemail] = useState(""); // 電子信箱
   const [verificationCode, setverificationCode] = useState(""); //驗證碼
   const [introduction, setIntroduction] = useState(""); // 個人簡介
-  const [backgroundPhoto, setbackgroundPhoto] = useState(""); // 背景圖
-  const [picture, setpicture] = useState(""); // 頭像
+  const [backgroundPhoto, setbackgroundPhoto] = useState<File | null>(null); // 背景圖
+  const [picture, setpicture] = useState<File | null>(null); // 頭像
   const User = useSelector((state: any) => state.User);
   async function EditProfile() {
     let jwt = "";
@@ -23,7 +23,8 @@ export default function Editprofile() {
         console.log("成功更改");
         // setalertEditSucess(true)
       })
-      .catch(() => {
+      .catch((error: any) => {
+        console.log(error);
         console.log("失敗更改");
         // setalertEditFail(true)
       });
@@ -64,43 +65,39 @@ export default function Editprofile() {
   const [previewPicture, setPreviewPicture] = useState(User.profile.picture);
   function pictureChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files && event.target.files[0];
-
-    // 讀取文件
-    // console.log("取得 file 資料");
-    console.log("filepppppppppp", file);
-
     const reader = new FileReader();
     if (file == null) {
       return "pic is null.";
     }
+
+    console.log(file);
+    // 設置 picture
+    setpicture(file);
+
     reader.readAsDataURL(file);
     // 當文件讀取完成時
     reader.onload = () => {
       // 將 Base64 字符串設置為圖像 URL
       const log = reader.result;
-      setpicture(log as string);
       setPreviewPicture(log as string);
     };
   }
   const [previewBackgroundPhoto, setPreviewBackgroundPhoto] = useState(User.profile.backgroundPhoto);
   function backgroundChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files && event.target.files[0];
-
-    // 讀取文件
-    // console.log("取得 file 資料");
-    console.log("filefilefilefilefilefile", file);
-
     const reader = new FileReader();
     if (file == null) {
       return "pic is null.";
     }
+
+    // 設置 backgroundPhoto
+    setbackgroundPhoto(file);
+
     reader.readAsDataURL(file);
     // 當文件讀取完成時
     reader.onload = () => {
       // 將 Base64 字符串設置為圖像 URL
       const log = reader.result;
-      setbackgroundPhoto(log as string);
-      // console.log("backgroundPhoto", backgroundPhoto);
       setPreviewBackgroundPhoto(log as string);
     };
   }
@@ -143,7 +140,7 @@ export default function Editprofile() {
           </div>
           <div className="component6-container04">
             <label htmlFor="pictureInput" className="custom-file-input mx-2">
-              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换背景</span>
+              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换頭像</span>
               <input type="file" id="pictureInput" onChange={pictureChange} className="hidden" />
               {/* <input type="file" onChange={(result: any) => setpicture(result.info.url)} /> */}
             </label>
