@@ -283,7 +283,7 @@ export default function Login() {
             {IsManager ? (
               <MenuItem onClick={() => setAnchorElUser(null)}>
                 <Typography textAlign="center">
-                  <a href="./backstage">管理後台</a>
+                  <a href={"/" + User.profile.name + "/backstage"}>管理後台</a>
                 </Typography>
               </MenuItem>
             ) : null}

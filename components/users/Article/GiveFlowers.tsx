@@ -1,30 +1,92 @@
-import PropTypes from "prop-types";
-import React from "react";
+// import ErrorAlert from "@/components/alert/Error";
+// import SucessAlert from "@/components/alert/Sucess";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+// 送花api import { apiArticlePostflower } from "./api";
+// import { useSelector } from "react-redux";
 
-const ChooseFlower = (props: any) => {
+interface Flower {
+  id: number;
+  name: string;
+  language: string;
+  img: string;
+}
+
+export default function GiveFlowers(props: any) {
+  // TODO: Handle funtion
+  // const Creater = useSelector((state: any) => state.Creater);
+  // const User = useSelector((state: any) => state.User);
+  const [flowers, setFlowers] = useState<Flower[]>([]);
+  const [selectedFlowerId, setSelectedFlowerId] = useState<number>(0);
+
+  useEffect(() => {
+    fetch("/api/flower/flower")
+      .then(res => res.json())
+      .then(data => setFlowers(data));
+  }, []);
+
+  const handleFlowerClick = (flowerId: number) => {
+    setSelectedFlowerId(flowerId);
+  };
+
+  const handleConfirmClick = () => {
+    setOpen(false);
+  };
+
+  // TODO: UI funtion
+  const [open, setOpen] = useState(false);
+  const [maxWidth] = useState<DialogProps["maxWidth"]>("md");
+  // const [flowerId, setflowerId] = useState(0);
+  // const [success, setSuccess] = useState(false);
+  // const [error, setFailure] = useState(false);
   return (
     <>
-      <div className="component2-container">
-        <div className="component2-container1">
-          <div className="component2-container2">
-            <h1 className="component2-text">{props.heading1}</h1>
-            <h1 className="component2-text1">{props.heading2}</h1>
-            <h1 className="component2-text2">{props.heading}</h1>
-          </div>
-          <form className="component2-form">
-            <div className="component2-container3">
-              <div className="component2-container4">
-                <img alt={props.image_alt1} src={props.image_src1} className="component2-image" />
-                <img alt={props.image_alt2} src={props.image_src2} className="component2-image1" />
-                <img alt={props.image_alt3} src={props.image_src3} className="component2-image2" />
+      <button onClick={() => setOpen(true)}>
+        <Image
+          alt="pastedImage"
+          src="/playground_assets/pastedimage-p02-200h.png"
+          className="page1-pasted-image1"
+          width={38}
+          height={35}
+        />
+      </button>
+      <Dialog
+        maxWidth={maxWidth}
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="responsive-dialog-title"
+        className="fixed h-screen w-screen "
+      >
+        <div className="component2-container">
+          <div className="component2-container1">
+            <div className="component2-container2">
+              <h1 className="component2-text">贈送對象：{props.createname}</h1>
+              <h1 className="component2-text1">贈送文章：{props.title}</h1>
+              <h1 className="component2-text2">選擇一種來贈送花</h1>
+            </div>
+            <div className="component2-form">
+              <div className="component2-container3">
+                <div className="component2-container4">
+                  {flowers.map(flower => (
+                    <button
+                      className="focus:ring-red-500 focus:outline-none focus:ring-4"
+                      key={flower.id}
+                      onClick={() => handleFlowerClick(flower.id)}
+                    >
+                      <img alt="" src={flower.img} className="component3-image" />
+                    </button>
+                  ))}
+                </div>
+                你選擇了 {selectedFlowerId}
               </div>
-              <button className="component2-button button">
-                <span className="component2-text3">{props.text1}</span>
+              <button className="component2-button button" onClick={handleConfirmClick}>
+                送出
               </button>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </Dialog>
       <style jsx>
         {`
           .component2-container {
@@ -126,44 +188,28 @@ const ChooseFlower = (props: any) => {
       </style>
     </>
   );
-};
+}
 
-ChooseFlower.defaultProps = {
-  button: "發送驗證碼\n",
-  heading2: "贈送文章：我的狗狗",
-  textinput_placeholder1: "填入驗證碼",
-  image_alt: "image",
-  text: "0x4202043D9ff98a4e8C64b075dBF4Cb3eE5EfF528",
-  heading1: "贈送對象：BT21_RJ012525",
-  heading: "選擇一種來贈送花",
-  image_alt2: "image",
-  image_src2: "/playground_assets/flower11-400h.png",
-  image_alt3: "image",
-  image_src3: "/playground_assets/flower3-400h.png",
-  image_src1: "/playground_assets/flower2-400h.png",
-  image_alt1: "image",
-  image_src: "9df73fca-96b0-4d6b-b080-4471a4352ebb",
-  textinput_placeholder: "填入信箱",
-  text1: "送出",
-};
+// export const getServerSideProps = async (context: any) => {
+//   const url = context.req.url.substring(1);
+//   let createrData = { id: 0, name: "", address: "", email: "", picture: "", backgroundPhoto: "" };
 
-ChooseFlower.propTypes = {
-  button: PropTypes.string,
-  heading2: PropTypes.string,
-  textinput_placeholder1: PropTypes.string,
-  image_alt: PropTypes.string,
-  text: PropTypes.string,
-  heading1: PropTypes.string,
-  heading: PropTypes.string,
-  image_alt2: PropTypes.string,
-  image_src2: PropTypes.string,
-  image_alt3: PropTypes.string,
-  image_src3: PropTypes.string,
-  image_src1: PropTypes.string,
-  image_alt1: PropTypes.string,
-  image_src: PropTypes.string,
-  textinput_placeholder: PropTypes.string,
-  text1: PropTypes.string,
-};
-
-export default ChooseFlower;
+//   // 查詢創作者資料
+//   await apiUserGetCreaterData(url)
+//     .then(res => {
+//       createrData = res.data.userdata;
+//     })
+//     .catch(() => {
+//       // 找不到使用者
+//       return {
+//         notFound: true,
+//       };
+//     });
+//   try {
+//     const NewArticles = await apiArticleGetUserAllNewArticle(createrData.address);
+//     const HotArticles = await apiArticleGetUserAllHotArticle(createrData.address);
+//     return { props: { createrData, HotArticles: HotArticles.data.articles, NewArticles: NewArticles.data.articles } };
+//   } catch {
+//     return { props: { createrData, HotArticles: null, NewArticles: null } };
+//   }
+// };

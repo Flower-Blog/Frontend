@@ -3,9 +3,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { apiArticleGetUserAllArticle, apiUserGetCreaterData } from "@/components/api";
+import {
+  apiArticleGetUserAllHotArticle,
+  apiArticleGetUserAllNewArticle,
+  apiUserGetCreaterData,
+} from "@/components/api";
 import RightSidebar from "@/components/home/RightSidebar";
-import SigngleArticle from "@/components/SigngleArticle";
+import ArticleItem from "@/components/users/Article/ArticleItem";
 import Editprofile from "@/components/users/EditProfile";
 import FlowerRecord from "@/components/users/page-nav/FlowerRecord";
 import MyFlowers from "@/components/users/page-nav/MyFlowers";
@@ -22,11 +26,12 @@ export default function Userindex(props: any) {
     dispatch(update(JSON.stringify(props.createrData)));
   }, [User.profile.name, dispatch, props.IsCreater, props.createrData]);
   //TODO: UI function
-  const [activeComponent, setActiveComponent] = useState("myArticle");
+  const [activeComponent, setActiveComponent] = useState("newArticle");
 
   const showComponent = (component: React.SetStateAction<string>) => {
     setActiveComponent(component);
   };
+
   return (
     <>
       <div className="personalprivate-container">
@@ -66,8 +71,11 @@ export default function Userindex(props: any) {
         </section>
         <section className="personalprivate-collection">
           <div className="personalprivate-container12">
-            <button className="personalprivate-button2 button" onClick={() => showComponent("myArticle")}>
-              個人文章
+            <button className="personalprivate-button2 button" onClick={() => showComponent("newArticle")}>
+              最新
+            </button>
+            <button className="personalprivate-button2 button" onClick={() => showComponent("hotArticle")}>
+              熱門
             </button>
             {IsPrivate ? (
               <button className="personalprivate-button3 button" onClick={() => showComponent("flowerRecord")}>
@@ -80,16 +88,42 @@ export default function Userindex(props: any) {
           </div>
           {activeComponent === "flowerRecord" && <FlowerRecord></FlowerRecord>}
           <div className="home-container05">
-            {activeComponent === "myArticle" && (
+            {activeComponent === "newArticle" && (
               <div className="personalpublic-container14">
                 <div className="personalpublic-blog">
                   <div className="personalpublic-container15 w-full">
-                    {props.Articles != null &&
-                      props.Articles.map((item: any) => {
+                    {props.NewArticles != null &&
+                      props.NewArticles.map((item: any) => {
                         const { id, title, subStandard, contents, flowerCount, updatedAt } = item;
                         return (
-                          // eslint-disable-next-line react/jsx-key
-                          <SigngleArticle
+                          <ArticleItem
+                            key={id}
+                            id={id}
+                            name={props.createrData.name}
+                            title={title}
+                            subStandard={subStandard}
+                            contents={contents}
+                            flowerCount={flowerCount}
+                            updatedAt={updatedAt}
+                            picture={props.createrData.picture}
+                            IsPrivate={IsPrivate}
+                          />
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+            )}
+            {activeComponent === "hotArticle" && (
+              <div className="personalpublic-container14">
+                <div className="personalpublic-blog">
+                  <div className="personalpublic-container15 w-full">
+                    {props.HotArticles != null &&
+                      props.HotArticles.map((item: any) => {
+                        const { id, title, subStandard, contents, flowerCount, updatedAt } = item;
+                        return (
+                          <ArticleItem
+                            key={id}
                             id={id}
                             name={props.createrData.name}
                             title={title}
@@ -131,9 +165,10 @@ export const getServerSideProps = async (context: any) => {
       };
     });
   try {
-    const Articles = await apiArticleGetUserAllArticle(createrData.address);
-    return { props: { createrData, Articles: Articles.data.articles } };
+    const NewArticles = await apiArticleGetUserAllNewArticle(createrData.address);
+    const HotArticles = await apiArticleGetUserAllHotArticle(createrData.address);
+    return { props: { createrData, HotArticles: HotArticles.data.articles, NewArticles: NewArticles.data.articles } };
   } catch {
-    return { props: { createrData, Articles: null } };
+    return { props: { createrData, HotArticles: null, NewArticles: null } };
   }
 };

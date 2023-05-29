@@ -1,14 +1,13 @@
-import PropTypes from "prop-types";
 import React from "react";
 
-const Comment = (props: any) => {
+const Comment = () => {
   return (
     <>
-      <div className={`comment-container ${props.rootClassName} `}>
+      <div className="mb-1">
         <div className="comment-container1">
-          <img alt={props.image_alt} src={props.image_src} loading="lazy" className="comment-image" />
+          <img alt="not found pic" src="{props.picture}" loading="lazy" className="comment-image" />
           <textarea placeholder="輸入留言" className="comment-textarea textarea"></textarea>
-          <button className="comment-button button">{props.button}</button>
+          <button className="comment-button button">留言</button>
         </div>
       </div>
       <style jsx>
@@ -50,22 +49,6 @@ const Comment = (props: any) => {
       </style>
     </>
   );
-};
-
-Comment.defaultProps = {
-  rootClassName: "",
-  image_alt: "image",
-  textarea_placeholder: "placeholder",
-  image_src: "https://pbs.twimg.com/ext_tw_video_thumb/1148064582071545858/pu/img/-asywjIzDbmCV3WS.jpg:large",
-  button: "留言",
-};
-
-Comment.propTypes = {
-  rootClassName: PropTypes.string,
-  image_alt: PropTypes.string,
-  textarea_placeholder: PropTypes.string,
-  image_src: PropTypes.string,
-  button: PropTypes.string,
 };
 
 export default Comment;

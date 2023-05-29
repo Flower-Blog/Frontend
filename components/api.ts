@@ -95,7 +95,10 @@ export const apiAutGethEmail = (email: any, verificationCode: any) =>
 // TODO: Article相關的 api
 
 // 取得所有文章(最新)
-export const apiArticleGetAllArticle = () => articleRequest.get("/", config);
+export const apiArticleGetAllNewArticle = () => articleRequest.get("/new", config);
+
+// 取得所有文章(最熱門)
+export const apiArticleGetAllHotArticle = () => articleRequest.get("/hot", config);
 
 // 創建個人文章
 export const apiArticleCreate = (jwt: string, data: any) =>
@@ -106,7 +109,10 @@ export const apiArticleCreate = (jwt: string, data: any) =>
   });
 
 // 取得個人所有文章(最新)
-export const apiArticleGetUserAllArticle = (address: any) => articleRequest.get(`/user/${address}`, config);
+export const apiArticleGetUserAllNewArticle = (address: any) => articleRequest.get(`/user/${address}/new`, config);
+
+// 取得個人所有文章(最熱門)
+export const apiArticleGetUserAllHotArticle = (address: any) => articleRequest.get(`/user/${address}/hot`, config);
 
 // 取得單一文章
 export const apiArticleGetArticle = (id: string) => articleRequest.get(`/${id}`, config);
@@ -128,9 +134,11 @@ export const apiArticleDelete = (jwt: string, id: string) =>
   });
 
 // 送花
-export const apiArticlePostflower = () =>
+export const apiArticlePostflower = (jwt: string) =>
   articleRequest.post(`/flower`, {
-    config,
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
   });
 
 // TODO: Comment相關的 api

@@ -4,21 +4,21 @@ import React from "react";
 const AllComment = (props: any) => {
   return (
     <>
-      <div className={`comments1-container ${props.rootClassName} `}>
+      <div className="my-3">
         <div className="comments1-container1">
           <div className="comments1-container2">
             <div className="comments1-container3">
-              <img alt={props.image_alt} src={props.image_src} loading="lazy" className="comments1-image" />
+              <img alt="not found pic" src="${props.userdata.picture}" loading="lazy" className="comments1-image" />
               <div className="comments1-container4">
-                <span className="comments1-text">{props.text}</span>
+                <span className="comments1-text">${props.contents}</span>
               </div>
-              <button className="comments1-button button">{props.button}</button>
+              <button className="comments1-button button">讚</button>
             </div>
             <div className="comments1-container5">
-              <span>{props.text2}</span>
+              <span>${props.createdAt}</span>
               <div className="comments1-container6">
-                <img alt={props.pastedImage_alt} src={props.pastedImage_src} className="comments1-pasted-image" />
-                <span className="comments1-text2">{props.text1}</span>
+                <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
+                <span className="comments1-text2">${props.likes}</span>
               </div>
             </div>
           </div>
@@ -114,12 +114,12 @@ const AllComment = (props: any) => {
 
 AllComment.defaultProps = {
   pastedImage_src: "/playground_assets/pastedimage-uw-200h.png",
-  button: "讚",
+  button: "",
   rootClassName: "",
   text2: "202304/04 17:15",
   pastedImage_alt: "pastedImage",
   image_src: "https://pbs.twimg.com/ext_tw_video_thumb/1148064582071545858/pu/img/-asywjIzDbmCV3WS.jpg:large",
-  text: "笑死，我家狗狗也差不多",
+  text: "",
   text1: "12",
   image_alt: "image",
 };
