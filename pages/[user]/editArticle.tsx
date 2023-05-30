@@ -16,13 +16,13 @@ export default function EditArticle() {
     const data = { title: editTitle, subStandard: editSubStandard, contents: editContents };
     apiArticleEdit(jwt, articleId, data)
       .then(() => {
-        //新增 alert
+        //FIXME: 新增 alert
         console.log("成功編輯文章");
         router.push(`/${name}/${editTitle}`); //回到個人頁面
         // setalertSucessAlert(true);
       })
       .catch(() => {
-        //新增 alert
+        //FIXME: 新增 alert
         console.log("失敗編輯文章");
         // setalertErrorAlert(true);
       });
