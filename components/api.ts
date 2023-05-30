@@ -116,7 +116,7 @@ export const apiArticleGetUserAllNewArticle = (address: any) => articleRequest.g
 export const apiArticleGetUserAllHotArticle = (address: any) => articleRequest.get(`/user/${address}/hot`, config);
 
 // 取得單一文章
-export const apiArticleGetArticle = (id: string) => articleRequest.get(`/${id}`, config);
+export const apiArticleGetArticle = (id: any) => articleRequest.get(`/${id}`, config);
 
 // 編輯個人文章
 export const apiArticleEdit = (jwt: string, id: string, data: any) =>
