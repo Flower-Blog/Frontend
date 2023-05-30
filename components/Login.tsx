@@ -20,6 +20,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 
+import ErrorAlert from "@/components/alert/Error";
+import SucessAlert from "@/components/alert/Success";
 import { LoginFunction } from "@/helper/users/loginFuction";
 import { setLogin, setLogout } from "@/store/UserSlice";
 
@@ -147,14 +149,12 @@ export default function Login() {
     //先檢查信箱
     apiUserGetEmail(email)
       .then(() => {
-        //確認無誤後發送信箱
-        //FIXME: 需要 Alert
-        console.log("信箱確認");
+        <Alert>信箱確認</Alert>;
       })
       .catch((error: any) => {
         if (error.response && error.response.data.error) {
           const errorMess = error.response.data.error;
-          //FIXME: 需要 Alert 或是寫到輸入框裡
+          <Alert>errorMess</Alert>;
           console.log(errorMess);
         }
       });
@@ -164,22 +164,19 @@ export default function Login() {
     //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
-        //FIXME: 需要 Alert
-        console.log("電子郵件驗證碼正確");
+        setSuccess(true);
         registerSetOpen(false);
         registerSetOpen3(true);
       })
-      .catch((error: any) => {
-        //FIXME: 需要 Alert 或是寫到輸入框裡
-        console.log(error);
+      .catch(() => {
+        setError(true);
       });
   }
 
   function Register() {
     apiUserGetName(username)
       .then(() => {
-        //FIXME: 需要 Alert
-        console.log("名稱確認");
+        <Alert>名稱正確</Alert>;
         const data = { address, name: username, email, flowerId: selectedFlowerId };
         apiUserRegister(data)
           .then(() => {
@@ -200,8 +197,7 @@ export default function Login() {
           });
       })
       .catch(() => {
-        //FIXME: 需要 Alert
-        console.log("名稱錯誤");
+        <Alert>名稱錯誤</Alert>;
       });
   }
 
@@ -214,6 +210,8 @@ export default function Login() {
   const [errorMessageUsername, seterrorMessageUsername] = useState("");
   const [errorMessageEmail, seterrorMessageEmail] = useState("");
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [success, setSuccess] = useState(false);
+  const [Error, setError] = useState(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -366,6 +364,8 @@ export default function Login() {
                 </Button>
               </div>
             </div>
+            {success && <SucessAlert message={`驗證成功`} />}
+            {Error && <ErrorAlert message={`驗證失敗`} />}
           </DialogContent>
 
           <button className="page2-button1 button" onClick={checkVerificationCode}>
