@@ -62,6 +62,7 @@ export const apiUserEditProfile = (jwt: string, data: any) =>
   userRequest.patch("/", data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -122,6 +123,7 @@ export const apiArticleEdit = (jwt: string, id: string, data: any) =>
   articleRequest.patch(`/${id}`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 

@@ -33,7 +33,7 @@ export default function Article(props: any) {
                 <img alt="image" src="{props.article.user.picture}" loading="lazy" className="page1-image2" />
               </div>
               <div className="page1-container09 ml-2">
-                <h1 className="page1-text14">${props.article.user}</h1>
+                <h1 className="page1-text14">{props.article.user}</h1>
                 <div>{props.article.updateAt}</div>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default function Article(props: any) {
                   <div>{props.article.FlowerCount}</div>
                 </div>
               </div>
-              <CreateComment userame={User.profile.name} picture={User.profile.picture} />
+              <CreateComment />
               <AllComment />
               <AllComment />
             </div>

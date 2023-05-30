@@ -32,7 +32,7 @@ export default function SigngleArticle(props: any) {
   const [success, setSuccess] = useState(false);
   const [Error, setError] = useState(false);
 
-  console.log("props.idprops.id", props.id);
+  // console.log("props.idprops.id", props.id);
 
   return (
     <>

@@ -6,29 +6,38 @@ import { _apiCheckJwt, apiAutGethEmail, apiUserEditProfile, apiUserGetEmail } fr
 
 export default function Editprofile() {
   // TODO: Handle funtion
-  const [name, setName] = useState(""); // 使用者名稱
-  const [email, setemail] = useState(""); // 電子信箱
-  const [verificationCode, setverificationCode] = useState(""); //驗證碼
-  const [introduction, setIntroduction] = useState(""); // 個人簡介
-  const [backgroundPhoto, setbackgroundPhoto] = useState<File | null>(null); // 背景圖
-  const [picture, setpicture] = useState<File | null>(null); // 頭像
   const User = useSelector((state: any) => state.User);
+  const [name, setName] = useState(User.profile.name); // 使用者名稱
+  const [email, setemail] = useState(User.profile.email); // 電子信箱
+  const [verificationCode, setverificationCode] = useState(""); //驗證碼
+  const [IsverificationCode, setIsverificationCode] = useState(false); //驗證碼
+  const [introduction, setIntroduction] = useState(User.profile.introduction); // 個人簡介
+  const [backgroundPhoto, setbackgroundPhoto] = useState<File | null>(User.profile.backgroundPhoto); // 背景圖
+  const [picture, setpicture] = useState<File | null>(User.profile.picture); // 頭像
   async function EditProfile() {
-    let jwt = "";
-    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
-    const data = { name, email, introduction, backgroundPhoto, picture };
-    console.log(data);
-    apiUserEditProfile(jwt, data)
-      .then(() => {
-        console.log("成功更改");
-        // setalertEditSucess(true)
-      })
-      .catch((error: any) => {
-        console.log(error);
-        console.log("失敗更改");
-        // setalertEditFail(true)
-      });
-    setOpen(false);
+    if (IsverificationCode) {
+      const formData = new FormData();
+      if (backgroundPhoto) formData.append("backgroundPhoto", backgroundPhoto);
+      if (picture) formData.append("picture", picture);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("introduction", introduction);
+      let jwt = "";
+      await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+      const data = { name, email, introduction, backgroundPhoto, picture };
+      console.log(data);
+      apiUserEditProfile(jwt, data)
+        .then(() => {
+          console.log("成功更改");
+          // setalertEditSucess(true)
+        })
+        .catch((error: any) => {
+          console.log(error);
+          console.log("失敗更改");
+          // setalertEditFail(true)
+        });
+      setOpen(false);
+    }
   }
 
   function sendVerificationCode() {
@@ -53,17 +62,20 @@ export default function Editprofile() {
       apiAutGethEmail(email, verificationCode)
         .then(() => {
           //需要alert
+          setIsverificationCode(true);
           console.log("驗證碼正確");
         })
         .catch((error: any) => {
           console.log(error);
+          setIsverificationCode(false);
+          console.log("驗證碼錯誤");
         });
     }
   }
 
   //TODO: 處理圖像
   const [previewPicture, setPreviewPicture] = useState(User.profile.picture);
-  function pictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function pictureChange(event: any) {
     const file = event.target.files && event.target.files[0];
     const reader = new FileReader();
     if (file == null) {
@@ -78,12 +90,11 @@ export default function Editprofile() {
     // 當文件讀取完成時
     reader.onload = () => {
       // 將 Base64 字符串設置為圖像 URL
-      const log = reader.result;
-      setPreviewPicture(log as string);
+      setPreviewPicture(User.profile.backgroundPhoto);
     };
   }
   const [previewBackgroundPhoto, setPreviewBackgroundPhoto] = useState(User.profile.backgroundPhoto);
-  function backgroundChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function backgroundChange(event: any) {
     const file = event.target.files && event.target.files[0];
     const reader = new FileReader();
     if (file == null) {

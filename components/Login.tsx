@@ -74,16 +74,19 @@ export default function Login() {
     connect();
   }, [dispatch]);
 
+  //拿取flower假資料
   useEffect(() => {
     fetch("/api/flower/flower")
       .then(res => res.json())
       .then(data => setFlowers(data));
   }, []);
 
+  //選擇花
   const handleFlowerClick = (flowerId: number) => {
     setSelectedFlowerId(flowerId);
   };
 
+  //選擇完後確認到第三步註冊
   const handleConfirmClick = () => {
     registerSetOpen3(false);
     registerSetOpen2(true);
