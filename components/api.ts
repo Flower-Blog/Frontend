@@ -123,6 +123,7 @@ export const apiArticleEdit = (jwt: string, id: any, data: any) =>
   articleRequest.patch(`/${id}`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
