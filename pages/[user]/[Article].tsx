@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { apiArticleGetArticle } from "@/components/api";
@@ -12,7 +12,6 @@ export default function Article(props: any) {
   // TODO: Handle funtion
   const dispatch = useDispatch();
   const User = useSelector((state: any) => state.User);
-  const [arl, setarl] = useState("");
   // console.log("UserUserUser", User);
   // console.log("UserUserUser", props.article);
   // console.log("commentcomment", props.createrData);
@@ -20,10 +19,6 @@ export default function Article(props: any) {
   useEffect(() => {
     // TODO: 文章創作者資料
     dispatch(update(JSON.stringify(props.createrData)));
-
-    apiArticleGetArticle(2).then((res: any) => {
-      setarl(JSON.stringify(res.data.article.title));
-    });
   }, [dispatch, props.createrData]);
 
   // TODO: UI funtion
@@ -34,7 +29,7 @@ export default function Article(props: any) {
         <div className="page1-container04">
           <div className="page1-container05 py-2">
             <div className="page1-container06">
-              <h1 className="page1-text13">{arl}</h1>
+              <h1 className="page1-text13">{props.article.title}</h1>
             </div>
             <div className="page1-container07">
               <div className="page1-container08">
@@ -72,12 +67,14 @@ export default function Article(props: any) {
 
 export const getServerSideProps = async (context: any) => {
   // 取得單一文章
-  const ArticleUrl = context.req.url.split("/")[2];
+  const parts = context.req.url.split("/");
+  const number: number = parseInt(parts[parts.length - 1]);
   let createrData = { id: 0, username: "", address: "", email: "", picture: "" };
   let article = { id: 0, title: "", subStandard: "", contents: "", FlowerCount: "", updateAt: "" };
   let comment = { id: 8, contents: "", likes: 0, createdAt: "", userdata: [] };
-  console.log("ArticleUrlArticleUrl", ArticleUrl);
-  await apiArticleGetArticle(ArticleUrl)
+  console.log(typeof number);
+  console.log(number);
+  await apiArticleGetArticle(number)
     .then(async res => {
       const { id, title, subStandard, contents, FlowerCount, updateAt, comments, userdata } = res.data.articles;
       createrData = userdata;
@@ -91,10 +88,11 @@ export const getServerSideProps = async (context: any) => {
         updateAt,
       };
       article = resarticle;
-      console.log("titletitletitletitle", title);
-      console.log("articlearticlearticle", article);
+      console.log("articlearticlearticle", article.title);
     })
-    .catch(() => {
+    .catch((error: any) => {
+      console.log("error.responseerror.response", error.response);
+      console.log("articleartic錯誤");
       return {
         notFound: true,
       };
