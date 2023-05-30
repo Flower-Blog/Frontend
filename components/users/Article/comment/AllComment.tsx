@@ -8,7 +8,10 @@ const AllComment = (props: any) => {
         <div className="comments1-container1">
           <div className="comments1-container2">
             <div className="comments1-container3">
-              <img alt="not found pic" src="${props.userdata.picture}" loading="lazy" className="comments1-image" />
+              <div className="flex flex-col">
+                <img alt="not found pic" src="${props.userdata.picture}" loading="lazy" className="comments1-image" />
+                <p className="text-center">${props.name}</p>
+              </div>
               <div className="comments1-container4">
                 <span className="comments1-text">${props.contents}</span>
               </div>

@@ -12,6 +12,9 @@ export default function Article(props: any) {
   // TODO: Handle funtion
   const dispatch = useDispatch();
   const User = useSelector((state: any) => state.User);
+  // console.log("UserUserUser", User);
+  // console.log("UserUserUser", props.article);
+  // console.log("commentcomment", props.createrData);
 
   useEffect(() => {
     // TODO: 文章創作者資料
@@ -26,14 +29,14 @@ export default function Article(props: any) {
         <div className="page1-container04">
           <div className="page1-container05 py-2">
             <div className="page1-container06">
-              <h1 className="page1-text13">{props.article.title}</h1>
+              <h1 className="page1-text13">{props.title}</h1>
             </div>
             <div className="page1-container07">
               <div className="page1-container08">
-                <img alt="image" src="{props.article.user.picture}" loading="lazy" className="page1-image2" />
+                <img alt="image" src="{props.article.userData.picture}" loading="lazy" className="page1-image2" />
               </div>
               <div className="page1-container09 ml-2">
-                <h1 className="page1-text14">{props.article.user}</h1>
+                <h1 className="page1-text14">${props.article.userData}</h1>
                 <div>{props.article.updateAt}</div>
               </div>
             </div>
@@ -51,7 +54,7 @@ export default function Article(props: any) {
                   <div>{props.article.FlowerCount}</div>
                 </div>
               </div>
-              <CreateComment />
+              <CreateComment name={User.profile.name} picture={User.profile.picture}></CreateComment>
               <AllComment />
               <AllComment />
             </div>
@@ -68,12 +71,11 @@ export const getServerSideProps = async (context: any) => {
   let createrData = { id: 0, username: "", address: "", email: "", picture: "" };
   let article = { id: 0, title: "", subStandard: "", contents: "", FlowerCount: "", updateAt: "" };
   let comment = { id: 8, contents: "", likes: 0, createdAt: "", userdata: [] };
-  // let createrData = { name: "", picture: ""};
-
+  console.log("ArticleUrlArticleUrl", ArticleUrl);
   await apiArticleGetArticle(ArticleUrl)
     .then(async res => {
-      const { id, title, subStandard, contents, FlowerCount, updateAt, comments, user } = res.data.articles;
-      createrData = user;
+      const { id, title, subStandard, contents, FlowerCount, updateAt, comments, userdata } = res.data.articles;
+      createrData = userdata;
       comment = comments;
       const resarticle = {
         id,
@@ -84,6 +86,8 @@ export const getServerSideProps = async (context: any) => {
         updateAt,
       };
       article = resarticle;
+      console.log("titletitletitletitle", title);
+      console.log("articlearticlearticle", article);
     })
     .catch(() => {
       return {

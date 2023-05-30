@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import ErrorAlert from "@/components/alert/Error";
@@ -6,6 +7,7 @@ import SucessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiArticleDelete } from "@/components/api";
 
 export default function SigngleArticle(props: any) {
+  const router = useRouter();
   const data = {
     name: props.name,
     id: props.id,
@@ -20,7 +22,7 @@ export default function SigngleArticle(props: any) {
       //FIXME: 需要解決 成功刪除是在 .then
       .then(() => {
         setSuccess(true);
-        window.location.reload(); // 重新整理頁面
+        router.reload(); // 重新整理頁面
       })
       .catch(() => {
         setError(true);

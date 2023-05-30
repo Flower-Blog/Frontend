@@ -15,7 +15,6 @@ import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
@@ -52,7 +51,6 @@ export default function Login() {
   const [selectedFlowerId, setSelectedFlowerId] = useState<number>(0);
   const [IsManager, setIsManager] = useState(false);
   const User = useSelector((state: any) => state.User);
-  //   const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
     const connect = async () => {
@@ -251,9 +249,9 @@ export default function Login() {
       ) : (
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton className="navbar-view2 button" onClick={e => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
+            <IconButton className="button navbar-view2" onClick={e => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
               <Avatar className="mx-1" src={`${User.profile.picture}`} alt="png" />
-              <span className="navbar-text01">{User.profile.name}</span>
+              <span className="navbar-text01 mx-2">{User.profile.name}</span>
             </IconButton>
           </Tooltip>
           <Menu

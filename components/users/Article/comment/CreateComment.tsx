@@ -1,11 +1,14 @@
 import React from "react";
 
-const Comment = () => {
+const Comment = (props: any) => {
   return (
     <>
       <div className="mb-1">
         <div className="comment-container1">
-          <img alt="not found pic" src="{props.picture}" loading="lazy" className="comment-image" />
+          <div className="flex flex-col">
+            <img alt="not found pic" src={props.picture} loading="lazy" className="comment-image" />
+            <p className="text-center">{props.name}</p>
+          </div>
           <textarea placeholder="輸入留言" className="comment-textarea textarea"></textarea>
           <button className="comment-button button">留言</button>
         </div>

@@ -391,13 +391,13 @@ export default function Navbar(props: any) {
             padding-bottom: 0px;
           }
           .navbar-view2 {
-            width: var(--dl-size-size-large);
+            width: auto;
             height: 58px;
             display: flex;
             padding: 5px;
             padding-top: 1px;
-            padding-left: 1px;
-            padding-right: 1px;
+            padding-left: 2px;
+            padding-right: 2px;
             flex-direction: row;
             padding-bottom: 1px;
             background-color: #ffcf77;
