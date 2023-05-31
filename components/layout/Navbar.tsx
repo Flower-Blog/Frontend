@@ -7,7 +7,7 @@ export default function Navbar(props: any) {
   return (
     <>
       <>
-        <header data-thq="thq-navbar" className="navbar-navbar Content">
+        <header data-thq="thq-navbar" className="navbar-navbar mx-0 mt-4 mb-2">
           <a href="./">
             <img alt={props.pastedImage_alt} src={props.pastedImage_src} className="navbar-pasted-image" />
           </a>
@@ -117,10 +117,6 @@ export default function Navbar(props: any) {
             position: relative;
             max-width: 1440px;
             align-items: center;
-            padding-top: var(--dl-space-space-threeunits);
-            padding-left: var(--dl-space-space-fiveunits);
-            padding-right: var(--dl-space-space-fiveunits);
-            padding-bottom: var(--dl-space-space-threeunits);
             justify-content: space-between;
           }
           .navbar-pasted-image {
