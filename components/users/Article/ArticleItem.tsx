@@ -19,7 +19,6 @@ export default function SigngleArticle(props: any) {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
     apiArticleDelete(jwt, id)
-      //FIXME: 需要解決 成功刪除是在 .then
       .then(() => {
         setSuccess(true);
         router.reload(); // 重新整理頁面
