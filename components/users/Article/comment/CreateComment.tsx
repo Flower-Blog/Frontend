@@ -1,18 +1,27 @@
 import React from "react";
 
 const Comment = (props: any) => {
+  console.log("props.nameprops.name", props.name);
   return (
     <>
       <div className="mb-1">
         <div className="comment-container1 grid grid-cols-6">
-          <div className="col-span-1 flex flex-col">
-            <img alt="not found pic" src={props.picture} loading="lazy" className="comment-image" />
-            <p className="text-center">{props.name}</p>
-          </div>
-          <div className="col-span-4 flex w-4/5">
-            <textarea placeholder="輸入留言" className="textarea mx-4 w-full"></textarea>
-          </div>
-          <button className="comment-button button col-span-1 px-2">留言</button>
+          {props.picture != "" && props.name != "" ? (
+            <>
+              <div className="col-span-1">
+                <img alt="not found pic" src={props.picture} loading="lazy" className="comment-image" />
+                <p className="text-center">{props.name}</p>
+              </div>
+              <div className="col-span-4 flex w-4/5">
+                <textarea placeholder="輸入留言" className="textarea mx-4 w-full"></textarea>
+              </div>
+              <button className="comment-button button col-span-1 px-2">留言</button>
+            </>
+          ) : (
+            <>
+              <p className="w-full text-center text-3xl font-bold">加入我們就可以搶先留言 !</p>
+            </>
+          )}
         </div>
       </div>
       <style jsx>

@@ -20,14 +20,16 @@ export default function GiveFlowers(props: any) {
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [selectedFlowerId, setSelectedFlowerId] = useState<number>(0);
   const [selectedFlowerName, setSelectedFlowerName] = useState("");
+  const [myFlowerCount, setMyFlowerCount] = useState<number[]>([]);
 
   useEffect(() => {
     fetch("/api/flower/flower")
       .then(res => res.json())
       .then(data => setFlowers(data));
-    apiUserGetCreaterFlower(props.username).then(() => {
-      console.log("拿到");
+    apiUserGetCreaterFlower(props.username).then((res: any) => {
+      setMyFlowerCount(res.data.flowerRecords);
     });
+    setSelectedFlowerName("");
   }, [props.username]);
 
   const handleFlowerClick = (flowerId: number, flowerName: any) => {
@@ -96,13 +98,19 @@ export default function GiveFlowers(props: any) {
               <div className="component2-container3">
                 <div className="component2-container4">
                   {flowers.map(flower => (
-                    <button
-                      className="focus:ring-red-500 focus:outline-none focus:ring-4"
-                      key={flower.id}
-                      onClick={() => handleFlowerClick(flower.id, flower.name)}
-                    >
-                      <img alt="" src={flower.img} className="component3-image" />
-                    </button>
+                    <div key={flower.id} className="flex flex-col">
+                      <button
+                        className="focus:ring-red-500 focus:outline-none focus:ring-4"
+                        onClick={() => handleFlowerClick(flower.id, flower.name)}
+                      >
+                        <img alt="" src={flower.img} className="component3-image" />
+                      </button>
+                      {myFlowerCount.map((item: any) => (
+                        <p key={item.flowerid} className="text-center text-xl font-bold">
+                          {item.flowerid === flower.id ? item.flowerCount : null}
+                        </p>
+                      ))}
+                    </div>
                   ))}
                 </div>
                 <div className="my-2 text-xl font-bold">你選擇了 {selectedFlowerName}</div>
@@ -129,6 +137,7 @@ export default function GiveFlowers(props: any) {
           }
           .component3-image {
             width: 100px;
+            height: 80px;
             object-fit: cover;
           }
           .component2-container1 {
