@@ -19,9 +19,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 
-import { LoginFunction } from "@/helper/users/loginFuction";
-import { setLogin, setLogout } from "@/store/UserSlice";
-
 import {
   _apiAuthLogin,
   _apiAuthLogout,
@@ -32,7 +29,9 @@ import {
   apiUserGetName,
   apiUserGetUserData,
   apiUserRegister,
-} from "./api";
+} from "@/components/api";
+import { LoginFunction } from "@/helper/users/loginFuction";
+import { setLogin, setLogout } from "@/store/UserSlice";
 
 interface Flower {
   id: number;
