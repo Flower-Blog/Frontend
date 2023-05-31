@@ -136,8 +136,8 @@ export const apiArticleDelete = (jwt: string, id: string) =>
   });
 
 // 送花
-export const apiArticlePostflower = (jwt: string) =>
-  articleRequest.post(`/flower`, {
+export const apiArticlePostflower = (jwt: string, data: any) =>
+  articleRequest.post(`/flower`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
     },

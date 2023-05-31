@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 const AllComment = (props: any) => {
@@ -9,19 +8,21 @@ const AllComment = (props: any) => {
           <div className="comments1-container2">
             <div className="comments1-container3">
               <div className="flex flex-col">
-                <img alt="not found pic" src="${props.userdata.picture}" loading="lazy" className="comments1-image" />
-                <p className="text-center">${props.name}</p>
+                <img alt="not found pic" src={props.picture} loading="lazy" className="comments1-image" />
+                <p className="text-center">{props.name}</p>
               </div>
               <div className="comments1-container4">
-                <span className="comments1-text">${props.contents}</span>
+                <span className="comments1-text">{props.contents}</span>
               </div>
-              <button className="comments1-button button">讚</button>
+              <button className="comments1-button button">
+                <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />讚
+              </button>
             </div>
             <div className="comments1-container5">
-              <span>${props.createdAt}</span>
+              <span>{props.createdAt.substr(0, 10)}</span>
               <div className="comments1-container6">
                 <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
-                <span className="comments1-text2">${props.likes}</span>
+                <span className="comments1-text2 px-2">{props.likes}</span>
               </div>
             </div>
           </div>
@@ -39,7 +40,7 @@ const AllComment = (props: any) => {
             flex-direction: column;
           }
           .comments1-container1 {
-            width: 1074px;
+            width: auto;
             height: 133px;
             display: flex;
             padding: var(--dl-space-space-unit);
@@ -113,30 +114,6 @@ const AllComment = (props: any) => {
       </style>
     </>
   );
-};
-
-AllComment.defaultProps = {
-  pastedImage_src: "/playground_assets/pastedimage-uw-200h.png",
-  button: "",
-  rootClassName: "",
-  text2: "202304/04 17:15",
-  pastedImage_alt: "pastedImage",
-  image_src: "https://pbs.twimg.com/ext_tw_video_thumb/1148064582071545858/pu/img/-asywjIzDbmCV3WS.jpg:large",
-  text: "",
-  text1: "12",
-  image_alt: "image",
-};
-
-AllComment.propTypes = {
-  pastedImage_src: PropTypes.string,
-  button: PropTypes.string,
-  rootClassName: PropTypes.string,
-  text2: PropTypes.string,
-  pastedImage_alt: PropTypes.string,
-  image_src: PropTypes.string,
-  text: PropTypes.string,
-  text1: PropTypes.string,
-  image_alt: PropTypes.string,
 };
 
 export default AllComment;

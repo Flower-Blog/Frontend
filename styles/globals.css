@@ -2507,7 +2507,6 @@ body::-webkit-scrollbar {
   width: 100%;
   display: flex;
   align-self: stretch;
-  align-items: flex-start;
   flex-direction: column;
 }
 .page1-container11 {
@@ -2515,7 +2514,6 @@ body::-webkit-scrollbar {
   width: 100%;
   height: auto;
   display: flex;
-  align-self: stretch;
   box-shadow: 5px 5px 0px 0px #6f6d6d;
   margin-top: 10px;
   align-items: center;
