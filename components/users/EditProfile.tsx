@@ -1,33 +1,49 @@
 import Dialog, { DialogProps } from "@mui/material/Dialog";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { _apiCheckJwt, apiAutGethEmail, apiUserEditProfile, apiUserGetEmail } from "@/components/api";
+import { update } from "@/store/CreaterSlice";
 
 export default function Editprofile() {
   // TODO: Handle funtion
-  const [name, setName] = useState(""); // 使用者名稱
-  const [email, setemail] = useState(""); // 電子信箱
-  const [verificationCode, setverificationCode] = useState(""); //驗證碼
-  const [introduction, setIntroduction] = useState(""); // 個人簡介
-  const [backgroundPhoto, setbackgroundPhoto] = useState(""); // 背景圖
-  const [picture, setpicture] = useState(""); // 頭像
+  const router = useRouter();
+  const dispatch = useDispatch();
   const User = useSelector((state: any) => state.User);
+  const [name, setName] = useState(User.profile.name); // 使用者名稱
+  const [email, setemail] = useState(User.profile.email); // 電子信箱
+  const [verificationCode, setverificationCode] = useState(""); //驗證碼
+  const [IsverificationCode, setIsverificationCode] = useState(false); //驗證碼
+  const [introduction, setIntroduction] = useState(User.profile.introduction); // 個人簡介
+  const [backgroundPhoto, setbackgroundPhoto] = useState<File | null>(User.profile.backgroundPhoto); // 背景圖
+  const [picture, setpicture] = useState<File | null>(User.profile.picture); // 頭像
   async function EditProfile() {
-    let jwt = "";
-    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
-    const data = { name, email, introduction, backgroundPhoto, picture };
-    console.log(data);
-    apiUserEditProfile(jwt, data)
-      .then(() => {
-        console.log("成功更改");
-        // setalertEditSucess(true)
-      })
-      .catch(() => {
-        console.log("失敗更改");
-        // setalertEditFail(true)
-      });
-    setOpen(false);
+    if (IsverificationCode) {
+      const formData = new FormData();
+      if (backgroundPhoto) formData.append("backgroundPhoto", backgroundPhoto);
+      if (picture) formData.append("picture", picture);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("introduction", introduction);
+      let jwt = "";
+      await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+      const data = { name, email, introduction, backgroundPhoto, picture };
+      apiUserEditProfile(jwt, data)
+        .then(() => {
+          console.log("成功更改");
+          dispatch(update(JSON.stringify(data))); // 更新 Redux Store 中的使用者
+          //FIXME: 回到個人頁面是更改後的使用者資料
+          console.log("datadatadatadata", data); //確定是最新的資料
+          router.push(`/${name}`);
+        })
+        .catch((error: any) => {
+          console.log(error);
+          console.log("失敗更改");
+        });
+      setOpen(false);
+    }
   }
 
   function sendVerificationCode() {
@@ -52,55 +68,51 @@ export default function Editprofile() {
       apiAutGethEmail(email, verificationCode)
         .then(() => {
           //需要alert
+          setIsverificationCode(true);
           console.log("驗證碼正確");
         })
         .catch((error: any) => {
           console.log(error);
+          setIsverificationCode(false);
+          console.log("驗證碼錯誤");
         });
     }
   }
 
   //TODO: 處理圖像
   const [previewPicture, setPreviewPicture] = useState(User.profile.picture);
-  function pictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function pictureChange(event: any) {
     const file = event.target.files && event.target.files[0];
-
-    // 讀取文件
-    // console.log("取得 file 資料");
-    console.log("filepppppppppp", file);
-
     const reader = new FileReader();
     if (file == null) {
       return "pic is null.";
     }
+    // 設置 picture
+    setpicture(file);
+
     reader.readAsDataURL(file);
     // 當文件讀取完成時
     reader.onload = () => {
       // 將 Base64 字符串設置為圖像 URL
       const log = reader.result;
-      setpicture(log as string);
       setPreviewPicture(log as string);
     };
   }
   const [previewBackgroundPhoto, setPreviewBackgroundPhoto] = useState(User.profile.backgroundPhoto);
-  function backgroundChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function backgroundChange(event: any) {
     const file = event.target.files && event.target.files[0];
-
-    // 讀取文件
-    // console.log("取得 file 資料");
-    console.log("filefilefilefilefilefile", file);
-
     const reader = new FileReader();
     if (file == null) {
       return "pic is null.";
     }
+
+    // 設置 backgroundPhoto
+    setbackgroundPhoto(file);
     reader.readAsDataURL(file);
     // 當文件讀取完成時
     reader.onload = () => {
       // 將 Base64 字符串設置為圖像 URL
       const log = reader.result;
-      setbackgroundPhoto(log as string);
-      // console.log("backgroundPhoto", backgroundPhoto);
       setPreviewBackgroundPhoto(log as string);
     };
   }
@@ -108,8 +120,6 @@ export default function Editprofile() {
   // TODO: UI funtion
   const [open, setOpen] = useState(false);
   const [maxWidth] = useState<DialogProps["maxWidth"]>("lg");
-  //ErrorMessage
-  // const [errorVerificationCode, setErrorVerificationCode] = useState(false);
   return (
     <>
       <button className="personalprivate-button1 button" onClick={() => setOpen(true)}>
@@ -130,7 +140,6 @@ export default function Editprofile() {
             <label htmlFor="backgroundInput" className="custom-file-input mx-2">
               <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换背景</span>
               <input type="file" id="backgroundInput" onChange={backgroundChange} className="hidden" />
-              {/* <input type="file" onChange={(result: any) => setbackgroundPhoto(result.info.url)} /> */}
             </label>
             {previewBackgroundPhoto && (
               <img
@@ -143,25 +152,18 @@ export default function Editprofile() {
           </div>
           <div className="component6-container04">
             <label htmlFor="pictureInput" className="custom-file-input mx-2">
-              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换背景</span>
+              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换頭像</span>
               <input type="file" id="pictureInput" onChange={pictureChange} className="hidden" />
-              {/* <input type="file" onChange={(result: any) => setpicture(result.info.url)} /> */}
             </label>
             {previewPicture && (
               <img src={previewPicture} loading="eager" className="component6-image1" alt="user_photo not fund" />
             )}
-            {/* <img
-              alt="user_photo not fund"
-              src={User.profile.picture}
-              //onChange={e => setpicture(e.target.value)}
-              className="component6-image1"
-            /> */}
           </div>
           <div className="component6-container06">
             <h1>信箱：</h1>
             <input
               type="text"
-              placeholder={User.profile.email}
+              placeholder="輸入信箱"
               value={email}
               onChange={e => setemail(e.target.value)}
               className="input"
@@ -185,7 +187,8 @@ export default function Editprofile() {
             <h1>名稱：</h1>
             <input
               type="text"
-              placeholder={User.profile.name}
+              placeholder="輸入名稱"
+              value={name}
               onChange={e => setName(e.target.value)}
               className="input"
             />
@@ -193,7 +196,8 @@ export default function Editprofile() {
           <div className="component6-container08">
             <h1>自介：</h1>
             <textarea
-              placeholder={User.profile.introduction}
+              placeholder="輸入自介"
+              value={introduction}
               onChange={e => setIntroduction(e.target.value)}
               className="component6-textarea textarea"
             ></textarea>

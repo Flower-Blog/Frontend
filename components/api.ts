@@ -62,6 +62,7 @@ export const apiUserEditProfile = (jwt: string, data: any) =>
   userRequest.patch("/", data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -95,7 +96,10 @@ export const apiAutGethEmail = (email: any, verificationCode: any) =>
 // TODO: Article相關的 api
 
 // 取得所有文章(最新)
-export const apiArticleGetAllArticle = () => articleRequest.get("/", config);
+export const apiArticleGetAllNewArticle = () => articleRequest.get("/new", config);
+
+// 取得所有文章(最熱門)
+export const apiArticleGetAllHotArticle = () => articleRequest.get("/hot", config);
 
 // 創建個人文章
 export const apiArticleCreate = (jwt: string, data: any) =>
@@ -106,16 +110,20 @@ export const apiArticleCreate = (jwt: string, data: any) =>
   });
 
 // 取得個人所有文章(最新)
-export const apiArticleGetUserAllArticle = (address: any) => articleRequest.get(`/user/${address}`, config);
+export const apiArticleGetUserAllNewArticle = (address: any) => articleRequest.get(`/user/${address}/new`, config);
+
+// 取得個人所有文章(最熱門)
+export const apiArticleGetUserAllHotArticle = (address: any) => articleRequest.get(`/user/${address}/hot`, config);
 
 // 取得單一文章
-export const apiArticleGetArticle = (id: string) => articleRequest.get(`/${id}`, config);
+export const apiArticleGetArticle = (id: number) => articleRequest.get(`/${id}`, config);
 
 // 編輯個人文章
 export const apiArticleEdit = (jwt: string, id: string, data: any) =>
   articleRequest.patch(`/${id}`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -128,9 +136,11 @@ export const apiArticleDelete = (jwt: string, id: string) =>
   });
 
 // 送花
-export const apiArticlePostflower = () =>
-  articleRequest.post(`/flower`, {
-    config,
+export const apiArticlePostflower = (jwt: string, data: any) =>
+  articleRequest.post(`/flower`, data, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
   });
 
 // TODO: Comment相關的 api
