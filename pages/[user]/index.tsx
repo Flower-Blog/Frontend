@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,10 +34,6 @@ export default function Userindex(props: any) {
   return (
     <>
       <div className="personalprivate-container">
-        <Head>
-          <title>personalprivate - Flower</title>
-          <meta property="og:title" content="personalprivate - Flower" />
-        </Head>
         <section className="personalprivate-description">
           <div className="personalprivate-container04">
             <div

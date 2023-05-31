@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import ErrorAlert from "@/components/alert/Error";
@@ -6,6 +7,7 @@ import SucessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiArticleDelete } from "@/components/api";
 
 export default function SigngleArticle(props: any) {
+  const router = useRouter();
   const data = {
     name: props.name,
     id: props.id,
@@ -17,10 +19,9 @@ export default function SigngleArticle(props: any) {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
     apiArticleDelete(jwt, id)
-      //FIXME: 需要解決 成功刪除是在 .then
       .then(() => {
         setSuccess(true);
-        window.location.reload(); // 重新整理頁面
+        router.reload(); // 重新整理頁面
       })
       .catch(() => {
         setError(true);
@@ -32,26 +33,36 @@ export default function SigngleArticle(props: any) {
   const [success, setSuccess] = useState(false);
   const [Error, setError] = useState(false);
 
-  console.log("props.idprops.id", props.id);
-
   return (
     <>
-      <div className="blog-post-card21-blog-post-card my-4 w-full">
-        <div className="w-full">
-          <div className="blog-post-card21-container2">
-            <h1 className="blog-post-card21-text">{props.title}</h1>
-            <span className="blog-post-card21-text1">{props.subStandard}</span>
-          </div>
-          <div className="blog-post-card21-container3">
-            <div className="blog-post-card21-profile">
-              <img alt="profile" src={props.picture} className="blog-post-card21-image1" />
-              <span className="blog-post-card21-text2 mr-3">{props.name}</span>
-              <img alt="花朵的圖片" src="/playground_assets/flower1-200h.png" className="blog-post-card21-image1" />
-              <span className="blog-post-card21-text3">{props.flowerCount}</span>
+      <Link href={"/" + props.name + "/" + props.id} className="w-full">
+        <div className="blog-post-card21-blog-post-card my-4 w-full">
+          <div className="w-full">
+            <div className="blog-post-card21-container2">
+              <h1 className="blog-post-card21-text">{props.title}</h1>
+              <span className="blog-post-card21-text1">{props.subStandard}</span>
             </div>
-            {/* FIXME: 要更改花朵圖片 */}
-            <div className="blog-post-card21-container4">
-              <span className="blog-post-card21-text3 mx-2">{props.updatedAt}</span>
+            <div className="blog-post-card21-container3">
+              <div className="blog-post-card21-profile">
+                <img alt="profile" src={props.picture} className="blog-post-card21-image1" />
+                <span className="blog-post-card21-text2 mr-3">{props.name}</span>
+                <img alt="花朵的圖片" src="/playground_assets/1rose.png" className="blog-post-card21-image1" />
+                <span className="blog-post-card21-text3">{props.flowerCount}</span>
+              </div>
+              {/* FIXME: 要更改花朵圖片 */}
+              <div className="blog-post-card21-container4">
+                <span className="blog-post-card21-text3 mx-2">{props.updatedAt}</span>
+              </div>
+              {props.IsPrivate ? (
+                <>
+                  <Link className="button" href={{ pathname: `/${props.name}/editArticle`, query: data }}>
+                    編輯
+                  </Link>
+                  <button className="comments1-button button" onClick={() => deleteArticle(props.id)}>
+                    刪除
+                  </button>
+                </>
+              ) : null}
             </div>
             {props.IsPrivate ? (
               <>
@@ -65,7 +76,7 @@ export default function SigngleArticle(props: any) {
             ) : null}
           </div>
         </div>
-      </div>
+      </Link>
       {success && <SucessAlert message={`已刪除 ${props.title}`} />}
       {Error && <ErrorAlert message={`失敗刪除 ${props.title}`} />}
       <style jsx>

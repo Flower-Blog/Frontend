@@ -1,10 +1,10 @@
-// import ErrorAlert from "@/components/alert/Error";
-// import SucessAlert from "@/components/alert/Sucess";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-// 送花api import { apiArticlePostflower } from "./api";
-// import { useSelector } from "react-redux";
+
+import ErrorAlert from "@/components/alert/Error";
+import SucessAlert from "@/components/alert/Success";
+import { _apiCheckJwt, apiArticlePostflower, apiUserGetCreaterFlower } from "@/components/api";
 
 interface Flower {
   id: number;
@@ -19,30 +19,58 @@ export default function GiveFlowers(props: any) {
   // const User = useSelector((state: any) => state.User);
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [selectedFlowerId, setSelectedFlowerId] = useState<number>(0);
+  const [selectedFlowerName, setSelectedFlowerName] = useState("");
+  const [myFlowerCount, setMyFlowerCount] = useState<number[]>([]);
 
   useEffect(() => {
     fetch("/api/flower/flower")
       .then(res => res.json())
       .then(data => setFlowers(data));
-  }, []);
+    apiUserGetCreaterFlower(props.username).then((res: any) => {
+      setMyFlowerCount(res.data.flowerRecords);
+    });
+    setSelectedFlowerName("");
+  }, [props.username]);
 
-  const handleFlowerClick = (flowerId: number) => {
+  const handleFlowerClick = (flowerId: number, flowerName: any) => {
     setSelectedFlowerId(flowerId);
+    setSelectedFlowerName(flowerName);
   };
 
-  const handleConfirmClick = () => {
-    setOpen(false);
-  };
+  async function handleConfirmClick() {
+    let jwt = "";
+    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+    const data = { flowerId: selectedFlowerId, articleId: props.id };
+    try {
+      apiArticlePostflower(jwt, data)
+        .then((res: any) => {
+          const SuccessMessage = res.data.title; //送花成功
+          setSuccessMessage(SuccessMessage);
+          setSuccess(true);
+        })
+        .catch((error: any) => {
+          const ErrorMessage = error.response; //你的花不夠
+          if (ErrorMessage !== "") {
+            setErrorMessage(ErrorMessage.data.errors);
+          } else {
+            console.log(error.response);
+          }
+          setError(true);
+        });
+      setOpen(false);
+    } catch {}
+  }
 
   // TODO: UI funtion
   const [open, setOpen] = useState(false);
   const [maxWidth] = useState<DialogProps["maxWidth"]>("md");
-  // const [flowerId, setflowerId] = useState(0);
-  // const [success, setSuccess] = useState(false);
-  // const [error, setFailure] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   return (
     <>
-      <button onClick={() => setOpen(true)}>
+      <button className="rounded-lg shadow hover:shadow-xl" onClick={() => setOpen(true)}>
         <Image
           alt="pastedImage"
           src="/playground_assets/pastedimage-p02-200h.png"
@@ -60,25 +88,31 @@ export default function GiveFlowers(props: any) {
       >
         <div className="component2-container">
           <div className="component2-container1">
-            <div className="component2-container2">
+            <div className="component2-container2 text-xl font-bold">
               <h1 className="component2-text">贈送對象：{props.createname}</h1>
-              <h1 className="component2-text1">贈送文章：{props.title}</h1>
+              <h1 className="component2-text1 mt-1">贈送文章：{props.title}</h1>
               <h1 className="component2-text2">選擇一種來贈送花</h1>
             </div>
-            <div className="component2-form">
+            <div className="component2-form flex-col">
               <div className="component2-container3">
                 <div className="component2-container4">
                   {flowers.map(flower => (
-                    <button
-                      className="focus:ring-red-500 focus:outline-none focus:ring-4"
-                      key={flower.id}
-                      onClick={() => handleFlowerClick(flower.id)}
-                    >
-                      <img alt="" src={flower.img} className="component3-image" />
-                    </button>
+                    <div key={flower.id} className="flex flex-col">
+                      <button
+                        className="focus:ring-red-500 focus:outline-none focus:ring-4"
+                        onClick={() => handleFlowerClick(flower.id, flower.name)}
+                      >
+                        <img alt="" src={flower.img} className="component3-image" />
+                      </button>
+                      {myFlowerCount.map((item: any) => (
+                        <p key={item.flowerid} className="text-center text-xl font-bold">
+                          {item.flowerid === flower.id ? item.flowerCount : null}
+                        </p>
+                      ))}
+                    </div>
                   ))}
                 </div>
-                你選擇了 {selectedFlowerId}
+                <div className="my-2 text-xl font-bold">你選擇了 {selectedFlowerName}</div>
               </div>
               <button className="component2-button button" onClick={handleConfirmClick}>
                 送出
@@ -87,6 +121,8 @@ export default function GiveFlowers(props: any) {
           </div>
         </div>
       </Dialog>
+      {success && <SucessAlert message={successMessage} />}
+      {error && <ErrorAlert message={errorMessage} />}
       <style jsx>
         {`
           .component2-container {
@@ -98,9 +134,14 @@ export default function GiveFlowers(props: any) {
             flex-direction: column;
             justify-content: center;
           }
+          .component3-image {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+          }
           .component2-container1 {
             width: 479px;
-            height: 319px;
+            height: 100%;
             display: flex;
             box-shadow: 10px 10px 0px 0px #8c8585;
             align-items: flex-start;
@@ -137,14 +178,14 @@ export default function GiveFlowers(props: any) {
           }
           .component2-form {
             width: 100%;
-            height: 347px;
+            height: 100%;
             display: flex;
             align-self: center;
           }
           .component2-container3 {
             flex: 0 0 auto;
             width: 100%;
-            height: 100%;
+            height: 80%;
             display: flex;
             align-self: stretch;
             align-items: center;
@@ -189,27 +230,3 @@ export default function GiveFlowers(props: any) {
     </>
   );
 }
-
-// export const getServerSideProps = async (context: any) => {
-//   const url = context.req.url.substring(1);
-//   let createrData = { id: 0, name: "", address: "", email: "", picture: "", backgroundPhoto: "" };
-
-//   // 查詢創作者資料
-//   await apiUserGetCreaterData(url)
-//     .then(res => {
-//       createrData = res.data.userdata;
-//     })
-//     .catch(() => {
-//       // 找不到使用者
-//       return {
-//         notFound: true,
-//       };
-//     });
-//   try {
-//     const NewArticles = await apiArticleGetUserAllNewArticle(createrData.address);
-//     const HotArticles = await apiArticleGetUserAllHotArticle(createrData.address);
-//     return { props: { createrData, HotArticles: HotArticles.data.articles, NewArticles: NewArticles.data.articles } };
-//   } catch {
-//     return { props: { createrData, HotArticles: null, NewArticles: null } };
-//   }
-// };

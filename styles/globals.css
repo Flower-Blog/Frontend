@@ -55,6 +55,7 @@ body::-webkit-scrollbar {
   display: flex;
   padding: 0.5rem 1rem;
   font-size: 18px;
+  align-items: center;
   box-shadow: 5px 6px 0px 0px #000000;
   font-style: normal;
   transition: 0.3s;
@@ -2398,7 +2399,7 @@ body::-webkit-scrollbar {
   height: var(--dl-size-size-xsmall);
 }
 .page1-container04 {
-  width: 100%;
+  width: 80%;
   height: 821px;
   display: flex;
   align-items: center;
@@ -2407,7 +2408,7 @@ body::-webkit-scrollbar {
 }
 .page1-container05 {
   flex: 0 0 auto;
-  width: auto;
+  width: 100%;
   display: flex;
   box-shadow: 10px 10px 0px 0px rgba(43, 43, 43, 0.83);
   align-items: center;
@@ -2507,7 +2508,6 @@ body::-webkit-scrollbar {
   width: 100%;
   display: flex;
   align-self: stretch;
-  align-items: flex-start;
   flex-direction: column;
 }
 .page1-container11 {
@@ -2515,7 +2515,6 @@ body::-webkit-scrollbar {
   width: 100%;
   height: auto;
   display: flex;
-  align-self: stretch;
   box-shadow: 5px 5px 0px 0px #6f6d6d;
   margin-top: 10px;
   align-items: center;
