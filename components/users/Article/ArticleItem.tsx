@@ -38,7 +38,7 @@ export default function SigngleArticle(props: any) {
 
   return (
     <>
-      <Link href={"/" + props.name + "/" + props.id}>
+      <Link href={"/" + props.name + "/" + props.id} className="w-full">
         <div className="blog-post-card21-blog-post-card my-4 w-full">
           <div className="w-full">
             <div className="blog-post-card21-container2">
