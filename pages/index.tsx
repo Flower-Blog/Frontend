@@ -2,9 +2,9 @@ import Head from "next/head";
 import React from "react";
 import { useState } from "react";
 
-import { apiArticleGetAllHotArticle, apiArticleGetAllNewArticle } from "@/components/api";
+import { apiArticleGetAllArticle } from "@/components/api";
 import RightSidebar from "@/components/home/RightSidebar";
-import ArticleItem from "@/components/users/Article/ArticleItem";
+import SigngleArticle from "@/components/SigngleArticle";
 
 import TakeTurns from "./../components/home/TakeTurns";
 
@@ -30,7 +30,10 @@ export default function Home(props: any) {
         <section className="home-collection">
           <div className="home-container04">
             <button className="home-button1 button" onClick={() => showComponent("new")}>
-              最新
+              <span>
+                <span>最新</span>
+                <br></br>
+              </span>
             </button>
             <button className="home-button2 button" onClick={() => showComponent("hot")}>
               熱門
@@ -41,12 +44,12 @@ export default function Home(props: any) {
             {activeComponent === "new" && (
               <div className="home-blog mx-2">
                 <div className="home-container06 w-full">
-                  {props.NewArticles != null &&
-                    props.NewArticles.map((item: any) => {
+                  {props.Articles != null &&
+                    props.Articles.map((item: any) => {
                       const { id, title, subStandard, updatedAt, flowerCount } = item;
                       const { name, picture } = item.userdata;
                       return (
-                        <ArticleItem
+                        <SigngleArticle
                           key={id}
                           name={name}
                           title={title}
@@ -64,22 +67,24 @@ export default function Home(props: any) {
             {activeComponent === "hot" && (
               <div className="home-blog mx-2">
                 <div className="home-container06 w-full">
-                  {props.HotArticles != null &&
-                    props.HotArticles.map((item: any) => {
-                      const { id, title, subStandard, updatedAt, flowerCount } = item;
-                      const { name, picture } = item.userdata;
-                      return (
-                        <ArticleItem
-                          key={id}
-                          name={name}
-                          title={title}
-                          subStandard={subStandard}
-                          picture={picture}
-                          flowerCount={flowerCount}
-                          updatedAt={updatedAt}
-                        />
-                      );
-                    })}
+                  {props.Articles != null &&
+                    props.Articles.slice() // 先進行陣列複製，避免修改原始陣列
+                      .sort((a: { flowerCount: number }, b: { flowerCount: number }) => b.flowerCount - a.flowerCount) // 根據 flowerCount 排序（降序）
+                      .map((item: any) => {
+                        const { id, title, subStandard, updatedAt, flowerCount } = item;
+                        const { name, picture } = item.userdata;
+                        return (
+                          <SigngleArticle
+                            key={id}
+                            name={name}
+                            title={title}
+                            subStandard={subStandard}
+                            picture={picture}
+                            flowerCount={flowerCount}
+                            updatedAt={updatedAt}
+                          />
+                        );
+                      })}
                 </div>
               </div>
             )}
@@ -92,10 +97,9 @@ export default function Home(props: any) {
 }
 export const getServerSideProps = async () => {
   try {
-    const NewArticles = await apiArticleGetAllNewArticle();
-    const HotArticles = await apiArticleGetAllHotArticle();
-    return { props: { NewArticles: NewArticles.data.articles, HotArticles: HotArticles.data.articles } };
+    const Articles = await apiArticleGetAllArticle();
+    return { props: { Articles: Articles.data.articles } };
   } catch {
-    return { props: { NewArticles: null, HotArticles: null } };
+    return { props: { Articles: null } };
   }
 };

@@ -15,9 +15,13 @@ import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
+// import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
+
+import { LoginFunction } from "@/helper/users/loginFuction";
+import { setLogin, setLogout } from "@/store/UserSlice";
 
 import {
   _apiAuthLogin,
@@ -29,9 +33,7 @@ import {
   apiUserGetName,
   apiUserGetUserData,
   apiUserRegister,
-} from "@/components/api";
-import { LoginFunction } from "@/helper/users/loginFuction";
-import { setLogin, setLogout } from "@/store/UserSlice";
+} from "./api";
 
 interface Flower {
   id: number;
@@ -50,6 +52,7 @@ export default function Login() {
   const [selectedFlowerId, setSelectedFlowerId] = useState<number>(0);
   const [IsManager, setIsManager] = useState(false);
   const User = useSelector((state: any) => state.User);
+  //   const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
     const connect = async () => {
@@ -71,19 +74,16 @@ export default function Login() {
     connect();
   }, [dispatch]);
 
-  //拿取flower假資料
   useEffect(() => {
     fetch("/api/flower/flower")
       .then(res => res.json())
       .then(data => setFlowers(data));
   }, []);
 
-  //選擇花
   const handleFlowerClick = (flowerId: number) => {
     setSelectedFlowerId(flowerId);
   };
 
-  //選擇完後確認到第三步註冊
   const handleConfirmClick = () => {
     registerSetOpen3(false);
     registerSetOpen2(true);
@@ -248,9 +248,9 @@ export default function Login() {
       ) : (
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton className="button navbar-view2" onClick={e => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
+            <IconButton className="navbar-view2 button" onClick={e => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
               <Avatar className="mx-1" src={`${User.profile.picture}`} alt="png" />
-              <span className="navbar-text01 mx-2">{User.profile.name}</span>
+              <span className="navbar-text01">{User.profile.name}</span>
             </IconButton>
           </Tooltip>
           <Menu
@@ -283,7 +283,7 @@ export default function Login() {
             {IsManager ? (
               <MenuItem onClick={() => setAnchorElUser(null)}>
                 <Typography textAlign="center">
-                  <a href={"/" + User.profile.name + "/backstage"}>管理後台</a>
+                  <a href="./backstage">管理後台</a>
                 </Typography>
               </MenuItem>
             ) : null}

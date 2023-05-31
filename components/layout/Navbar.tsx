@@ -6,8 +6,8 @@ import Login from "../Login";
 export default function Navbar(props: any) {
   return (
     <>
-      <>
-        <header data-thq="thq-navbar" className="navbar-navbar mx-0 mt-4 mb-2">
+      <div className={`navbar-container ${props.rootClassName} `}>
+        <header data-thq="thq-navbar" className="navbar-navbar Content">
           <a href="./">
             <img alt={props.pastedImage_alt} src={props.pastedImage_src} className="navbar-pasted-image" />
           </a>
@@ -100,7 +100,7 @@ export default function Navbar(props: any) {
             </div>
           </div>
         </header>
-      </>
+      </div>
       <style>
         {`
           .navbar-container {
@@ -117,6 +117,10 @@ export default function Navbar(props: any) {
             position: relative;
             max-width: 1440px;
             align-items: center;
+            padding-top: var(--dl-space-space-threeunits);
+            padding-left: var(--dl-space-space-fiveunits);
+            padding-right: var(--dl-space-space-fiveunits);
+            padding-bottom: var(--dl-space-space-threeunits);
             justify-content: space-between;
           }
           .navbar-pasted-image {
@@ -387,13 +391,13 @@ export default function Navbar(props: any) {
             padding-bottom: 0px;
           }
           .navbar-view2 {
-            width: auto;
+            width: var(--dl-size-size-large);
             height: 58px;
             display: flex;
             padding: 5px;
             padding-top: 1px;
-            padding-left: 2px;
-            padding-right: 2px;
+            padding-left: 1px;
+            padding-right: 1px;
             flex-direction: row;
             padding-bottom: 1px;
             background-color: #ffcf77;

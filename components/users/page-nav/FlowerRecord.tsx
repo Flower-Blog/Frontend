@@ -1,68 +1,22 @@
-import { title } from "process";
-import React, { useEffect, useState } from "react";
-
-import { _apiCheckJwt, apiUserGetUserData } from "@/components/api";
-
-interface receiveFlowersRecords {
-  name: string;
-  flowerId: number;
-  createdAt: string;
-}
+import PropTypes from "prop-types";
+import React from "react";
 
 const FlowerRecord = (props: any) => {
-  // TODO: Handle funcion
-  const [receiveFlowersRecords, setreceiveFlowersRecords] = useState<receiveFlowersRecords[]>([]);
-  const [flowerPic, setflowerPic] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resJwt = await _apiCheckJwt();
-        const jwt = resJwt.data.jwt;
-        const resUserData = await apiUserGetUserData(jwt);
-        const data = resUserData.data.receiveFlowersRecords;
-        // const title = resUserData.data.receiveFlowersRecords.article.title;
-        setreceiveFlowersRecords(data);
-        // 在這裡處理獲取到的資料
-      } catch (error) {
-        // 在這裡處理錯誤
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  console.log(receiveFlowersRecords);
-
-  for (let i = 0; i < receiveFlowersRecords.length; i++) {
-    flowerimg(receiveFlowersRecords[i].flowerId);
-  }
-
-  function flowerimg(id: any) {
-    if (id === 1) {
-      setflowerPic("1rose");
-    } else if (id === 2) {
-      setflowerPic("2sunflower");
-    } else if (id === 3) {
-      setflowerPic("3tulip");
-    } else if (id === 4) {
-    } else if (id === 5) {
-    } else {
-      setflowerPic("defaultFlower");
-    }
-  }
-
   return (
     <>
       <div className={`component1-container ${props.rootClassName} `}>
-        {/* {receiveFlowersRecords.article.title} */}
-        {receiveFlowersRecords.map((record, index) => (
-          <div key={index} className="component1-container1">
-            <h1 className="component1-text">
-              {record.name} 對 {title} 喜歡並贈送一朵
-            </h1>
-            <img alt="花" src={flowerPic} className="component1-image" />
-          </div>
-        ))}
+        <div className="component1-container1">
+          <h1 className="component1-text">{props.heading}</h1>
+          <img alt={props.image_alt} src={props.image_src} className="component1-image" />
+        </div>
+        <div className="component1-container2">
+          <h1 className="component1-text1">{props.heading2}</h1>
+          <img alt={props.image_alt2} src={props.image_src2} className="component1-image1" />
+        </div>
+        <div className="component1-container3">
+          <h1 className="component1-text2">{props.heading1}</h1>
+          <img alt={props.image_alt1} src={props.image_src1} className="component1-image2" />
+        </div>
       </div>
       <style jsx>
         {`
@@ -148,6 +102,32 @@ const FlowerRecord = (props: any) => {
       </style>
     </>
   );
+};
+
+FlowerRecord.defaultProps = {
+  heading: "BT21_RJ015263 對 我家狗狗 喜歡並贈送一朵",
+  rootClassName: "",
+  heading2: "BT21_RJ015263 對 花語 喜歡並贈送一朵",
+  image_alt: "image",
+  heading1: "BT21_RJ015263 對 做個人部落格(Day1) 喜歡並贈送一朵",
+  image_alt2: "image",
+  image_src2: "/playground_assets/flower1-200h.png",
+  image_src: "/playground_assets/flower1-200h.png",
+  image_src1: "/playground_assets/flower1-200h.png",
+  image_alt1: "image",
+};
+
+FlowerRecord.propTypes = {
+  heading: PropTypes.string,
+  rootClassName: PropTypes.string,
+  heading2: PropTypes.string,
+  image_alt: PropTypes.string,
+  heading1: PropTypes.string,
+  image_alt2: PropTypes.string,
+  image_src2: PropTypes.string,
+  image_src: PropTypes.string,
+  image_src1: PropTypes.string,
+  image_alt1: PropTypes.string,
 };
 
 export default FlowerRecord;
