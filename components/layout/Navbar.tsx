@@ -6,7 +6,7 @@ import Login from "../Login";
 export default function Navbar(props: any) {
   return (
     <>
-      <div className={`navbar-container ${props.rootClassName} `}>
+      <>
         <header data-thq="thq-navbar" className="navbar-navbar Content">
           <a href="./">
             <img alt={props.pastedImage_alt} src={props.pastedImage_src} className="navbar-pasted-image" />
@@ -100,7 +100,7 @@ export default function Navbar(props: any) {
             </div>
           </div>
         </header>
-      </div>
+      </>
       <style>
         {`
           .navbar-container {

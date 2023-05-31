@@ -93,14 +93,6 @@ export const getServerSideProps = async (context: any) => {
   await apiArticleGetArticle(number)
     .then(async res => {
       const { id, title, subStandard, contents, flowerCount, updatedAt, comments, userdata } = res.data.article;
-      console.log("id:", id);
-      console.log("title:", title);
-      console.log("subStandard:", subStandard);
-      console.log("contents:", contents);
-      console.log("flowerCount:", flowerCount);
-      console.log("updatedAt:", updatedAt);
-      console.log("comments:", comments);
-      console.log("userdata:", userdata);
       createrData = userdata;
       comment.push(...comments);
       const resarticle = {
@@ -112,9 +104,6 @@ export const getServerSideProps = async (context: any) => {
         updatedAt,
       };
       article = resarticle;
-      console.log("createrData:", createrData);
-      console.log("comment:", comment);
-      console.log("article:", article);
     })
     .catch((error: any) => {
       console.log("error.response", error.response);

@@ -34,8 +34,6 @@ export default function SigngleArticle(props: any) {
   const [success, setSuccess] = useState(false);
   const [Error, setError] = useState(false);
 
-  // console.log("props.idprops.id", props.id);
-
   return (
     <>
       <Link href={"/" + props.name + "/" + props.id} className="w-full">
@@ -49,7 +47,7 @@ export default function SigngleArticle(props: any) {
               <div className="blog-post-card21-profile">
                 <img alt="profile" src={props.picture} className="blog-post-card21-image1" />
                 <span className="blog-post-card21-text2 mr-3">{props.name}</span>
-                <img alt="花朵的圖片" src="/playground_assets/flower1-200h.png" className="blog-post-card21-image1" />
+                <img alt="花朵的圖片" src="/playground_assets/1rose.png" className="blog-post-card21-image1" />
                 <span className="blog-post-card21-text3">{props.flowerCount}</span>
               </div>
               {/* FIXME: 要更改花朵圖片 */}

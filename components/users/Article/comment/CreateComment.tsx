@@ -1,7 +1,6 @@
 import React from "react";
 
 const Comment = (props: any) => {
-  console.log("props.nameprops.name", props.name);
   return (
     <>
       <div className="mb-1">

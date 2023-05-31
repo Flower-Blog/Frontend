@@ -41,7 +41,6 @@ export default function GiveFlowers(props: any) {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
     const data = { flowerId: selectedFlowerId, articleId: props.id };
-    console.log(data);
     try {
       apiArticlePostflower(jwt, data)
         .then((res: any) => {
