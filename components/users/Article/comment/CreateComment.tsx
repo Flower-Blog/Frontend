@@ -4,13 +4,15 @@ const Comment = (props: any) => {
   return (
     <>
       <div className="mb-1">
-        <div className="comment-container1">
-          <div className="flex flex-col">
+        <div className="comment-container1 grid grid-cols-6">
+          <div className="col-span-1 flex flex-col">
             <img alt="not found pic" src={props.picture} loading="lazy" className="comment-image" />
             <p className="text-center">{props.name}</p>
           </div>
-          <textarea placeholder="輸入留言" className="comment-textarea textarea"></textarea>
-          <button className="comment-button button">留言</button>
+          <div className="col-span-4 flex w-4/5">
+            <textarea placeholder="輸入留言" className="textarea mx-4 w-full"></textarea>
+          </div>
+          <button className="comment-button button col-span-1 px-2">留言</button>
         </div>
       </div>
       <style jsx>
@@ -26,7 +28,7 @@ const Comment = (props: any) => {
           }
           .comment-container1 {
             flex: 0 0 auto;
-            width: 1074px;
+            width: 100%;
             height: 100px;
             display: flex;
             padding: var(--dl-space-space-unit);
@@ -43,7 +45,7 @@ const Comment = (props: any) => {
             border-radius: var(--dl-radius-radius-round);
           }
           .comment-textarea {
-            width: 862px;
+            width: 100%;
           }
           .comment-button {
             margin-left: var(--dl-space-space-unit);

@@ -4,26 +4,22 @@ const AllComment = (props: any) => {
   return (
     <>
       <div className="my-3">
-        <div className="comments1-container1">
-          <div className="comments1-container2">
-            <div className="comments1-container3">
-              <div className="flex flex-col">
-                <img alt="not found pic" src={props.picture} loading="lazy" className="comments1-image" />
-                <p className="text-center">{props.name}</p>
-              </div>
-              <div className="comments1-container4">
-                <span className="comments1-text">{props.contents}</span>
-              </div>
-              <button className="comments1-button button">
-                <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />讚
-              </button>
-            </div>
-            <div className="comments1-container5">
-              <span>{props.createdAt.substr(0, 10)}</span>
-              <div className="comments1-container6">
-                <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
-                <span className="comments1-text2 px-2">{props.likes}</span>
-              </div>
+        <div className="comments1-container1 grid grid-cols-6">
+          <div className="col-span-1 flex flex-col">
+            <img alt="not found pic" src={props.picture} loading="lazy" className="comments1-image" />
+            <p className="text-center">{props.name}</p>
+          </div>
+          <div className="comments1-container4 w-4/5">
+            <span className="w-full">{props.contents}</span>
+          </div>
+          <button className="comments1-button button col-span-1">
+            <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />讚
+          </button>
+          <div className="col-start-1 col-end-6 flex">
+            <span className="mr-4">{props.createdAt.substr(0, 10)}</span>
+            <div className="flex">
+              <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
+              <span className="px-2">{props.likes}</span>
             </div>
           </div>
         </div>
@@ -40,9 +36,10 @@ const AllComment = (props: any) => {
             flex-direction: column;
           }
           .comments1-container1 {
-            width: auto;
+            width: 100%;
             height: 133px;
             display: flex;
+            flex-wrap: wrap; /* Added property */
             padding: var(--dl-space-space-unit);
             box-shadow: 5px 5px 0px 0px #131212;
             align-items: center;
@@ -68,11 +65,9 @@ const AllComment = (props: any) => {
             height: 50px;
             margin-top: 0px;
             object-fit: cover;
-            margin-right: 10px;
             border-radius: var(--dl-radius-radius-round);
           }
           .comments1-container4 {
-            width: 898px;
             height: 65px;
             display: flex;
             align-items: center;

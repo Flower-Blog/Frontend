@@ -27,7 +27,7 @@ export default function Article(props: any) {
         <div className="page1-container04">
           <div className="page1-container05 py-2">
             <div className="page1-container06">
-              <h1 className="page1-text13">{props.article.title}</h1>
+              <h1 className="page1-text13 break-all">{props.article.title}</h1>
             </div>
             <a className="page1-container07 rounded-lg shadow hover:shadow-lg" href={"/" + props.createrData.name}>
               <div className="page1-container08">
@@ -39,8 +39,8 @@ export default function Article(props: any) {
               </div>
             </a>
             <div className="page1-container10">
-              <div className="page1-text16">{props.article.subStandard}</div>
-              <div className="page1-text21">{props.article.contents}</div>
+              <div className="page1-text16 break-all">{props.article.subStandard}</div>
+              <div className="page1-text21 break-all">{props.article.contents}</div>
             </div>
             <div className="page1-comment">
               <div className="page1-container11">
