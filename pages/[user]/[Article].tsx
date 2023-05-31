@@ -69,30 +69,36 @@ export const getServerSideProps = async (context: any) => {
   // 取得單一文章
   const parts = context.req.url.split("/");
   const number: number = parseInt(parts[parts.length - 1]);
-  let createrData = { id: 0, username: "", address: "", email: "", picture: "" };
-  let article = { id: 0, title: "", subStandard: "", contents: "", FlowerCount: "", updateAt: "" };
-  let comment = { id: 8, contents: "", likes: 0, createdAt: "", userdata: [] };
-  console.log(typeof number);
-  console.log(number);
+  const createrData = { id: "0", username: "", address: "", email: "", picture: "" };
+  const article = { id: "0", title: "", subStandard: "", contents: "", flowerCount: 0, updatedAt: "" };
+  const comment = { id: "8", contents: "", likes: 0, createdAt: "", userdata: {} };
+
   await apiArticleGetArticle(number)
     .then(async res => {
-      const { id, title, subStandard, contents, FlowerCount, updateAt, comments, userdata } = res.data.articles;
-      createrData = userdata;
-      comment = comments;
-      const resarticle = {
-        id,
-        title,
-        subStandard,
-        contents,
-        FlowerCount,
-        updateAt,
-      };
-      article = resarticle;
-      console.log("articlearticlearticle", article.title);
+      const { id, title, subStandard, contents, flowerCount, updatedAt, comments, userdata } = res.data.article;
+      console.log("id:", id);
+      console.log("title:", title);
+      console.log("subStandard:", subStandard);
+      console.log("contents:", contents);
+      console.log("flowerCount:", flowerCount);
+      console.log("updatedAt:", updatedAt);
+      console.log("comments:", comments);
+      console.log("userdata:", userdata);
+      // createrData = userdata;
+      // comment = comments;
+      // const resarticle = {
+      //   id,
+      //   title,
+      //   subStandard,
+      //   contents,
+      //   FlowerCount,
+      //   updateAt,
+      // };
+      // article = resarticle;
+      // console.log("articlearticlearticle", article.title);
     })
     .catch((error: any) => {
-      console.log("error.responseerror.response", error.response);
-      console.log("articleartic錯誤");
+      console.log("error.responseerror.response", error);
       return {
         notFound: true,
       };
