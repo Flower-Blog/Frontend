@@ -76,7 +76,7 @@ export default function Page() {
                 使用者記錄
               </button>
               <button className="page-button2 button" onClick={() => showComponent("Allflower")}>
-                花總類
+                所有送花記錄
               </button>
             </div>
             <div className="page-container6">
@@ -96,8 +96,8 @@ export default function Page() {
                 <>
                   <div className="component4-container1">
                     <div className="component4-container2">
-                      <button className="component4-button1 button">總使用者人數：{Users.length}</button>
-                      <button className="component4-button1 button">今日加入使用者：{NewUsers}</button>
+                      <div className="component4-container4">總使用者人數：{Users.length}</div>
+                      <div className="component4-container4">今日加入使用者：{NewUsers}</div>
                     </div>
                     {Users != null &&
                       Users.map((item: any) => {
@@ -136,6 +136,22 @@ export default function Page() {
             align-items: center;
             margin-bottom: var(--dl-space-space-halfunit);
             justify-content: flex-start;
+          }
+          .component4-container4 {
+            flex: 0 0 auto;
+            width: auto;
+            display: flex;
+            box-shadow: 5px 5px 0px 0px #1d1c1c;
+            margin-top: var(--dl-space-space-halfunit);
+            align-items: center;
+            margin-left: 10px;
+            padding-top: var(--dl-space-space-halfunit);
+            margin-right: 10px;
+            padding-left: var(--dl-space-space-halfunit);
+            margin-bottom: var(--dl-space-space-halfunit);
+            padding-right: var(--dl-space-space-halfunit);
+            padding-bottom: var(--dl-space-space-halfunit);
+            background-color: #ffcf77;
           }
           .component4-button {
             width: 208px;

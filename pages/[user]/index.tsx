@@ -6,6 +6,7 @@ import {
   apiArticleGetUserAllHotArticle,
   apiArticleGetUserAllNewArticle,
   apiUserGetCreaterData,
+  apiUserGetCreaterFlower,
 } from "@/components/api";
 import RightSidebar from "@/components/home/RightSidebar";
 import ArticleItem from "@/components/users/Article/ArticleItem";
@@ -14,16 +15,53 @@ import FlowerRecord from "@/components/users/page-nav/FlowerRecord";
 import MyFlowers from "@/components/users/page-nav/MyFlowers";
 import { update } from "@/store/CreaterSlice";
 
+interface Flower {
+  id: number;
+  name: string;
+  language: string;
+  img: string;
+}
+
+interface myFlower {
+  flowerid: number;
+  flowerCount: number;
+}
+
 export default function Userindex(props: any) {
   // TODO: Handle function
   const [IsPrivate, SetIsPrivate] = useState(false);
   const dispatch = useDispatch();
   const User = useSelector((state: any) => state.User);
+  const [flowers, setFlowers] = useState<Flower[]>([]);
+  const [myFlower, setMyFlower] = useState<myFlower[]>([]);
+  const [flowerPic, setFlowersPic] = useState("");
   useEffect(() => {
     //TODO: 創作者狀態
     if (props.createrData.name == User.profile.name) SetIsPrivate(true);
     dispatch(update(JSON.stringify(props.createrData)));
   }, [User.profile.name, dispatch, props.IsCreater, props.createrData]);
+
+  useEffect(() => {
+    fetch("/api/flower/flower")
+      .then(res => res.json())
+      .then(data => setFlowers(data));
+    apiUserGetCreaterFlower(props.createrData.name).then((res: any) => {
+      setMyFlower(res.data.flowerRecords);
+    });
+  }, [props.createrData.name]);
+
+  useEffect(() => {
+    if (myFlower.length > 0) {
+      // 找到 flowerCount 最大的資料
+      const maxFlower = myFlower.reduce((prev, current) => (prev.flowerCount > current.flowerCount ? prev : current));
+      // 使用對應的 flowerid 在 flowers 中取得圖片路徑
+      const flowerPic = flowers.find(flower => flower.id === maxFlower.flowerid)?.img;
+      if (flowerPic) {
+        setFlowersPic(flowerPic);
+      }
+    }
+  }, [myFlower, flowers]);
+
   //TODO: UI function
   const [activeComponent, setActiveComponent] = useState("newArticle");
 
@@ -48,7 +86,7 @@ export default function Userindex(props: any) {
               <div className="personalprivate-container08">
                 <div className="personalprivate-container09">
                   <span className="personalprivate-text12">{props.createrData.name}</span>
-                  <img alt="image" src="/playground_assets/flower11-200h.png" className="personalprivate-image3" />
+                  <img alt="image" src={flowerPic} className="personalprivate-image3" />
                 </div>
                 <div className="personalprivate-container10">
                   <span className="personalprivate-text13">{props.createrData.address}</span>
@@ -135,7 +173,7 @@ export default function Userindex(props: any) {
                 </div>
               </div>
             )}
-            {activeComponent === "myFlower" && <MyFlowers></MyFlowers>}
+            {activeComponent === "myFlower" && <MyFlowers username={props.createrData.name}></MyFlowers>}
             {!IsPrivate ? <RightSidebar /> : null}
           </div>
         </section>
