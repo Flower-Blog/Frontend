@@ -6,9 +6,9 @@ import { _apiCheckJwt, apiArticleEdit } from "@/components/api";
 export default function EditArticle() {
   const router = useRouter();
   const { name, id, title, subStandard, contents } = router.query;
-  const [editTitle, seteditTitle] = useState(""); // 標題
-  const [editSubStandard, seteditSubStandard] = useState(""); // 副標
-  const [editContents, seteditContents] = useState(""); //內文
+  const [editTitle, seteditTitle] = useState(title); // 標題
+  const [editSubStandard, seteditSubStandard] = useState(subStandard); // 副標
+  const [editContents, seteditContents] = useState(contents); //內文
 
   async function editArticle(articleId: any) {
     let jwt = "";
@@ -18,12 +18,13 @@ export default function EditArticle() {
       .then(() => {
         //新增 alert
         console.log("成功編輯文章");
-        router.push(`/${name}/${editTitle}`); //回到個人頁面
+        router.push(`/${name}`); //回到個人頁面
         // setalertSucessAlert(true);
       })
-      .catch(() => {
+      .catch((error: any) => {
         //新增 alert
         console.log("失敗編輯文章");
+        console.log(error);
         // setalertErrorAlert(true);
       });
   }

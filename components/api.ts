@@ -119,11 +119,10 @@ export const apiArticleGetUserAllHotArticle = (address: any) => articleRequest.g
 export const apiArticleGetArticle = (id: number) => articleRequest.get(`/${id}`, config);
 
 // 編輯個人文章
-export const apiArticleEdit = (jwt: string, id: string, data: any) =>
+export const apiArticleEdit = (jwt: string, id: any, data: any) =>
   articleRequest.patch(`/${id}`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
-      "Content-Type": "multipart/form-data",
     },
   });
 

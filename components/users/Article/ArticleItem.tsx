@@ -64,16 +64,6 @@ export default function SigngleArticle(props: any) {
                 </>
               ) : null}
             </div>
-            {props.IsPrivate ? (
-              <>
-                <Link className="button" href={{ pathname: `/${props.name}/editArticle`, query: data }}>
-                  編輯
-                </Link>
-                <button className="comments1-button button" onClick={() => deleteArticle(props.id)}>
-                  刪除
-                </button>
-              </>
-            ) : null}
           </div>
         </div>
       </Link>
