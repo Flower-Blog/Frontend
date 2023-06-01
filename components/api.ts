@@ -62,6 +62,7 @@ export const apiUserEditProfile = (jwt: string, data: any) =>
   userRequest.patch("/", data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -115,10 +116,10 @@ export const apiArticleGetUserAllNewArticle = (address: any) => articleRequest.g
 export const apiArticleGetUserAllHotArticle = (address: any) => articleRequest.get(`/user/${address}/hot`, config);
 
 // 取得單一文章
-export const apiArticleGetArticle = (id: string) => articleRequest.get(`/${id}`, config);
+export const apiArticleGetArticle = (id: number) => articleRequest.get(`/${id}`, config);
 
 // 編輯個人文章
-export const apiArticleEdit = (jwt: string, id: string, data: any) =>
+export const apiArticleEdit = (jwt: string, id: any, data: any) =>
   articleRequest.patch(`/${id}`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
@@ -134,8 +135,8 @@ export const apiArticleDelete = (jwt: string, id: string) =>
   });
 
 // 送花
-export const apiArticlePostflower = (jwt: string) =>
-  articleRequest.post(`/flower`, {
+export const apiArticlePostflower = (jwt: string, data: any) =>
+  articleRequest.post(`/flower`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
     },

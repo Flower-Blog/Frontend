@@ -1,18 +1,66 @@
 import React from "react";
+import { useEffect, useState } from "react";
 
-import Flower from "../Flower";
+import { _apiCheckJwt, apiAdminGetFlowers } from "@/components/api";
+import Flower from "@/components/Flower";
+
+interface Flower {
+  id: number;
+  name: string;
+  language: string;
+  img: string;
+}
 
 const AllFlowerTypes = (props: any) => {
+  const [, Setflower] = useState<Flower[]>([]);
+  // const [getFlower, setgetFlower] = useState<Flower[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // try {
+      let jwt = "";
+      await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+      apiAdminGetFlowers(jwt)
+        .then((res: any) => {
+          Setflower(res.data.flowers);
+        })
+        .catch((error: any) => {
+          console.log("正確", error);
+        });
+      // fetch("/api/flower/flower")
+      //   .then(res => res.json())
+      //   .then(data => setgetFlower(data));
+      // } catch (error) {
+      //   console.log("error", error);
+      // }
+    };
+    fetchData();
+  });
+
+  // console.log("flower", flower);
+  // console.log("getFlower", getFlower);
+
   return (
     <>
       <div className={`component5-container ${props.rootClassName} `}>
         <div className="component5-blog">
           <div className="component5-container1">
-            <Flower></Flower>
-            <Flower image_src="/playground_assets/flower2-200h.png" rootClassName="flower-root-class-name25"></Flower>
-            <Flower image_src="/playground_assets/flower3-200h.png" rootClassName="flower-root-class-name27"></Flower>
+            {/* {flower.map((flowers: any) => (
+            const {id,
+              name,
+              language,
+              img} = flowers;
+            {flower.id}
+            <p></p>
+            {flowers.name}
+            {flowers.language}
+            {flowers.img} */}
+            {/* // <Flower></Flower> */}
+            {/* // ))} */}
+            {/* <Flower rootClassName="flower-root-class-name25"></Flower>
+            <Flower rootClassName="flower-root-class-name27"></Flower> */}
           </div>
-          <div className="component5-container2">
+          {/* <div className="component5-container2">
             <Flower rootClassName="flower-root-class-name28"></Flower>
             <Flower rootClassName="flower-root-class-name29"></Flower>
             <Flower rootClassName="flower-root-class-name31"></Flower>
@@ -21,7 +69,7 @@ const AllFlowerTypes = (props: any) => {
             <Flower rootClassName="flower-root-class-name32"></Flower>
             <Flower rootClassName="flower-root-class-name33"></Flower>
             <Flower rootClassName="flower-root-class-name35"></Flower>
-          </div>
+          </div> */}
         </div>
       </div>
       <style jsx>

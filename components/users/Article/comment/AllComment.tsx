@@ -1,25 +1,25 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 const AllComment = (props: any) => {
   return (
     <>
       <div className="my-3">
-        <div className="comments1-container1">
-          <div className="comments1-container2">
-            <div className="comments1-container3">
-              <img alt="not found pic" src="${props.userdata.picture}" loading="lazy" className="comments1-image" />
-              <div className="comments1-container4">
-                <span className="comments1-text">${props.contents}</span>
-              </div>
-              <button className="comments1-button button">讚</button>
-            </div>
-            <div className="comments1-container5">
-              <span>${props.createdAt}</span>
-              <div className="comments1-container6">
-                <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
-                <span className="comments1-text2">${props.likes}</span>
-              </div>
+        <div className="comments1-container1 grid grid-cols-6">
+          <div className="col-span-1 flex flex-col">
+            <img alt="not found pic" src={props.picture} loading="lazy" className="comments1-image" />
+            <p className="text-center">{props.name}</p>
+          </div>
+          <div className="comments1-container4 w-4/5">
+            <span className="w-full">{props.contents}</span>
+          </div>
+          <button className="comments1-button button col-span-1">
+            <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />讚
+          </button>
+          <div className="col-start-1 col-end-6 flex">
+            <span className="mr-4">{props.createdAt.substr(0, 10)}</span>
+            <div className="flex">
+              <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
+              <span className="px-2">{props.likes}</span>
             </div>
           </div>
         </div>
@@ -36,9 +36,10 @@ const AllComment = (props: any) => {
             flex-direction: column;
           }
           .comments1-container1 {
-            width: 1074px;
+            width: 100%;
             height: 133px;
             display: flex;
+            flex-wrap: wrap; /* Added property */
             padding: var(--dl-space-space-unit);
             box-shadow: 5px 5px 0px 0px #131212;
             align-items: center;
@@ -64,11 +65,9 @@ const AllComment = (props: any) => {
             height: 50px;
             margin-top: 0px;
             object-fit: cover;
-            margin-right: 10px;
             border-radius: var(--dl-radius-radius-round);
           }
           .comments1-container4 {
-            width: 898px;
             height: 65px;
             display: flex;
             align-items: center;
@@ -110,30 +109,6 @@ const AllComment = (props: any) => {
       </style>
     </>
   );
-};
-
-AllComment.defaultProps = {
-  pastedImage_src: "/playground_assets/pastedimage-uw-200h.png",
-  button: "",
-  rootClassName: "",
-  text2: "202304/04 17:15",
-  pastedImage_alt: "pastedImage",
-  image_src: "https://pbs.twimg.com/ext_tw_video_thumb/1148064582071545858/pu/img/-asywjIzDbmCV3WS.jpg:large",
-  text: "",
-  text1: "12",
-  image_alt: "image",
-};
-
-AllComment.propTypes = {
-  pastedImage_src: PropTypes.string,
-  button: PropTypes.string,
-  rootClassName: PropTypes.string,
-  text2: PropTypes.string,
-  pastedImage_alt: PropTypes.string,
-  image_src: PropTypes.string,
-  text: PropTypes.string,
-  text1: PropTypes.string,
-  image_alt: PropTypes.string,
 };
 
 export default AllComment;
