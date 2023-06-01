@@ -26,7 +26,6 @@ export default function Home(props: any) {
         <div className="home-content">
           <TakeTurns rootClassName="firstpart-root-class-name"></TakeTurns>
         </div>
-        <section className="home-description"></section>
         <section className="home-collection">
           <div className="home-container04">
             <button className="home-button1 button" onClick={() => showComponent("new")}>

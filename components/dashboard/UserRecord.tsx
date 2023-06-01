@@ -10,7 +10,7 @@ const UserRecord = (props: any) => {
             <h1 className="mr-3 text-2xl font-bold">{props.name}</h1>
             <span className="font-smibold mr-3 text-xl">{props.email}</span>
           </div>
-          <span className="font-smibold mr-3 text-xl ">{props.createdAt}</span>
+          <span className="font-smibold mr-3 text-xl">{props.createdAt.substring(0, 10)}</span>
         </div>
       </div>
       <style jsx>

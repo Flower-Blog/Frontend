@@ -49,20 +49,19 @@ export default function SigngleArticle(props: any) {
                 <img alt="花朵的圖片" src="/playground_assets/1rose.png" className="blog-post-card21-image1" />
                 <span className="blog-post-card21-text3">{props.flowerCount}</span>
               </div>
-              {/* FIXME: 要更改花朵圖片 */}
               <div className="blog-post-card21-container4">
-                <span className="blog-post-card21-text3 mx-2">{props.updatedAt}</span>
+                <span className="blog-post-card21-text3 mr-4">{props.updatedAt.substr(0, 10)}</span>
+                {props.IsPrivate ? (
+                  <>
+                    <Link className="button" href={{ pathname: `/${props.name}/editArticle`, query: data }}>
+                      編輯
+                    </Link>
+                    <button className="comments1-button button" onClick={() => deleteArticle(props.id)}>
+                      刪除
+                    </button>
+                  </>
+                ) : null}
               </div>
-              {props.IsPrivate ? (
-                <>
-                  <Link className="button" href={{ pathname: `/${props.name}/editArticle`, query: data }}>
-                    編輯
-                  </Link>
-                  <button className="comments1-button button" onClick={() => deleteArticle(props.id)}>
-                    刪除
-                  </button>
-                </>
-              ) : null}
             </div>
           </div>
         </div>
