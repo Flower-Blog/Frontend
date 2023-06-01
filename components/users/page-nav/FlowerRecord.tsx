@@ -7,12 +7,14 @@ interface receiveFlowersRecords {
   name: string;
   flowerId: number;
   createdAt: string;
+  flowerPic: string;
 }
 
-const FlowerRecord = (props: any) => {
+const FlowerRecord = () => {
   // TODO: Handle funcion
   const [receiveFlowersRecords, setreceiveFlowersRecords] = useState<receiveFlowersRecords[]>([]);
-  const [flowerPic, setflowerPic] = useState("");
+  const [flowerPic, setflowerPic] = useState<string[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,9 +22,7 @@ const FlowerRecord = (props: any) => {
         const jwt = resJwt.data.jwt;
         const resUserData = await apiUserGetUserData(jwt);
         const data = resUserData.data.receiveFlowersRecords;
-        // const title = resUserData.data.receiveFlowersRecords.article.title;
         setreceiveFlowersRecords(data);
-        // 在這裡處理獲取到的資料
       } catch (error) {
         // 在這裡處理錯誤
       }
@@ -31,36 +31,39 @@ const FlowerRecord = (props: any) => {
     fetchData();
   }, []);
 
-  console.log(receiveFlowersRecords);
+  useEffect(() => {
+    receiveFlowersRecords.forEach(record => {
+      flowerimg(record.flowerId);
+    });
+  }, [receiveFlowersRecords]);
 
-  for (let i = 0; i < receiveFlowersRecords.length; i++) {
-    flowerimg(receiveFlowersRecords[i].flowerId);
-  }
+  // console.log("receiveFlowersRecords", receiveFlowersRecords);
 
   function flowerimg(id: any) {
     if (id === 1) {
-      setflowerPic("1rose");
+      setflowerPic(prevState => [...prevState, "/playground_assets/1rose.png"]);
     } else if (id === 2) {
-      setflowerPic("2sunflower");
+      setflowerPic(prevState => [...prevState, "/playground_assets/2sunflower.png"]);
     } else if (id === 3) {
-      setflowerPic("3tulip");
+      setflowerPic(prevState => [...prevState, "/playground_assets/3carnation.png"]);
     } else if (id === 4) {
+      setflowerPic(prevState => [...prevState, "/playground_assets/4lily.png"]);
     } else if (id === 5) {
+      setflowerPic(prevState => [...prevState, "/playground_assets/5peachblossom.png"]);
     } else {
-      setflowerPic("defaultFlower");
+      setflowerPic(prevState => [...prevState, "defaultFlower"]);
     }
   }
 
   return (
     <>
-      <div className={`component1-container ${props.rootClassName} `}>
-        {/* {receiveFlowersRecords.article.title} */}
+      <div className="container mx-auto w-auto">
         {receiveFlowersRecords.map((record, index) => (
           <div key={index} className="component1-container1">
-            <h1 className="component1-text">
+            <h1 className="component1-text text-lg font-bold">
               {record.name} 對 {title} 喜歡並贈送一朵
             </h1>
-            <img alt="花" src={flowerPic} className="component1-image" />
+            <img alt="花" src={flowerPic[index]} className="component1-image" />
           </div>
         ))}
       </div>

@@ -48,6 +48,7 @@ export default function Home(props: any) {
                       return (
                         <ArticleItem
                           key={id}
+                          id={id}
                           name={name}
                           title={title}
                           subStandard={subStandard}
@@ -71,6 +72,7 @@ export default function Home(props: any) {
                       return (
                         <ArticleItem
                           key={id}
+                          id={id}
                           name={name}
                           title={title}
                           subStandard={subStandard}
