@@ -23,7 +23,7 @@ const Comment = (props: any) => {
           )}
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .comment-container {
             width: 100%;

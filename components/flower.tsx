@@ -13,7 +13,7 @@ export default function Flower(props: any) {
           <h1 className="flower-text text-lg font-bold">5/{props.flowerCount}</h1>
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .flower-container {
             width: 250px;

@@ -26,7 +26,7 @@ const TakeTurns = (props: any) => {
           </div>
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .firstpart-container {
             width: 100%;

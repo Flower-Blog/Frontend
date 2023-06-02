@@ -212,7 +212,7 @@ export default function Editprofile() {
           </div>
         </div>
       </Dialog>
-      <style jsx>
+      <style>
         {`
           .component6-container {
             width: 100%;

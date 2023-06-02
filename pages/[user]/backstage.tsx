@@ -85,10 +85,7 @@ export default function Page() {
                   {Flowers != null &&
                     Flowers.map((item: any) => {
                       const { id, name, language } = item;
-                      return (
-                        // eslint-disable-next-line react/jsx-key
-                        <AllFlowerTypes id={id} name={name} language={language} />
-                      );
+                      return <AllFlowerTypes key={id} id={id} name={name} language={language} />;
                     })}
                 </>
               )}
@@ -101,10 +98,9 @@ export default function Page() {
                     </div>
                     {Users != null &&
                       Users.map((item: any) => {
-                        const { name, email, picture, createdAt } = item;
+                        const { id, name, email, picture, createdAt } = item;
                         return (
-                          // eslint-disable-next-line react/jsx-key
-                          <UserRecord name={name} email={email} picture={picture} createdAt={createdAt} />
+                          <UserRecord key={id} name={name} email={email} picture={picture} createdAt={createdAt} />
                         );
                       })}
                   </div>
@@ -118,7 +114,7 @@ export default function Page() {
         <p className="text-9xl">請你 go away</p>
       )}
 
-      <style jsx>
+      <style>
         {`
           .component4-container1 {
             flex: 0 0 auto;

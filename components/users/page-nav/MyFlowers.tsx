@@ -35,7 +35,7 @@ export default function MyFlowers(props: any) {
           </div>
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .component-container {
             width: 1295px;

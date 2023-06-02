@@ -68,7 +68,7 @@ export default function SigngleArticle(props: any) {
       </Link>
       {success && <SucessAlert message={`已刪除 ${props.title}`} />}
       {Error && <ErrorAlert message={`失敗刪除 ${props.title}`} />}
-      <style jsx>
+      <style>
         {`
           .comments1-button {
             margin-left: var(--dl-space-space-unit);
