@@ -455,7 +455,7 @@ export default function Login() {
           註冊成功!
         </Alert>
       </Snackbar>
-      <style jsx>
+      <style>
         {`
           .component3-container {
             width: 100%;

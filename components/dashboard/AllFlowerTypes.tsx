@@ -72,7 +72,7 @@ const AllFlowerTypes = (props: any) => {
           </div> */}
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .component5-container {
             width: 995px;

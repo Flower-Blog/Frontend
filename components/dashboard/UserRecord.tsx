@@ -13,7 +13,7 @@ const UserRecord = (props: any) => {
           <span className="font-smibold mr-3 text-xl">{props.createdAt.substring(0, 10)}</span>
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .component4-button1 {
             width: 208px;
