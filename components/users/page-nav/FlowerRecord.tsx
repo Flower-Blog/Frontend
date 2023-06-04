@@ -65,7 +65,7 @@ const FlowerRecord = () => {
           </div>
         ))}
       </div>
-      <style jsx>
+      <style>
         {`
           .component1-container {
             width: 100%;

@@ -98,10 +98,9 @@ export default function Page() {
                     </div>
                     {Users != null &&
                       Users.map((item: any) => {
-                        const { name, email, picture, createdAt } = item;
+                        const { id, name, email, picture, createdAt } = item;
                         return (
-                          // eslint-disable-next-line react/jsx-key
-                          <UserRecord name={name} email={email} picture={picture} createdAt={createdAt} />
+                          <UserRecord key={id} name={name} email={email} picture={picture} createdAt={createdAt} />
                         );
                       })}
                   </div>
@@ -139,7 +138,7 @@ export default function Page() {
         <p className="text-9xl">請你 go away</p>
       )}
 
-      <style jsx>
+      <style>
         {`
           .component4-container1 {
             flex: 0 0 auto;
@@ -189,25 +188,3 @@ export default function Page() {
     </>
   );
 }
-
-export const getServerSideProps = async () => {
-  // const res = await _apiCheckJwt();
-  // const jwt = res.data.jwt;
-
-  // let Users = [];
-  // let Flowers = [];
-
-  // try {
-  //   // 使用者資料
-  //   // const UsersResponse = await apiAdminGetUsers(jwt);
-  //   // Users = UsersResponse.data.users;
-  //   // 花種類
-  //   // const FlowersResponse = await apiAdminGetFlowers(jwt);
-  //   // Flowers = FlowersResponse.data.flowers;
-
-  //   // return { props: { Users, Flowers } };
-  // } catch {
-  //   // return { props: { Users, Flowers } };
-  // }
-  return { props: {} };
-};

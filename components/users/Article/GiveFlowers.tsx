@@ -124,7 +124,7 @@ export default function GiveFlowers(props: any) {
       </Dialog>
       {success && <SucessAlert message={successMessage} />}
       {error && <ErrorAlert message={errorMessage} />}
-      <style jsx>
+      <style>
         {`
           .component2-container {
             width: 100%;
