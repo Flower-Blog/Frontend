@@ -7,7 +7,7 @@ interface Flower {
   img: string;
 }
 
-const UserRecord = (props: any) => {
+const FlowerRecord = (props: any) => {
   const [flowers, setFlowers] = useState<Flower[]>([]);
 
   useEffect(() => {
@@ -146,4 +146,4 @@ const UserRecord = (props: any) => {
   );
 };
 
-export default UserRecord;
+export default FlowerRecord;
