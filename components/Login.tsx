@@ -19,6 +19,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 
+import ErrorAlert from "@/components/alert/Error";
+import SucessAlert from "@/components/alert/Success";
 import {
   _apiAuthLogin,
   _apiAuthLogout,
