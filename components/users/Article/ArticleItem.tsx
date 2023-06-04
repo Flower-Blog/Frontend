@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import ErrorAlert from "@/components/alert/Error";
-import SucessAlert from "@/components/alert/Success";
+import SuccessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiArticleDelete } from "@/components/api";
 
 export default function SigngleArticle(props: any) {
@@ -66,7 +66,7 @@ export default function SigngleArticle(props: any) {
           </div>
         </div>
       </Link>
-      {success && <SucessAlert message={`已刪除 ${props.title}`} />}
+      {success && <SuccessAlert message={`已刪除 ${props.title}`} />}
       {Error && <ErrorAlert message={`失敗刪除 ${props.title}`} />}
       <style>
         {`
