@@ -37,8 +37,6 @@ const FlowerRecord = () => {
     });
   }, [receiveFlowersRecords]);
 
-  // console.log("receiveFlowersRecords", receiveFlowersRecords);
-
   function flowerimg(id: any) {
     if (id === 1) {
       setflowerPic(prevState => [...prevState, "/playground_assets/1rose.png"]);

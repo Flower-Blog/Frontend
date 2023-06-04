@@ -188,3 +188,11 @@ export const apiAdminGetFlowers = (jwt: string) =>
       Authorization: `Bearer ${jwt}`,
     },
   });
+
+//送花紀錄
+export const apiAdminGetFlowersRecord = (jwt: string) =>
+  adminRequest.get(`/record`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });

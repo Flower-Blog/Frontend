@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
 import { _apiCheckJwt, apiUserGetUserData } from "@/components/api";
-import { apiAdminGetFlowers, apiAdminGetUsers } from "@/components/api";
-import AllFlowerTypes from "@/components/dashboard/AllFlowerTypes";
+import { apiAdminGetFlowersRecord, apiAdminGetUsers } from "@/components/api";
+import FlowerRecord from "@/components/dashboard/FlowerRecord";
 import UserRecord from "@/components/dashboard/UserRecord";
-
 export default function Page() {
   const [IsManager, SetIsManager] = useState(false);
   const [Users, setUsers] = useState([]);
   const [Flowers, setFlowers] = useState([]);
   const [NewUsers, setNewUsers] = useState(0);
+  const [NewFlowers, setNewFlowers] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,10 +24,10 @@ export default function Page() {
         const UsersResponse = await apiAdminGetUsers(jwt);
         // eslint-disable-next-line react-hooks/exhaustive-deps
         setUsers(UsersResponse.data.users);
-        // 花種類
-        const FlowersResponse = await apiAdminGetFlowers(jwt);
+        // 送花紀錄
+        const FlowersResponse = await apiAdminGetFlowersRecord(jwt);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        setFlowers(FlowersResponse.data.flowers);
+        setFlowers(FlowersResponse.data.flowerRecords);
 
         if (admin) SetIsManager(true);
       } catch (error) {
@@ -41,14 +41,23 @@ export default function Page() {
       createdAt: new Date(user.createdAt),
     }));
 
+    // 將 Flowers 的 createdAt 字串轉換為日期物件
+    const flowersWithDate = Flowers.map((flower: any) => ({
+      ...flower,
+      createdAt: new Date(flower.createdAt),
+    }));
+
+    const newFlowers = flowersWithDate.filter((flower: any) => isToday(flower.createdAt));
+
     // 過濾出日期為今天的使用者
     const newUsers = usersWithDate.filter((user: any) => isToday(user.createdAt));
 
+    setNewFlowers(newFlowers.length);
     // 設定 NewUsers 的狀態為符合條件的使用者數量
     setNewUsers(newUsers.length);
 
     fetchData();
-  }, [Users]);
+  }, [Users, Flowers]);
 
   // 判斷日期是否是今天
   const isToday = (date: Date) => {
@@ -69,29 +78,17 @@ export default function Page() {
   return (
     <>
       {IsManager ? (
-        <div className="page-container">
-          <div className="page-container4">
-            <div className="page-container5">
+        <div>
+          <div className="flex flex-row justify-center">
+            <div className="page-container5 basis-28">
               <button className="page-button1 button" onClick={() => showComponent("userRecord")}>
                 使用者記錄
               </button>
-              <button className="page-button2 button" onClick={() => showComponent("Allflower")}>
+              <button className="page-button2 button" onClick={() => showComponent("flowerRecord")}>
                 所有送花記錄
               </button>
             </div>
             <div className="page-container6">
-              {activeComponent === "Allflower" && (
-                <>
-                  {Flowers != null &&
-                    Flowers.map((item: any) => {
-                      const { id, name, language } = item;
-                      return (
-                        // eslint-disable-next-line react/jsx-key
-                        <AllFlowerTypes id={id} name={name} language={language} />
-                      );
-                    })}
-                </>
-              )}
               {activeComponent === "userRecord" && (
                 <>
                   <div className="component4-container1">
@@ -110,6 +107,30 @@ export default function Page() {
                   </div>
                 </>
               )}
+              {activeComponent === "flowerRecord" && (
+                <>
+                  <div className="component4-container1">
+                    <div className="component4-container2">
+                      <div className="component4-container4">總次數：{Users.length}</div>
+                      <div className="component4-container4">今日：{NewFlowers}</div>
+                    </div>
+                    {Flowers != null &&
+                      Flowers.map((item: any) => {
+                        const { flowerId, article, createdAt, userdata } = item;
+                        return (
+                          <FlowerRecord
+                            key={flowerId}
+                            flowerId={flowerId}
+                            name={article.name}
+                            title={article.title}
+                            userdata={userdata}
+                            createdAt={createdAt}
+                          />
+                        );
+                      })}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -122,7 +143,7 @@ export default function Page() {
         {`
           .component4-container1 {
             flex: 0 0 auto;
-            width: 995px;
+            width: "auto";
             height: 100%;
             display: flex;
             align-items: flex-start;

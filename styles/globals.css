@@ -1586,8 +1586,7 @@ body::-webkit-scrollbar {
   display: flex;
   padding: var(--dl-space-space-unit);
   max-width: var(--dl-size-size-maxwidth);
-  align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
 }
 .personalpublic-container15 {
@@ -4776,8 +4775,7 @@ body::-webkit-scrollbar {
   height: var(--dl-size-size-xsmall);
 }
 .page-container4 {
-  width: 1275px;
-  height: 831px;
+  width: 100%;
   display: flex;
   align-items: flex-start;
   padding-left: var(--dl-space-space-halfunit);
@@ -4811,7 +4809,7 @@ body::-webkit-scrollbar {
   margin-bottom: 10px;
 }
 .page-container6 {
-  width: 995px;
+  width: auto;
   height: 100%;
   display: flex;
   align-items: center;

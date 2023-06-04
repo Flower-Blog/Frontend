@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import { _apiCheckJwt, apiAutGethEmail, apiUserEditProfile, apiUserGetEmail } from "@/components/api";
-import { update } from "@/store/CreaterSlice";
+import { setLogin } from "@/store/UserSlice";
 
 export default function Editprofile() {
   // TODO: Handle funtion
@@ -15,10 +15,11 @@ export default function Editprofile() {
   const [name, setName] = useState(User.profile.name); // 使用者名稱
   const [email, setemail] = useState(User.profile.email); // 電子信箱
   const [verificationCode, setverificationCode] = useState(""); //驗證碼
-  const [IsverificationCode, setIsverificationCode] = useState(false); //驗證碼
+  const [IsverificationCode, setIsverificationCode] = useState(true); //驗證碼
   const [introduction, setIntroduction] = useState(User.profile.introduction); // 個人簡介
   const [backgroundPhoto, setbackgroundPhoto] = useState<File | null>(User.profile.backgroundPhoto); // 背景圖
   const [picture, setpicture] = useState<File | null>(User.profile.picture); // 頭像
+  const [editemail, seteditemail] = useState(false); // 更改電子信箱
   async function EditProfile() {
     if (IsverificationCode) {
       const formData = new FormData();
@@ -29,13 +30,12 @@ export default function Editprofile() {
       formData.append("introduction", introduction);
       let jwt = "";
       await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
-      const data = { name, email, introduction, backgroundPhoto, picture };
-      apiUserEditProfile(jwt, data)
+      const data = [{ name, email, introduction, backgroundPhoto, picture }];
+      apiUserEditProfile(jwt, data[0])
         .then(() => {
           console.log("成功更改");
-          dispatch(update(JSON.stringify(data))); // 更新 Redux Store 中的使用者
+          dispatch(setLogin(JSON.stringify(data))); // 更新 Redux Store 中的使用者
           //FIXME: 回到個人頁面是更改後的使用者資料
-          console.log("datadatadatadata", data); //確定是最新的資料
           router.push(`/${name}`);
         })
         .catch((error: any) => {
@@ -137,51 +137,69 @@ export default function Editprofile() {
             <h1 className="text-4xl font-bold">編輯個人資料</h1>
           </div>
           <div className="component6-container03">
-            <label htmlFor="backgroundInput" className="custom-file-input mx-2">
-              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换背景</span>
+            <label htmlFor="backgroundInput" className="custom-file-input">
+              <span className="button">更换背景</span>
               <input type="file" id="backgroundInput" onChange={backgroundChange} className="hidden" />
             </label>
             {previewBackgroundPhoto && (
               <img
                 src={previewBackgroundPhoto}
                 loading="eager"
-                className="component6-image"
+                className="component6-image mx-2"
                 alt="background not fund"
               />
             )}
           </div>
           <div className="component6-container04">
             <label htmlFor="pictureInput" className="custom-file-input mx-2">
-              <span className="button-text bg-blue-500 text-white cursor-pointer rounded py-2 px-4">更换頭像</span>
+              <span className="button">更换頭像</span>
               <input type="file" id="pictureInput" onChange={pictureChange} className="hidden" />
             </label>
             {previewPicture && (
-              <img src={previewPicture} loading="eager" className="component6-image1" alt="user_photo not fund" />
+              <img src={previewPicture} loading="eager" className="component6-image1 mx-2" alt="user_photo not fund" />
             )}
           </div>
           <div className="component6-container06">
-            <h1>信箱：</h1>
-            <input
-              type="text"
-              placeholder="輸入信箱"
-              value={email}
-              onChange={e => setemail(e.target.value)}
-              className="input"
-            />
-            <button className="page2-button button mx-2" onClick={sendVerificationCode} color="primary">
-              發送驗證碼
-            </button>
-            <h1 className="ml-4">驗證碼：</h1>
-            <input
-              id="myInput"
-              type="text"
-              placeholder="輸入六碼"
-              onInput={checkVerificationCode}
-              max="6"
-              value={verificationCode}
-              onChange={e => setverificationCode(e.target.value)}
-              className="input"
-            />
+            {editemail ? (
+              <>
+                <h1>信箱：</h1>
+                <input
+                  type="text"
+                  placeholder="輸入信箱"
+                  value={email}
+                  onChange={e => setemail(e.target.value)}
+                  className="input"
+                />
+                <button className="page2-button button mx-2" onClick={sendVerificationCode} color="primary">
+                  發送驗證碼
+                </button>
+                <h1 className="ml-4">驗證碼：</h1>
+                <input
+                  id="myInput"
+                  type="text"
+                  placeholder="輸入六碼"
+                  onInput={checkVerificationCode}
+                  max="6"
+                  value={verificationCode}
+                  onChange={e => setverificationCode(e.target.value)}
+                  className="input"
+                />
+              </>
+            ) : (
+              <>
+                <button className="button" onClick={() => seteditemail(true)}>
+                  點擊編輯信箱
+                </button>
+                <input
+                  type="text"
+                  placeholder="輸入信箱"
+                  value={email}
+                  onChange={e => setemail(e.target.value)}
+                  className="ml-6"
+                  disabled={true}
+                />
+              </>
+            )}
           </div>
           <div className="component6-container07">
             <h1>名稱：</h1>

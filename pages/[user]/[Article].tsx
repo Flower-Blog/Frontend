@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { apiArticleGetArticle } from "@/components/api";
@@ -11,6 +10,7 @@ import { update } from "@/store/CreaterSlice";
 export default function Article(props: any) {
   // TODO: Handle funtion
   const dispatch = useDispatch();
+  const [flowerCount, setflowerCount] = useState(props.article.flowerCount);
   const User = useSelector((state: any) => state.User);
   useEffect(() => {
     // TODO: 文章創作者資料
@@ -51,11 +51,13 @@ export default function Article(props: any) {
                     createname={User.profile.name}
                     title={props.article.title}
                     username={User.profile.name}
+                    flowerCount={flowerCount}
+                    setflowerCount={setflowerCount}
                   />
                 ) : null}
                 <div className="flex items-center">
                   <img alt="image" src="/playground_assets/1rose.png" className="page1-image3" />
-                  <span className="px-1">{props.article.flowerCount}</span>
+                  <span className="px-1">{flowerCount}</span>
                 </div>
               </div>
               <CreateComment name={User.profile.name} picture={User.profile.picture}></CreateComment>

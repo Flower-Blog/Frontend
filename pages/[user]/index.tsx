@@ -144,12 +144,13 @@ export default function Userindex(props: any) {
                         );
                       })}
                   </div>
+                  {!IsPrivate ? <RightSidebar /> : null}
                 </div>
               </div>
             )}
             {activeComponent === "hotArticle" && (
               <div className="personalpublic-container14">
-                <div className="personalpublic-blog">
+                <div className="personalpublic-blog flex">
                   <div className="personalpublic-container15 w-full">
                     {props.HotArticles != null &&
                       props.HotArticles.map((item: any) => {
@@ -170,11 +171,11 @@ export default function Userindex(props: any) {
                         );
                       })}
                   </div>
+                  {!IsPrivate ? <RightSidebar /> : null}
                 </div>
               </div>
             )}
             {activeComponent === "myFlower" && <MyFlowers username={props.createrData.name}></MyFlowers>}
-            {!IsPrivate ? <RightSidebar /> : null}
           </div>
         </section>
       </div>
@@ -183,7 +184,7 @@ export default function Userindex(props: any) {
 }
 
 export const getServerSideProps = async (context: any) => {
-  const url = context.req.url.substring(1);
+  const url = context.query.user;
   let createrData = { id: 0, name: "", address: "", email: "", picture: "", backgroundPhoto: "" };
 
   // 查詢創作者資料

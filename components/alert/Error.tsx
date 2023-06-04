@@ -4,7 +4,16 @@ import Stack from "@mui/material/Stack";
 
 const Error = (props: any) => {
   return (
-    <Stack sx={{ width: "100%" }} spacing={2}>
+    <Stack
+      sx={{
+        width: "auto",
+        position: "fixed",
+        bottom: "20px",
+        left: "20px",
+        zIndex: 9999,
+      }}
+      spacing={2}
+    >
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
         {props.message} <strong>check it out!</strong>

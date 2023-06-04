@@ -276,10 +276,6 @@ export default function Login() {
                 </a>
               </Typography>
             </MenuItem>
-            <MenuItem onClick={() => setAnchorElUser(null)}>
-              {/*FIXME: 先確認有無用到AC */}
-              <Typography textAlign="center">我的錢包</Typography>
-            </MenuItem>
             {IsManager ? (
               <MenuItem onClick={() => setAnchorElUser(null)}>
                 <Typography textAlign="center">

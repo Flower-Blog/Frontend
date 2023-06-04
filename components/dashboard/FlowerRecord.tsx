@@ -1,14 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+interface Flower {
+  id: number;
+  name: string;
+  language: string;
+  img: string;
+}
 
 const UserRecord = (props: any) => {
+  const [flowers, setFlowers] = useState<Flower[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/flower/flower");
+        if (response.ok) {
+          const data = await response.json();
+          setFlowers(data);
+        } else {
+          throw new Error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="w-full">
         <div className="component4-container4 grid justify-between">
-          <div className="flex items-center">
-            <img alt="頭像" src={props.picture} className="component4-image" />
-            <h1 className="mr-3 text-2xl font-bold">{props.name}</h1>
-            <span className="font-smibold mr-3 text-xl">{props.email}</span>
+          <div className="font-smibold flex items-center text-xl">
+            <h1 className="mr-3 text-2xl font-bold">{props.name}</h1>在
+            <span className="mx-3 text-clip text-2xl font-bold">{props.title}</span>
+            文章中送了一朵
+            {flowers.map((flower: any) =>
+              flower.id === props.flowerId ? (
+                <React.Fragment key={flower.id}>
+                  <span className="mx-3 text-2xl font-bold">{flower.name}</span>
+                  <img alt="" src={flower.img} className="component3-image mx-2" />
+                </React.Fragment>
+              ) : null,
+            )}
+            給<span className="ml-3 text-2xl font-bold">{props.userdata.name}</span>
           </div>
           <span className="font-smibold mr-3 text-xl">{props.createdAt.substring(0, 10)}</span>
         </div>
@@ -27,9 +62,14 @@ const UserRecord = (props: any) => {
             align-items: flex-start;
             flex-direction: column;
           }
+          .component3-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+          }
           .component4-container4 {
             flex: 0 0 auto;
-            width: 1012px;
+            width: 100%;
             display: flex;
             box-shadow: 5px 5px 0px 0px #1d1c1c;
             margin-top: var(--dl-space-space-halfunit);

@@ -3,7 +3,7 @@ import React from "react";
 const RightSidebar = () => {
   return (
     <>
-      <div className="home-container08">
+      <div className="home-container08 mx-4">
         <div className="home-container13">
           <h1 className="my-1 text-2xl font-semibold">今日一花</h1>
           <img alt="image" src="/playground_assets/1rose.png" className="home-image09" />

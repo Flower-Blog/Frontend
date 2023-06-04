@@ -17,7 +17,7 @@ export default function CreateArticle() {
     const data = { title, subStandard, contents };
     apiArticleCreate(jwt, data)
       .then(() => {
-        router.push(`/${name}/${title}`); //回到個人頁面
+        router.push(`/${name}`); //回到個人頁面
       })
       .catch(() => {
         //新增 alert
