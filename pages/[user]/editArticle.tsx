@@ -1,4 +1,3 @@
-import { Alert } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -20,23 +19,11 @@ export default function EditArticle() {
     apiArticleEdit(jwt, articleId, data)
       .then(() => {
         setSuccess(true);
-        <Alert>編輯文章成功</Alert>;
-        console.log("編輯文章成功");
-        router.push(`/${name}/${editTitle}`); //回到個人頁面
-        // setalertSucessAlert(true);
+        router.push(`/${name}`); //回到個人頁面
       })
       .catch(() => {
         setError(true);
-        <Alert>編輯文章成功</Alert>;
-        console.log("編輯文章失敗");
-        // setalertErrorAlert(true);
       });
-    {
-      success && <SucessAlert message={`編輯成功`} />;
-    }
-    {
-      Error && <ErrorAlert message={`編輯失敗`} />;
-    }
   }
 
   const [success, setSuccess] = useState(false);
@@ -75,12 +62,13 @@ export default function EditArticle() {
           </div>
         </div>
         <div className="page3-container09">
-          {/* <button className="page3-button1 button">返回</button> */}
           <button className="page3-button2 button" onClick={() => editArticle(id)}>
             編輯
           </button>
         </div>
       </div>
+      {success && <SucessAlert message={`編輯成功`} />}
+      {Error && <ErrorAlert message={`編輯失敗`} />}
     </>
   );
 }
