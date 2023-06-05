@@ -37,11 +37,9 @@ export default function Editprofile() {
         .then(() => {
           console.log("成功更改");
           dispatch(setLogin(JSON.stringify(data))); // 更新 Redux Store 中的使用者
-          //FIXME: 回到個人頁面是更改後的使用者資料
           router.push(`/${name}`);
         })
-        .catch((error: any) => {
-          console.log(error);
+        .catch(() => {
           console.log("失敗更改");
         });
       setOpen(false);
@@ -54,14 +52,9 @@ export default function Editprofile() {
       .then(() => {
         //確認無誤後發送信箱
         setSuccess(true);
-        console.log("信箱確認");
       })
-      .catch((error: any) => {
-        if (error.response && error.response.data.error) {
-          const errorMess = error.response.data.error;
-          setError(true);
-          console.log(errorMess);
-        }
+      .catch(() => {
+        setError(true);
       });
   }
 
@@ -72,13 +65,10 @@ export default function Editprofile() {
         .then(() => {
           setIsverificationCode(true);
           setSuccess(true);
-          console.log("驗證碼正確");
         })
-        .catch((error: any) => {
-          console.log(error);
+        .catch(() => {
           setIsverificationCode(false);
           setError(true);
-          console.log("驗證碼錯誤");
         });
     }
   }

@@ -167,27 +167,14 @@ export default function Login() {
   }
 
   function Register() {
-    apiUserGetName(username)
+    apiUserGetName(username);
+    const data = { address, name: username, email, flowerId: selectedFlowerId };
+    apiUserRegister(data)
       .then(() => {
+        registerSetOpen(false);
+        registerSetOpen2(false);
         setSuccess3(true);
-        const data = { address, name: username, email, flowerId: selectedFlowerId };
-        apiUserRegister(data)
-          .then(() => {
-            registerSetOpen(false);
-            registerSetOpen2(false);
-            alertRegisterSetOpen(true);
-          })
-          .catch((error: any) => {
-            console.log(error);
-            if (error.response && error.response.data.error) {
-              const errorMess = error.response.data.error;
-              for (let i = 0; i < errorMess.length; i++) {
-                if (errorMess[i].includes("username")) {
-                  seterrorMessageUsername(JSON.stringify(errorMess[i]));
-                }
-              }
-            }
-          });
+        alertRegisterSetOpen(true);
       })
       .catch(() => {
         setError3(true);
@@ -376,16 +363,17 @@ export default function Login() {
               <div className="component3-container3">
                 <div className="component3-container5">
                   {flowers.map(flower => (
-                    <button
-                      className="focus:ring-red-500 focus:outline-none focus:ring-4"
-                      key={flower.id}
-                      onClick={() => handleFlowerClick(flower.id)}
-                    >
-                      <img alt="" src={flower.img} className="component3-image" />
-                    </button>
+                    <React.Fragment key={flower.id}>
+                      <button
+                        className="focus:ring-red-500 focus:outline-none focus:ring-4"
+                        onClick={() => handleFlowerClick(flower.id)}
+                      >
+                        <img alt="" src={flower.img} className="component3-image" />
+                      </button>
+                      {flower.id === selectedFlowerId && <div className="my-1">你選擇了 {flower.name}</div>}
+                    </React.Fragment>
                   ))}
                 </div>
-                你選擇了 {selectedFlowerId}
                 <div className="component3-container8">
                   <button className="component3-button button" onClick={handleConfirmClick}>
                     <span>確認</span>
