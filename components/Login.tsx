@@ -148,12 +148,8 @@ export default function Login() {
       .then(() => {
         setSuccess(true);
       })
-      .catch((error: any) => {
-        if (error.response && error.response.data.error) {
-          const errorMess = error.response.data.error;
-          setError(true);
-          console.log(errorMess);
-        }
+      .catch(() => {
+        setError(true);
       });
   }
 
@@ -161,8 +157,8 @@ export default function Login() {
     //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
-        setSuccess2(true);
         registerSetOpen(false);
+        setSuccess2(true);
         registerSetOpen3(true);
       })
       .catch(() => {
@@ -361,12 +357,6 @@ export default function Login() {
                 </Button>
               </div>
             </div>
-            {success && <SucessAlert message={`已發送驗證碼到郵件`} />}
-            {Error && <ErrorAlert message={`格式不正確或信箱已被使用過`} />}
-            {success2 && <SucessAlert message={`驗證碼正確`} />}
-            {Error2 && <ErrorAlert message={`驗證碼錯誤`} />}
-            {success3 && <SucessAlert message={`名稱未使用過`} />}
-            {Error3 && <ErrorAlert message={`名稱已被使用過`} />}
           </DialogContent>
 
           <button className="page2-button1 button" onClick={checkVerificationCode}>
@@ -375,7 +365,7 @@ export default function Login() {
         </div>
       </Dialog>
 
-      <Dialog open={registerOpen3} onClose={() => registerSetOpen3(false)}>
+      <Dialog className="h-auto" open={registerOpen3} onClose={() => registerSetOpen3(false)}>
         <div className="component3-container">
           <div className="component3-container1">
             <div className="component3-container2">
@@ -385,7 +375,6 @@ export default function Login() {
             <div className="component3-form">
               <div className="component3-container3">
                 <div className="component3-container5">
-                  {/*FIXME: 做點動畫已選擇哪一朵 */}
                   {flowers.map(flower => (
                     <button
                       className="focus:ring-red-500 focus:outline-none focus:ring-4"
@@ -459,11 +448,17 @@ export default function Login() {
           註冊成功!
         </Alert>
       </Snackbar>
+      {success && <SucessAlert message={`已發送驗證碼到郵件`} />}
+      {Error && <ErrorAlert message={`格式不正確或信箱已被使用過`} />}
+      {success2 && <SucessAlert message={`驗證碼正確`} />}
+      {Error2 && <ErrorAlert message={`驗證碼錯誤`} />}
+      {success3 && <SucessAlert message={`名稱未使用過`} />}
+      {Error3 && <ErrorAlert message={`名稱已被使用過`} />}
       <style>
         {`
           .component3-container {
             width: 100%;
-            height: 594px;
+            height: auto;
             display: flex;
             position: relative;
             align-items: center;
