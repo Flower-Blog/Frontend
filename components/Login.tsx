@@ -146,12 +146,12 @@ export default function Login() {
     //先檢查信箱
     apiUserGetEmail(email)
       .then(() => {
-        <Alert>信箱確認</Alert>;
+        setSuccess(true);
       })
       .catch((error: any) => {
         if (error.response && error.response.data.error) {
           const errorMess = error.response.data.error;
-          <Alert>errorMess</Alert>;
+          setError(true);
           console.log(errorMess);
         }
       });
@@ -161,19 +161,19 @@ export default function Login() {
     //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
-        setSuccess(true);
+        setSuccess2(true);
         registerSetOpen(false);
         registerSetOpen3(true);
       })
       .catch(() => {
-        setError(true);
+        setError2(true);
       });
   }
 
   function Register() {
     apiUserGetName(username)
       .then(() => {
-        <Alert>名稱正確</Alert>;
+        setSuccess3(true);
         const data = { address, name: username, email, flowerId: selectedFlowerId };
         apiUserRegister(data)
           .then(() => {
@@ -194,7 +194,7 @@ export default function Login() {
           });
       })
       .catch(() => {
-        <Alert>名稱錯誤</Alert>;
+        setError3(true);
       });
   }
 
@@ -209,6 +209,10 @@ export default function Login() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [success, setSuccess] = useState(false);
   const [Error, setError] = useState(false);
+  const [success2, setSuccess2] = useState(false);
+  const [Error2, setError2] = useState(false);
+  const [success3, setSuccess3] = useState(false);
+  const [Error3, setError3] = useState(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -357,8 +361,12 @@ export default function Login() {
                 </Button>
               </div>
             </div>
-            {success && <SucessAlert message={`驗證成功`} />}
-            {Error && <ErrorAlert message={`驗證失敗`} />}
+            {success && <SucessAlert message={`已發送驗證碼到郵件`} />}
+            {Error && <ErrorAlert message={`格式不正確或信箱已被使用過`} />}
+            {success2 && <SucessAlert message={`驗證碼正確`} />}
+            {Error2 && <ErrorAlert message={`驗證碼錯誤`} />}
+            {success3 && <SucessAlert message={`名稱未使用過`} />}
+            {Error3 && <ErrorAlert message={`名稱已被使用過`} />}
           </DialogContent>
 
           <button className="page2-button1 button" onClick={checkVerificationCode}>

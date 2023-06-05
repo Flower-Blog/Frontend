@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
+import ErrorAlert from "@/components/alert/Error";
+import SuccessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiAutGethEmail, apiUserEditProfile, apiUserGetEmail } from "@/components/api";
 import { setLogin } from "@/store/UserSlice";
 
@@ -51,12 +53,13 @@ export default function Editprofile() {
     apiUserGetEmail(email)
       .then(() => {
         //確認無誤後發送信箱
-        //需要alert
+        setSuccess(true);
         console.log("信箱確認");
       })
       .catch((error: any) => {
         if (error.response && error.response.data.error) {
           const errorMess = error.response.data.error;
+          setError(true);
           console.log(errorMess);
         }
       });
@@ -67,13 +70,14 @@ export default function Editprofile() {
     if (verificationCode.length == 6) {
       apiAutGethEmail(email, verificationCode)
         .then(() => {
-          //需要alert
           setIsverificationCode(true);
+          setSuccess(true);
           console.log("驗證碼正確");
         })
         .catch((error: any) => {
           console.log(error);
           setIsverificationCode(false);
+          setError(true);
           console.log("驗證碼錯誤");
         });
     }
@@ -119,6 +123,8 @@ export default function Editprofile() {
   // TODO: UI funtion
   const [open, setOpen] = useState(false);
   const [maxWidth] = useState<DialogProps["maxWidth"]>("lg");
+  const [success, setSuccess] = useState(false);
+  const [Error, setError] = useState(false);
   return (
     <>
       <button className="personalprivate-button1 button" onClick={() => setOpen(true)}>
@@ -229,6 +235,8 @@ export default function Editprofile() {
           </div>
         </div>
       </Dialog>
+      {success && <SuccessAlert message={`信箱和驗證碼正確 `} />}
+      {Error && <ErrorAlert message={`信箱和驗證碼錯誤`} />}
       <style>
         {`
           .component6-container {
