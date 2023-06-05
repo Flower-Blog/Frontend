@@ -16,7 +16,7 @@ const Success = (props: any) => {
     >
       <Alert severity="success">
         <AlertTitle>Success</AlertTitle>
-        {props.message} <strong>check it out!</strong>
+        <strong> {props.message} </strong>
       </Alert>
     </Stack>
   );

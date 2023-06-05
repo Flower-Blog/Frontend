@@ -16,7 +16,7 @@ const Error = (props: any) => {
     >
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        {props.message} <strong>check it out!</strong>
+        <strong> {props.message} </strong>
       </Alert>
     </Stack>
   );
