@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+import ErrorAlert from "@/components/alert/Error";
 import { _apiCheckJwt, apiArticleCreate, apiUserGetUserData } from "@/components/api";
 
 export default function CreateArticle() {
@@ -20,11 +21,12 @@ export default function CreateArticle() {
         router.push(`/${name}`); //回到個人頁面
       })
       .catch(() => {
-        //新增 alert
+        setError(true);
         console.log("失敗創建文章");
         // setalertEditFail(true)
       });
   }
+  const [Error, setError] = useState(false);
   return (
     <>
       <div className="page3-container">
@@ -58,6 +60,7 @@ export default function CreateArticle() {
           </button>
         </div>
       </div>
+      {Error && <ErrorAlert message={`建立文章失敗`} />}
     </>
   );
 }

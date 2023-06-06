@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
+import ErrorAlert from "@/components/alert/Error";
+import SuccessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiAutGethEmail, apiUserEditProfile, apiUserGetEmail } from "@/components/api";
 import { setLogin } from "@/store/UserSlice";
 
@@ -35,11 +37,9 @@ export default function Editprofile() {
         .then(() => {
           console.log("成功更改");
           dispatch(setLogin(JSON.stringify(data))); // 更新 Redux Store 中的使用者
-          //FIXME: 回到個人頁面是更改後的使用者資料
           router.push(`/${name}`);
         })
-        .catch((error: any) => {
-          console.log(error);
+        .catch(() => {
           console.log("失敗更改");
         });
       setOpen(false);
@@ -51,14 +51,10 @@ export default function Editprofile() {
     apiUserGetEmail(email)
       .then(() => {
         //確認無誤後發送信箱
-        //需要alert
-        console.log("信箱確認");
+        setSuccess(true);
       })
-      .catch((error: any) => {
-        if (error.response && error.response.data.error) {
-          const errorMess = error.response.data.error;
-          console.log(errorMess);
-        }
+      .catch(() => {
+        setError(true);
       });
   }
 
@@ -67,14 +63,12 @@ export default function Editprofile() {
     if (verificationCode.length == 6) {
       apiAutGethEmail(email, verificationCode)
         .then(() => {
-          //需要alert
           setIsverificationCode(true);
-          console.log("驗證碼正確");
+          setSuccess(true);
         })
-        .catch((error: any) => {
-          console.log(error);
+        .catch(() => {
           setIsverificationCode(false);
-          console.log("驗證碼錯誤");
+          setError(true);
         });
     }
   }
@@ -93,8 +87,8 @@ export default function Editprofile() {
     reader.readAsDataURL(file);
     // 當文件讀取完成時
     reader.onload = () => {
-      // 將 Base64 字符串設置為圖像 URL
       const log = reader.result;
+      // 將 Base64 字符串設置為圖像 URL
       setPreviewPicture(log as string);
     };
   }
@@ -120,6 +114,8 @@ export default function Editprofile() {
   // TODO: UI funtion
   const [open, setOpen] = useState(false);
   const [maxWidth] = useState<DialogProps["maxWidth"]>("lg");
+  const [success, setSuccess] = useState(false);
+  const [Error, setError] = useState(false);
   return (
     <>
       <button className="personalprivate-button1 button" onClick={() => setOpen(true)}>
@@ -230,6 +226,8 @@ export default function Editprofile() {
           </div>
         </div>
       </Dialog>
+      {success && <SuccessAlert message={`信箱和驗證碼正確 `} />}
+      {Error && <ErrorAlert message={`信箱和驗證碼錯誤`} />}
       <style>
         {`
           .component6-container {

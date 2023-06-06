@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import ErrorAlert from "@/components/alert/Error";
-import SucessAlert from "@/components/alert/Success";
+import SuccessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiArticleDelete } from "@/components/api";
 
 export default function SigngleArticle(props: any) {
@@ -21,11 +21,10 @@ export default function SigngleArticle(props: any) {
     apiArticleDelete(jwt, id)
       .then(() => {
         setSuccess(true);
-        router.reload(); // 重新整理頁面
+        router.push(`/${props.name}`);
       })
       .catch(() => {
         setError(true);
-        // window.location.reload(); // 重新整理頁面
       });
   }
 
@@ -39,7 +38,7 @@ export default function SigngleArticle(props: any) {
         <div className="blog-post-card21-blog-post-card my-4 w-full">
           <div className="w-full">
             <div className="blog-post-card21-container2">
-              <h1 className="blog-post-card21-text">{props.title}</h1>
+              <h1 className="mb-2 text-xl font-bold">{props.title}</h1>
               <span className="blog-post-card21-text1">{props.subStandard}</span>
             </div>
             <div className="blog-post-card21-container3">
@@ -66,7 +65,7 @@ export default function SigngleArticle(props: any) {
           </div>
         </div>
       </Link>
-      {success && <SucessAlert message={`已刪除 ${props.title}`} />}
+      {success && <SuccessAlert message={`已刪除 ${props.title}`} />}
       {Error && <ErrorAlert message={`失敗刪除 ${props.title}`} />}
       <style>
         {`

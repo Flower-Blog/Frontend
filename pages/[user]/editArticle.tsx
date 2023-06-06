@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+import ErrorAlert from "@/components/alert/Error";
+import SucessAlert from "@/components/alert/Success";
 import { _apiCheckJwt, apiArticleEdit } from "@/components/api";
 
 export default function EditArticle() {
@@ -16,18 +18,17 @@ export default function EditArticle() {
     const data = { title: editTitle, subStandard: editSubStandard, contents: editContents };
     apiArticleEdit(jwt, articleId, data)
       .then(() => {
-        //新增 alert
-        console.log("成功編輯文章");
+        setSuccess(true);
         router.push(`/${name}`); //回到個人頁面
-        // setalertSucessAlert(true);
       })
-      .catch((error: any) => {
-        //新增 alert
-        console.log("失敗編輯文章");
-        console.log(error);
-        // setalertErrorAlert(true);
+      .catch(() => {
+        setError(true);
       });
   }
+
+  const [success, setSuccess] = useState(false);
+  const [Error, setError] = useState(false);
+
   return (
     <>
       <div className="page3-container">
@@ -61,12 +62,13 @@ export default function EditArticle() {
           </div>
         </div>
         <div className="page3-container09">
-          {/* <button className="page3-button1 button">返回</button> */}
           <button className="page3-button2 button" onClick={() => editArticle(id)}>
             編輯
           </button>
         </div>
       </div>
+      {success && <SucessAlert message={`編輯成功`} />}
+      {Error && <ErrorAlert message={`編輯失敗`} />}
     </>
   );
 }

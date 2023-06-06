@@ -48,7 +48,7 @@ export default function Article(props: any) {
                   <GiveFlowers
                     kay={props.article.id}
                     id={props.article.id}
-                    createname={User.profile.name}
+                    createname={props.createrData.name}
                     title={props.article.title}
                     username={User.profile.name}
                     flowerCount={flowerCount}
