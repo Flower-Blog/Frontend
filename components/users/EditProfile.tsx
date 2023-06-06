@@ -87,8 +87,9 @@ export default function Editprofile() {
     reader.readAsDataURL(file);
     // 當文件讀取完成時
     reader.onload = () => {
+      const log = reader.result;
       // 將 Base64 字符串設置為圖像 URL
-      setPreviewPicture(User.profile.backgroundPhoto);
+      setPreviewPicture(log as string);
     };
   }
   const [previewBackgroundPhoto, setPreviewBackgroundPhoto] = useState(User.profile.backgroundPhoto);

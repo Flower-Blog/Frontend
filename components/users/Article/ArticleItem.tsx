@@ -38,7 +38,7 @@ export default function SigngleArticle(props: any) {
         <div className="blog-post-card21-blog-post-card my-4 w-full">
           <div className="w-full">
             <div className="blog-post-card21-container2">
-              <h1 className="blog-post-card21-text">{props.title}</h1>
+              <h1 className="mb-2 text-xl font-bold">{props.title}</h1>
               <span className="blog-post-card21-text1">{props.subStandard}</span>
             </div>
             <div className="blog-post-card21-container3">
