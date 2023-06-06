@@ -1,12 +1,17 @@
-import { title } from "process";
 import React, { useEffect, useState } from "react";
 
 import { _apiCheckJwt, apiUserGetUserData } from "@/components/api";
+
+interface Article {
+  id: number;
+  title: string;
+}
 
 interface receiveFlowersRecords {
   name: string;
   flowerId: number;
   createdAt: string;
+  article: Article;
   flowerPic: string;
 }
 
@@ -59,7 +64,7 @@ const FlowerRecord = () => {
         {receiveFlowersRecords.map((record, index) => (
           <div key={index} className="component1-container1">
             <h1 className="component1-text text-lg font-bold">
-              {record.name} 對 {title} 喜歡並贈送一朵
+              {record.name} 對 {record.article.title} 喜歡並贈送一朵
             </h1>
             <img alt="花" src={flowerPic[index]} className="component1-image" />
           </div>
