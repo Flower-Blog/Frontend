@@ -157,8 +157,8 @@ export default function Login() {
     //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
-        registerSetOpen(false);
         setSuccess2(true);
+        registerSetOpen(false);
         registerSetOpen3(true);
       })
       .catch(() => {
@@ -370,10 +370,12 @@ export default function Login() {
                       >
                         <img alt="" src={flower.img} className="component3-image" />
                       </button>
-                      {flower.id === selectedFlowerId && <div className="my-1">你選擇了 {flower.name}</div>}
                     </React.Fragment>
                   ))}
                 </div>
+                {flowers.map(flower => (
+                  <>{flower.id === selectedFlowerId && <div className="my-1">你選擇了 {flower.name}</div>}</>
+                ))}
                 <div className="component3-container8">
                   <button className="component3-button button" onClick={handleConfirmClick}>
                     <span>確認</span>

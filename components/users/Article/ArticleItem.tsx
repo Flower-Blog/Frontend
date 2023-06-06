@@ -21,11 +21,10 @@ export default function SigngleArticle(props: any) {
     apiArticleDelete(jwt, id)
       .then(() => {
         setSuccess(true);
-        router.reload(); // 重新整理頁面
+        router.push(`/${props.name}`);
       })
       .catch(() => {
         setError(true);
-        // window.location.reload(); // 重新整理頁面
       });
   }
 
