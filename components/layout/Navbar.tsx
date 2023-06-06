@@ -18,7 +18,6 @@ export default function Navbar(props: any) {
           <div data-thq="thq-navbar-nav" data-role="Nav" className="navbar-desktop-menu">
             <nav data-thq="thq-navbar-nav-links" data-role="Nav" className="navbar-nav">
               <button className="button">
-                {/* //更改 */}
                 <a href="./createArticle">
                   <span className="navbar-text">創建文章</span>
                 </a>
