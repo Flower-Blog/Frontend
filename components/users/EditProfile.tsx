@@ -35,12 +35,13 @@ export default function Editprofile() {
       const data = [{ name, email, introduction, backgroundPhoto, picture }];
       apiUserEditProfile(jwt, data[0])
         .then(() => {
-          console.log("成功更改");
+          setsuccessMessage("成功更改");
+          setSuccess(true);
           dispatch(setLogin(JSON.stringify(data))); // 更新 Redux Store 中的使用者
           router.push(`/${name}`);
         })
         .catch(() => {
-          console.log("失敗更改");
+          setErrorMessage("失敗更改");
         });
       setOpen(false);
     }
@@ -51,9 +52,11 @@ export default function Editprofile() {
     apiUserGetEmail(email)
       .then(() => {
         //確認無誤後發送信箱
+        setsuccessMessage("已發送驗證碼到信箱");
         setSuccess(true);
       })
       .catch(() => {
+        setErrorMessage("信箱格式、已使用過信箱");
         setError(true);
       });
   }
@@ -64,10 +67,12 @@ export default function Editprofile() {
       apiAutGethEmail(email, verificationCode)
         .then(() => {
           setIsverificationCode(true);
+          setsuccessMessage("驗證碼正確");
           setSuccess(true);
         })
         .catch(() => {
           setIsverificationCode(false);
+          setErrorMessage("驗證碼錯誤");
           setError(true);
         });
     }
@@ -116,6 +121,8 @@ export default function Editprofile() {
   const [maxWidth] = useState<DialogProps["maxWidth"]>("lg");
   const [success, setSuccess] = useState(false);
   const [Error, setError] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState("");
+  const [successMessage, setsuccessMessage] = useState("");
   return (
     <>
       <button className="personalprivate-button1 button" onClick={() => setOpen(true)}>
@@ -226,8 +233,8 @@ export default function Editprofile() {
           </div>
         </div>
       </Dialog>
-      {success && <SuccessAlert message={`信箱和驗證碼正確 `} />}
-      {Error && <ErrorAlert message={`信箱和驗證碼錯誤`} />}
+      {success && <SuccessAlert message={successMessage} />}
+      {Error && <ErrorAlert message={ErrorMessage} />}
       <style>
         {`
           .component6-container {
