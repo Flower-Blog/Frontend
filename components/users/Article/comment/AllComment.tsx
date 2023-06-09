@@ -1,6 +1,20 @@
 import React from "react";
 
+import { _apiCheckJwt, apiCommentDelete } from "@/components/api";
+import EditComment from "@/components/users/Article/comment/EditComment";
+
 const AllComment = (props: any) => {
+  async function deleteComment(id: any) {
+    let jwt = "";
+    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+    apiCommentDelete(jwt, id)
+      .then(() => {
+        console.log("success");
+      })
+      .catch(() => {
+        console.log("fail");
+      });
+  }
   return (
     <>
       <div className="my-3">
@@ -21,6 +35,10 @@ const AllComment = (props: any) => {
               <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
               <span className="px-2">{props.likes}</span>
             </div>
+            <EditComment id={props.id} contents={props.contents} />
+            <button className="comments1-button button" onClick={() => deleteComment(props.id)}>
+              刪除
+            </button>
           </div>
         </div>
       </div>

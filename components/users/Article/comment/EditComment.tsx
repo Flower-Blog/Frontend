@@ -1,15 +1,16 @@
+import Dialog, { DialogProps } from "@mui/material/Dialog";
 import React, { useState } from "react";
 
-import { _apiCheckJwt, apiCommentCreate } from "@/components/api";
+import { _apiCheckJwt, apiCommentEdit } from "@/components/api";
 
 const Comment = (props: any) => {
-  const [contents, setcontents] = useState(""); //留言
+  const [contents, setcontents] = useState(props.contents); //留言
 
-  async function createComment() {
+  async function EditComment() {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
-    const data = { articleId: props.articleId, contents };
-    apiCommentCreate(jwt, data)
+    const data = { contents };
+    apiCommentEdit(jwt, props.id, data)
       .then(() => {
         console.log("success");
       })
@@ -17,34 +18,39 @@ const Comment = (props: any) => {
         console.log("fail");
       });
   }
+  const [open, setOpen] = useState(false);
+  const [maxWidth] = useState<DialogProps["maxWidth"]>("lg");
   return (
     <>
-      <div className="mb-1">
-        <div className="comment-container1 grid grid-cols-6">
-          {props.picture != "" && props.name != "" ? (
-            <>
-              <div className="col-span-1">
-                <img alt="not found pic" src={props.picture} loading="lazy" className="comment-image" />
-                <p className="text-center">{props.name}</p>
-              </div>
-              <div className="col-span-4 flex w-4/5">
-                <textarea
-                  placeholder="輸入留言"
-                  className="textarea mx-4 w-full"
-                  onChange={e => setcontents(e.target.value)}
-                ></textarea>
-              </div>
-              <button className="comment-button button col-span-1 px-2" onClick={createComment}>
-                留言
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="w-full text-center text-3xl font-bold">加入我們就可以搶先留言 !</p>
-            </>
-          )}
+      <button className="button" onClick={() => setOpen(true)}>
+        編輯
+      </button>
+      <Dialog
+        maxWidth={maxWidth}
+        className="w-full text-xl"
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <div className="mb-1">
+          <div className="comment-container1 grid grid-cols-6">
+            <div className="col-span-4 flex w-4/5">
+              <textarea
+                placeholder="輸入留言"
+                className="textarea mx-4 w-full"
+                onChange={e => setcontents(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
         </div>
-      </div>
+        <button className="component6-button button" onClick={() => setOpen(false)}>
+          取消
+        </button>
+        <button className="component6-button1 button" onClick={EditComment}>
+          儲存
+        </button>
+      </Dialog>
+
       <style>
         {`
           .comment-container {

@@ -60,7 +60,11 @@ export default function Article(props: any) {
                   <span className="px-1">{flowerCount}</span>
                 </div>
               </div>
-              <CreateComment name={User.profile.name} picture={User.profile.picture}></CreateComment>
+              <CreateComment
+                articleId={props.article.id}
+                name={User.profile.name}
+                picture={User.profile.picture}
+              ></CreateComment>
               {props.comment.slice(1).map((comment: any) => {
                 const { id, contents, createdAt, likes, userdata } = comment;
                 const { name, picture } = userdata;
@@ -69,6 +73,7 @@ export default function Article(props: any) {
                   <AllComment
                     key={id}
                     name={name}
+                    id={id}
                     picture={picture}
                     contents={contents}
                     createdAt={createdAt}
