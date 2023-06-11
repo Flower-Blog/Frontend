@@ -1,34 +1,41 @@
-import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import Flower from "../../Flower";
+import { apiUserGetCreaterFlower } from "@/components/api";
+import Flower from "@/components/Flower";
 
-const MyFlowers = (props: any) => {
+interface Flower {
+  id: number;
+  name: string;
+  language: string;
+  img: string;
+}
+
+export default function MyFlowers(props: any) {
+  // TODO: Handle funtion
+  const [flowers, setFlowers] = useState<Flower[]>([]);
+  const [myFlower, setMyFlower] = useState<object[]>([]);
+
+  useEffect(() => {
+    fetch("/api/flower/flower")
+      .then(res => res.json())
+      .then(data => setFlowers(data));
+    apiUserGetCreaterFlower(props.username).then((res: any) => {
+      setMyFlower(res.data.flowerRecords);
+    });
+  }, [props.username]);
+
   return (
     <>
       <div className={`component-container ${props.rootClassName} `}>
         <div className="component-blog">
-          <div className="component-container1">
-            <Flower rootClassName="flower-root-class-name12"></Flower>
-            <Flower rootClassName="flower-root-class-name13"></Flower>
-            <Flower rootClassName="flower-root-class-name14"></Flower>
-            <Flower rootClassName="flower-root-class-name15"></Flower>
-          </div>
-          <div className="component-container2">
-            <Flower rootClassName="flower-root-class-name16"></Flower>
-            <Flower rootClassName="flower-root-class-name17"></Flower>
-            <Flower rootClassName="flower-root-class-name18"></Flower>
-            <Flower rootClassName="flower-root-class-name19"></Flower>
-          </div>
-          <div className="component-container3">
-            <Flower rootClassName="flower-root-class-name20"></Flower>
-            <Flower rootClassName="flower-root-class-name21"></Flower>
-            <Flower rootClassName="flower-root-class-name22"></Flower>
-            <Flower rootClassName="flower-root-class-name23"></Flower>
+          <div className="grid grid-cols-4 gap-10">
+            {myFlower.map((myFlower: any, index: any) => (
+              <Flower key={index} flowerCount={myFlower.flowerCount} flowerPic={flowers[index].img} />
+            ))}
           </div>
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .component-container {
             width: 1295px;
@@ -90,14 +97,4 @@ const MyFlowers = (props: any) => {
       </style>
     </>
   );
-};
-
-MyFlowers.defaultProps = {
-  rootClassName: "",
-};
-
-MyFlowers.propTypes = {
-  rootClassName: PropTypes.string,
-};
-
-export default MyFlowers;
+}

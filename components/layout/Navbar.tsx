@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import Login from "../Login";
+import Login from "@/components/Login";
 
 export default function Navbar(props: any) {
   return (
     <>
       <>
         <header data-thq="thq-navbar" className="navbar-navbar mx-0 mt-4 mb-2">
-          <a href="./">
+          <a href="../">
             <img alt={props.pastedImage_alt} src={props.pastedImage_src} className="navbar-pasted-image" />
           </a>
           <div className="navbar-container1">

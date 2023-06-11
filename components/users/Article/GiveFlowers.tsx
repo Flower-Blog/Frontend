@@ -45,6 +45,7 @@ export default function GiveFlowers(props: any) {
       apiArticlePostflower(jwt, data)
         .then((res: any) => {
           const SuccessMessage = res.data.title; //送花成功
+          props.setflowerCount(props.flowerCount + 1);
           setSuccessMessage(SuccessMessage);
           setSuccess(true);
         })
@@ -123,7 +124,7 @@ export default function GiveFlowers(props: any) {
       </Dialog>
       {success && <SucessAlert message={successMessage} />}
       {error && <ErrorAlert message={errorMessage} />}
-      <style jsx>
+      <style>
         {`
           .component2-container {
             width: 100%;

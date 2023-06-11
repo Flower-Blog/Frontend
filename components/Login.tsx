@@ -19,6 +19,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 
+import ErrorAlert from "@/components/alert/Error";
+import SucessAlert from "@/components/alert/Success";
 import {
   _apiAuthLogin,
   _apiAuthLogout,
@@ -144,16 +146,10 @@ export default function Login() {
     //先檢查信箱
     apiUserGetEmail(email)
       .then(() => {
-        //確認無誤後發送信箱
-        //FIXME: 需要 Alert
-        console.log("信箱確認");
+        setSuccess(true);
       })
-      .catch((error: any) => {
-        if (error.response && error.response.data.error) {
-          const errorMess = error.response.data.error;
-          //FIXME: 需要 Alert 或是寫到輸入框裡
-          console.log(errorMess);
-        }
+      .catch(() => {
+        setError(true);
       });
   }
 
@@ -161,44 +157,27 @@ export default function Login() {
     //確認驗證碼是否正確
     apiAutGethEmail(email, verificationCode)
       .then(() => {
-        //FIXME: 需要 Alert
-        console.log("電子郵件驗證碼正確");
+        setSuccess2(true);
         registerSetOpen(false);
         registerSetOpen3(true);
       })
-      .catch((error: any) => {
-        //FIXME: 需要 Alert 或是寫到輸入框裡
-        console.log(error);
+      .catch(() => {
+        setError2(true);
       });
   }
 
   function Register() {
-    apiUserGetName(username)
+    apiUserGetName(username);
+    const data = { address, name: username, email, flowerId: selectedFlowerId };
+    apiUserRegister(data)
       .then(() => {
-        //FIXME: 需要 Alert
-        console.log("名稱確認");
-        const data = { address, name: username, email, flowerId: selectedFlowerId };
-        apiUserRegister(data)
-          .then(() => {
-            registerSetOpen(false);
-            registerSetOpen2(false);
-            alertRegisterSetOpen(true);
-          })
-          .catch((error: any) => {
-            console.log(error);
-            if (error.response && error.response.data.error) {
-              const errorMess = error.response.data.error;
-              for (let i = 0; i < errorMess.length; i++) {
-                if (errorMess[i].includes("username")) {
-                  seterrorMessageUsername(JSON.stringify(errorMess[i]));
-                }
-              }
-            }
-          });
+        registerSetOpen(false);
+        registerSetOpen2(false);
+        setSuccess3(true);
+        alertRegisterSetOpen(true);
       })
       .catch(() => {
-        //FIXME: 需要 Alert
-        console.log("名稱錯誤");
+        setError3(true);
       });
   }
 
@@ -211,6 +190,12 @@ export default function Login() {
   const [errorMessageUsername, seterrorMessageUsername] = useState("");
   const [errorMessageEmail, seterrorMessageEmail] = useState("");
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [success, setSuccess] = useState(false);
+  const [Error, setError] = useState(false);
+  const [success2, setSuccess2] = useState(false);
+  const [Error2, setError2] = useState(false);
+  const [success3, setSuccess3] = useState(false);
+  const [Error3, setError3] = useState(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -275,10 +260,6 @@ export default function Login() {
                   {User.profile.name}
                 </a>
               </Typography>
-            </MenuItem>
-            <MenuItem onClick={() => setAnchorElUser(null)}>
-              {/*FIXME: 先確認有無用到AC */}
-              <Typography textAlign="center">我的錢包</Typography>
             </MenuItem>
             {IsManager ? (
               <MenuItem onClick={() => setAnchorElUser(null)}>
@@ -371,7 +352,7 @@ export default function Login() {
         </div>
       </Dialog>
 
-      <Dialog open={registerOpen3} onClose={() => registerSetOpen3(false)}>
+      <Dialog className="h-auto" open={registerOpen3} onClose={() => registerSetOpen3(false)}>
         <div className="component3-container">
           <div className="component3-container1">
             <div className="component3-container2">
@@ -381,18 +362,20 @@ export default function Login() {
             <div className="component3-form">
               <div className="component3-container3">
                 <div className="component3-container5">
-                  {/*FIXME: 做點動畫已選擇哪一朵 */}
                   {flowers.map(flower => (
-                    <button
-                      className="focus:ring-red-500 focus:outline-none focus:ring-4"
-                      key={flower.id}
-                      onClick={() => handleFlowerClick(flower.id)}
-                    >
-                      <img alt="" src={flower.img} className="component3-image" />
-                    </button>
+                    <React.Fragment key={flower.id}>
+                      <button
+                        className="focus:ring-red-500 focus:outline-none focus:ring-4"
+                        onClick={() => handleFlowerClick(flower.id)}
+                      >
+                        <img alt="" src={flower.img} className="component3-image" />
+                      </button>
+                    </React.Fragment>
                   ))}
                 </div>
-                你選擇了 {selectedFlowerId}
+                {flowers.map(flower => (
+                  <>{flower.id === selectedFlowerId && <div className="my-1">你選擇了 {flower.name}</div>}</>
+                ))}
                 <div className="component3-container8">
                   <button className="component3-button button" onClick={handleConfirmClick}>
                     <span>確認</span>
@@ -455,11 +438,17 @@ export default function Login() {
           註冊成功!
         </Alert>
       </Snackbar>
-      <style jsx>
+      {success && <SucessAlert message={`已發送驗證碼到郵件`} />}
+      {Error && <ErrorAlert message={`格式不正確或信箱已被使用過`} />}
+      {success2 && <SucessAlert message={`驗證碼正確`} />}
+      {Error2 && <ErrorAlert message={`驗證碼錯誤`} />}
+      {success3 && <SucessAlert message={`名稱未使用過`} />}
+      {Error3 && <ErrorAlert message={`名稱已被使用過`} />}
+      <style>
         {`
           .component3-container {
             width: 100%;
-            height: 594px;
+            height: auto;
             display: flex;
             position: relative;
             align-items: center;

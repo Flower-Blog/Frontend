@@ -1,15 +1,19 @@
 import React from "react";
 
-export default function Flower() {
+export default function Flower(props: any) {
   return (
     <>
       <div className="flower-container">
         <div className="flower-container1">
-          <img alt="花" src="/playground_assets/flower1-300h.png" className="flower-image" />
-          <h1 className="flower-text">flowers.id</h1>
+          {props.flowerCount == 0 ? (
+            <img alt="花" src={props.flowerPic} className="flower-image grayscale" />
+          ) : (
+            <img alt="花" src={props.flowerPic} className="flower-image" />
+          )}
+          <h1 className="flower-text text-lg font-bold">5/{props.flowerCount}</h1>
         </div>
       </div>
-      <style jsx>
+      <style>
         {`
           .flower-container {
             width: 250px;

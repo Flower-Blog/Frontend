@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 import { _apiCheckJwt, apiAdminGetFlowers } from "@/components/api";
-import Flower from "@/components/flower";
+import Flower from "@/components/Flower";
 
 interface Flower {
   id: number;

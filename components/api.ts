@@ -119,11 +119,10 @@ export const apiArticleGetUserAllHotArticle = (address: any) => articleRequest.g
 export const apiArticleGetArticle = (id: number) => articleRequest.get(`/${id}`, config);
 
 // 編輯個人文章
-export const apiArticleEdit = (jwt: string, id: string, data: any) =>
+export const apiArticleEdit = (jwt: string, id: any, data: any) =>
   articleRequest.patch(`/${id}`, data, {
     headers: {
       Authorization: `Bearer ${jwt}`,
-      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -185,6 +184,14 @@ export const apiAdminGetUsers = (jwt: string) =>
 //花總類
 export const apiAdminGetFlowers = (jwt: string) =>
   adminRequest.get(`/flowers`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
+
+//送花紀錄
+export const apiAdminGetFlowersRecord = (jwt: string) =>
+  adminRequest.get(`/record`, {
     headers: {
       Authorization: `Bearer ${jwt}`,
     },
