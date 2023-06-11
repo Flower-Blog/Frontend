@@ -268,6 +268,11 @@ export default function Login() {
                 </Typography>
               </MenuItem>
             ) : null}
+            <MenuItem>
+              <Typography textAlign="center">
+                <a href={"/SimpleFaucet"}>水龍頭</a>
+              </Typography>
+            </MenuItem>
             <MenuItem
               onClick={() => {
                 _apiAuthLogout();
@@ -368,7 +373,7 @@ export default function Login() {
                         className="focus:ring-red-500 focus:outline-none focus:ring-4"
                         onClick={() => handleFlowerClick(flower.id)}
                       >
-                        <img alt="" src={flower.img} className="component3-image" />
+                        <img alt="not found flower" src={flower.img} className="component3-image" />
                       </button>
                     </React.Fragment>
                   ))}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import * as React from "react";
 import Web3 from "web3";
 
-import { FaucetFunction } from "@/helper/Contract/FaucetFunction";
+import { FaucetFunction } from "@/helper/contract/FaucetFunction";
 
 import Mining from "./loading/mining";
 
@@ -89,7 +89,7 @@ export default function SimpleFaucet() {
   });
 
   return (
-    <div>
+    <div className="page5-container">
       {/* TODO: 加入錢幣到metamask */}
       <div className="text-blue-900 dark:text-blue-600 m-2 text-5xl">
         獲取 <span className="font-semibold">ETH</span> 代幣
@@ -111,10 +111,7 @@ export default function SimpleFaucet() {
         {isLoading ? (
           <Mining />
         ) : (
-          <button
-            className="bg-blue-900 text-blue-50 shadow-blue-400/30 hover:bg-blue-500 rounded-lg px-6 py-2 text-sm transition-colors duration-300"
-            onClick={takemoney}
-          >
+          <button className="button" onClick={takemoney}>
             領取10個ETHER
           </button>
         )}

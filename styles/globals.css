@@ -2778,6 +2778,12 @@ body::-webkit-scrollbar {
   flex-direction: column;
   background-color: var(--dl-color-threefish-or);
 }
+.page5-container {
+  width: 100%;
+  min-height: 100vh;
+  padding-left: 50px;
+  background-color: var(--dl-color-threefish-or);
+}
 .page3-navbar {
   width: 1423px;
   display: flex;
