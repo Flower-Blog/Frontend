@@ -169,7 +169,12 @@ export const apiCommentDelete = (jwt: string, id: string) =>
   });
 
 // 留言按讚
-export const apiCommentGetlike = (id: any) => commentRequest.get(`/${id}/like`, config);
+export const apiCommentGetlike = (jwt: string, id: string) =>
+  commentRequest.get(`/${id}/like`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
 
 //TODO: Admin 相關的 api
 

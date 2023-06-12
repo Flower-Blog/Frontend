@@ -1,6 +1,43 @@
+import { useRouter } from "next/router";
 import React from "react";
+import { useEffect, useState } from "react";
+
+import { _apiCheckJwt, apiCommentDelete, apiCommentGetlike } from "@/components/api";
+import EditComment from "@/components/users/Article/comment/EditComment";
 
 const AllComment = (props: any) => {
+  const [IsPrivate, SetIsPrivate] = useState(false);
+  const [likes, Setlike] = useState(props.likes);
+  const router = useRouter();
+  useEffect(() => {
+    //TODO: 創作者狀態
+    if (props.Username == props.name) SetIsPrivate(true);
+  }, [props.Username, props.name]);
+
+  async function deleteComment(id: any) {
+    let jwt = "";
+    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+    apiCommentDelete(jwt, id)
+      .then(() => {
+        console.log("success");
+        router.reload(); // 重新加载页面
+      })
+      .catch(() => {
+        console.log("fail");
+      });
+  }
+  async function like(id: any) {
+    let jwt = "";
+    await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
+    apiCommentGetlike(jwt, id)
+      .then(() => {
+        console.log("success");
+        Setlike(likes + 1);
+      })
+      .catch(() => {
+        console.log("fail");
+      });
+  }
   return (
     <>
       <div className="my-3">
@@ -12,15 +49,23 @@ const AllComment = (props: any) => {
           <div className="comments1-container4 w-4/5">
             <span className="w-full">{props.contents}</span>
           </div>
-          <button className="comments1-button button col-span-1">
+          <button className="comments1-button button col-span-1" onClick={() => like(props.id)}>
             <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />讚
           </button>
           <div className="col-start-1 col-end-6 flex">
             <span className="mr-4">{props.createdAt.substr(0, 10)}</span>
             <div className="flex">
               <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
-              <span className="px-2">{props.likes}</span>
+              <span className="px-2">{likes}</span>
             </div>
+            {IsPrivate ? (
+              <>
+                <EditComment id={props.id} contents={props.contents} />
+                <button className="comments1-button button" onClick={() => deleteComment(props.id)}>
+                  刪除
+                </button>
+              </>
+            ) : null}
           </div>
         </div>
       </div>
