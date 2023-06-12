@@ -1,27 +1,33 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { _apiCheckJwt, apiCommentCreate } from "@/components/api";
 
 const Comment = (props: any) => {
-  const [contents, setcontents] = useState(""); //留言
+  const [contents, setContents] = useState("");
+  const router = useRouter();
 
   async function createComment() {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
     const data = { articleId: props.articleId, contents };
+
     apiCommentCreate(jwt, data)
       .then(() => {
         console.log("success");
+        setContents(""); // 清空输入框
+        router.reload(); // 重新加载页面
       })
       .catch(() => {
         console.log("fail");
       });
   }
+
   return (
     <>
       <div className="mb-1">
         <div className="comment-container1 grid grid-cols-6">
-          {props.picture != "" && props.name != "" ? (
+          {props.picture !== "" && props.name !== "" ? (
             <>
               <div className="col-span-1">
                 <img alt="not found pic" src={props.picture} loading="lazy" className="comment-image" />
@@ -30,8 +36,9 @@ const Comment = (props: any) => {
               <div className="col-span-4 flex w-4/5">
                 <textarea
                   placeholder="輸入留言"
-                  className="textarea mx-4 w-full"
-                  onChange={e => setcontents(e.target.value)}
+                  className="comment-textarea mx-4 w-full"
+                  value={contents}
+                  onChange={e => setContents(e.target.value)}
                 ></textarea>
               </div>
               <button className="comment-button button col-span-1 px-2" onClick={createComment}>
@@ -40,7 +47,7 @@ const Comment = (props: any) => {
             </>
           ) : (
             <>
-              <p className="w-full text-center text-3xl font-bold">加入我們就可以搶先留言 !</p>
+              <p className="w-full text-center text-3xl font-bold">加入我們就可以搶先留言!</p>
             </>
           )}
         </div>

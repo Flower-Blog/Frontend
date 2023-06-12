@@ -1,11 +1,12 @@
 import Dialog, { DialogProps } from "@mui/material/Dialog";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { _apiCheckJwt, apiCommentEdit } from "@/components/api";
 
 const Comment = (props: any) => {
   const [contents, setcontents] = useState(props.contents); //留言
-
+  const router = useRouter();
   async function EditComment() {
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
@@ -13,6 +14,7 @@ const Comment = (props: any) => {
     apiCommentEdit(jwt, props.id, data)
       .then(() => {
         console.log("success");
+        router.reload(); // 重新加载页面
       })
       .catch(() => {
         console.log("fail");

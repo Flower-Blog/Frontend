@@ -73,6 +73,7 @@ export default function Article(props: any) {
                   <AllComment
                     key={id}
                     name={name}
+                    Username={User.profile.name}
                     id={id}
                     picture={picture}
                     contents={contents}
