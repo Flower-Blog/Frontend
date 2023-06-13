@@ -77,7 +77,7 @@ export default function Page() {
       {dataLoaded ? (
         <>
           {isManager ? (
-            <div>
+            <div className="page5-container">
               <div className="flex flex-row justify-center">
                 <div className="page-container5 basis-28">
                   <button className="page-button1 button" onClick={() => showComponent("userRecord")}>

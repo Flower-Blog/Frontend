@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { _apiCheckJwt, apiCommentDelete, apiCommentGetlike } from "@/components/api";
 import EditComment from "@/components/users/Article/comment/EditComment";
@@ -8,11 +7,19 @@ import EditComment from "@/components/users/Article/comment/EditComment";
 const AllComment = (props: any) => {
   const [IsPrivate, SetIsPrivate] = useState(false);
   const [likes, Setlike] = useState(props.likes);
+  const [isLiked, setIsLiked] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     //TODO: 創作者狀態
-    if (props.Username == props.name) SetIsPrivate(true);
+    if (props.Username === props.name) {
+      SetIsPrivate(true);
+    }
   }, [props.Username, props.name]);
+
+  useEffect(() => {
+    setIsLiked(props.liked); // Assuming props.liked is a boolean indicating if the comment is liked by the user
+  }, [props.liked]);
 
   async function deleteComment(id: any) {
     let jwt = "";
@@ -26,18 +33,25 @@ const AllComment = (props: any) => {
         console.log("fail");
       });
   }
+
   async function like(id: any) {
+    if (isLiked) {
+      return; // Exit the function if already liked
+    }
+
     let jwt = "";
     await _apiCheckJwt().then((res: any) => (jwt = res.data.jwt));
     apiCommentGetlike(jwt, id)
       .then(() => {
         console.log("success");
         Setlike(likes + 1);
+        setIsLiked(true);
       })
       .catch(() => {
         console.log("fail");
       });
   }
+
   return (
     <>
       <div className="my-3">
@@ -49,8 +63,9 @@ const AllComment = (props: any) => {
           <div className="comments1-container4 w-4/5">
             <span className="w-full">{props.contents}</span>
           </div>
-          <button className="comments1-button button col-span-1" onClick={() => like(props.id)}>
-            <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />讚
+          <button className="comments1-button button col-span-1" onClick={() => like(props.id)} disabled={isLiked}>
+            <img alt="like" src="/playground_assets/pastedimage-uw-200h.png" className="comments1-pasted-image" />
+            {isLiked ? "已按讚" : "讚"}
           </button>
           <div className="col-start-1 col-end-6 flex">
             <span className="mr-4">{props.createdAt.substr(0, 10)}</span>

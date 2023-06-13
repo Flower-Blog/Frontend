@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import * as React from "react";
 import Web3 from "web3";
 
-import { FaucetFunction } from "@/helper/contract/FaucetFunction";
+import { FaucetFunction } from "@/helper/Contract/FaucetFunction";
 
 import Mining from "./loading/mining";
 
